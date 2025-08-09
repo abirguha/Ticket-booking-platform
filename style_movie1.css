@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: rgb(31, 32, 37);
+}
+.background-image{
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.253), rgb(31, 32, 37)), url("/images/venom2.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+.previous-page .btn{
+    position: relative;
+    height: 40px;
+    width: 40px;
+    color: #1f2025;
+}
+.previous-page .btn:hover{
+    color: aliceblue;
+    cursor: pointer;
+}
+.book{
+    width: 90%;
+    height: 90%;
+    display: flex;
+
+}
+.book .left, .right{
+    width: 80%;
+    position: relative;
+    height: 100%;
+}
+/* left side */
+.book .left{
+    width: 70%;
+}
+.book .left img{
+    top: 15rem;
+    left: 10rem;
+    width: 70%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border-radius: .6rem;
+}
+/* right side */
+.title{
+    position: relative;
+    color: aliceblue;
+    top: 16rem;
+    left: 2rem;
+    font-style: bold;
+}
+.rating .star{
+    position: absolute;
+    display: flex;
+    height: 20px;
+    width: 20px;
+    top: 20rem;
+    left: 2rem;
+}
+.rate{
+    position: absolute;
+    display: flex;
+    top: 19.8rem;
+    left: 3.8rem;
+    color: #fff;
+}
+.movie-summary{
+    position: relative;
+    top: 19.6rem;
+    left: 2rem;
+    color: #fff;
+    width: 35rem;
+}
+.btn{
+    display: inline-block;
+    padding: .5rem 1rem;
+    background-color: #cf592a;
+    border-radius: 2rem;
+    color: #1f0c0f;
+    transform: .3s;
+}
+.btn:hover{
+    background-color: #ec9b30;
+}
+.movie-booking .btn{
+    position: relative;
+    top: 25rem;
+    left: 2.2rem;
+    justify-content: center;
+}
+/* bottom */
+.trailer{
+    color: #fff;
+    position: relative;
+    top: 20rem;
+    left: 10rem;
+}
+.trailer-link{
+    position: absolute;
+    top: 68rem;
+    left: 10rem;
+}
+.trailer-link iframe{
+    width: 1000px;
+    height: 562.50px;
+}

@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+:root{
+    --color: linear-gradient(0deg, transparent, rgba(184,184,184,.2))
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: #1f2025;
+}
+.booking{
+    width: 92%;
+    height: 90%;
+    padding: 10px 40px;
+}
+.booking .date-time{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.booking .date-time .left-card, .right-card{
+    width: 45%;
+}
+.booking .date-time .title{
+    color: white;
+}
+.booking .date-time .crd{
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    border-top: 1px solid rgba(184,184,184,0.2);
+    padding: 5px 0px;
+}
+.booking .date-time .crd::-webkit-scrollbar{
+   height: 3px;
+   background: rgba(184,184,184,0.3);
+}
+.booking .date-time .crd::-webkit-scrollbar-thumb{
+    height: 3px;
+    background: rgba(184,184,184,0.5);
+}
+.booking .date-time .crd li{
+    list-style: none;
+    color: white;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+.booking .date-time .crd li h6:nth-child(2){
+   background: transparent;
+   border-radius: 50%;
+   width: 20px;
+   height: 20px;
+   transition: .3s linear;
+   cursor: pointer;
+   align-items: center;
+   justify-content: center;
+   margin-top: 5px;
+}
+.booking .date-time .crd li h6:nth-child(2):hover{
+   background: #fd6565;
+ }
+ .booking .date-time .right-card li h6:nth-child(2){
+    background: transparent;
+    border-radius: 8px;
+    width: unset;
+    height: unset;
+    padding: 1px 5px 0px 5px;
+ }
+ .h6_active{
+    background: #fd6565 !important;
+ }
+ .screen{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    border-top: 3px solid #fd6565;
+    margin-top: 50px;
+    border-radius: 20%;
+    overflow: hidden;
+    box-shadow: inset 0px 10px 20px var(--color);
+    text-align: center;
+    padding: 15px;
+    color: white;
+    letter-spacing: 5px;
+    font-size: 12px;
+    /* display: none; */
+ }
+ .booking .screen::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 20px rgba(184,184,184,0.5);
+    top: -20px;
+    left: 0px;
+ }
+ .booking .chair{
+    width: 95%;
+    margin: auto;
+    /* display: none; */
+ }
+ .booking .chair .row{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+ }
+ .booking .chair .row li{
+    position: relative;
+    width: 20px;
+    height: 15px;
+    background: rgba(184,184,184,0.3);
+    list-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s linear;
+    font-size: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+ }
+ .booking .chair .row li::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: rgba(184,184,184,0.1);
+    bottom: -8px;
+    border-radius: 10px;
+ }
+ .booking .chair .row li:hover{
+    background: greenyellow;
+    color: black;
+ }
+ .booking .chair .row li:nth-child(6){
+    margin-right: 20px;
+ }
+ .booking .chair .row li:nth-last-child(6){
+    margin-left: 20px;
+ }
+ .booking .chair .row span{
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+ }
+ .booking .chair .row .booked{
+    background: #fd6565 !important;
+ }
+ .booking .chair .row .selected{
+    background: greenyellow !important;
+    color: black !important;
+ }
+ .booking .details{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: none; */
+ }
+ .booking .details .details-chair{
+    display: flex;
+    align-items: center;
+ }
+ .booking .details .details-chair li{
+    position: relative;
+    list-style-type: none;
+    border-radius: 5px;
+    transition: .3s linear;
+    margin: 0 25px;
+    font-weight: 600;
+    font-size: 12px;
+    color: rgba(184,184,184,0.3);
+ }
+ .booking .details .details-chair li::before{
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 15px;
+    background: rgba(184,184,184,0.3);
+    border-radius: 5px;
+    left: -30px;
+    top: 2px;
+    transition: .3s linear;
+ }
+ .booking .details .details-chair li::after{
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 4px;
+    background: rgba(184,184,184,0.1);
+    border-radius: 10px;
+    left: -30px;
+    bottom: -5px;
+    transition: .3s linear;
+ }
+ .booking .details .details-chair li:nth-child(2)::before{
+    background: #fd6565;
+ }
+ .booking .details .details-chair li:nth-child(2)::after{
+    background: #fd6565;
+ }
+ .booking .details .details-chair li:nth-child(3)::before{
+    background: greenyellow;
+ }
+ .booking .details .details-chair li:nth-child(3)::after{
+    background: greenyellow;
+ }
+ .booking .book-tic{
+    position: absolute;
+    right: 5%;
+    bottom: 40px;
+    padding: 8px 10px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background: #fd6565;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: .3s linear;
+   
+ }
+ .bi-arrow-left{
+    display: none;
+ }
+ .booking .book-tic:hover{
+    color: black;
+ }
+ .booking .ticket{
+    width: 100%;
+    height: 75%;
+    margin-top: 20px;
+    overflow-y: auto;
+    display: none;
+ }
+ .booking .ticket::-webkit-scrollbar{
+   
+ }
+ .booking .ticket .tic{
+    width: 100%;
+    height: 215px;
+    display: flex;
+    overflow: hidden;
+ }
+ .booking .ticket .tic .barcode, .tic-details{
+    width: 100%;
+    height: 100%;
+    position: relative;
+ }
+ .booking .ticket .tic .barcode{
+    width: 300px;
+    padding: 0 20px;
+    background: white;
+ }
+ .booking .ticket .tic .tic-details{
+    background: url(/images/venom4.jpg)no-repeat center -60px /cover;
+ }
+ .booking .ticket .tic .barcode .card{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+ }
+ .booking .ticket .tic .barcode .card:nth-child(1){
+    margin-top: 15px;
+ }
+ .booking .ticket .tic .barcode .card h6{
+    width: 60%;
+    text-align: left;
+    font-weight: 600;
+ }
+ .booking .ticket .tic .barcode .card h6:nth-child(1){
+   width: 40%;
+ }
+ .booking .ticket .tic .tic-details .type{
+   position: absolute;
+   left: 20px;
+   top: 7px;
+   font-weight: 600;
+   color: #fff;
+ }
+ .booking .ticket .tic .tic-details h1{
+   position: absolute;
+   left: 20px;
+   bottom: 80px;
+   color: #fff;
+ }
+ .booking .ticket .tic .tic-details .seat-details{
+   position: absolute;
+   bottom: 8px;
+   color: #fff;
+   width: 100%;
+   height: 60px;
+   background: linear-gradient(270deg, transparent, rgba(0,0,0,0.4));
+   display: flex;
+   align-items: center;
+   padding-left: 25px;
+ }
+ .booking .ticket .tic .tic-details .seat-details .seat-card{
+   width: 100px;
+   height: 60px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   color: #fff;
+ }
+ .booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(1){
+   font-size: 11px;
+   font-weight: 600;
+ }
+ .booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(2){
+   font-size: 20px;
+   font-weight: 800;
+ }
