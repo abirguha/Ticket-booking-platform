@@ -36,7 +36,7 @@
             window.location.href="home.html";
             alert("Login successful!");
         }
-        else if(un=="admin" && pw=="0000"){
+        else if(un=="admin" && pw=="1234"){
             window.location.href="admin_home.html";
             alert("Login successful!");
         }
