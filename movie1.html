@@ -1,49 +1,1192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_movie1.css">
-    <title>Document</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="style_movie1.css">
+
+    <title>Venom: The Last Dance</title>
+
+
+    <style>
+
+        /* =====================================================
+           BOOK TICKET - REMOVE UNDERLINE
+           ===================================================== */
+
+        .movie-booking a {
+            text-decoration: none;
+        }
+
+        .movie-booking a:hover {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           BOOKING POPUP BACKGROUND
+           ===================================================== */
+
+        .booking-popup {
+
+            display: none;
+
+            position: fixed;
+
+            z-index: 9999;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(0, 0, 0, 0.82);
+
+            justify-content: center;
+
+            align-items: center;
+
+            backdrop-filter: blur(6px);
+
+            padding: 20px;
+
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           POPUP BOX
+           ===================================================== */
+
+        .booking-popup-content {
+
+            width: 620px;
+
+            max-width: 95%;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #25262c,
+                    #17181c
+                );
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 18px;
+
+            padding: 32px;
+
+            box-sizing: border-box;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.75);
+
+            text-align: left;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           MAIN HEADING
+           ===================================================== */
+
+        .popup-heading {
+
+            text-align: center;
+
+            font-size: 30px;
+
+            margin: 0;
+
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .popup-subheading {
+
+            text-align: center;
+
+            margin-top: 8px;
+
+            margin-bottom: 30px;
+
+            font-size: 14px;
+
+            opacity: 0.65;
+        }
+
+
+        /* =====================================================
+           SECTION
+           ===================================================== */
+
+        .selection-section {
+
+            margin-top: 24px;
+        }
+
+
+        .selection-heading {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            margin-bottom: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .selection-heading span {
+
+            font-size: 12px;
+
+            opacity: 0.5;
+
+            font-weight: 400;
+        }
+
+
+        /* =====================================================
+           OPTIONS CONTAINER
+           ===================================================== */
+
+        .selection-options {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        /* =====================================================
+           DATE CARDS
+           ===================================================== */
+
+        .date-option {
+
+            width: 72px;
+
+            min-height: 72px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.14);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            color: white;
+
+            cursor: pointer;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            transition:
+                transform 0.2s,
+                background 0.2s,
+                border 0.2s,
+                box-shadow 0.2s;
+
+            padding: 8px;
+
+            box-sizing: border-box;
+        }
+
+
+        .date-option .day {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            opacity: 0.65;
+
+            letter-spacing: 1px;
+        }
+
+
+        .date-option .date-number {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            margin: 2px 0;
+        }
+
+
+        .date-option .month {
+
+            font-size: 10px;
+
+            opacity: 0.6;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .date-option:hover {
+
+            transform: translateY(-2px);
+
+            border-color:
+                rgba(255,255,255,0.4);
+
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+
+        .date-option.selected {
+
+            background:
+                #ff5c5c;
+
+            border-color:
+                #ff5c5c;
+
+            box-shadow:
+                0 7px 20px
+                rgba(255,92,92,0.25);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .date-option.selected .day,
+        .date-option.selected .month {
+
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           FORMAT OPTIONS
+           ===================================================== */
+
+        .selection-option {
+
+            min-width: 82px;
+
+            padding: 12px 16px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.14);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition:
+                transform 0.2s,
+                background 0.2s,
+                border 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .selection-option:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border-color:
+                rgba(255,255,255,0.4);
+        }
+
+
+        .selection-option.selected {
+
+            background:
+                #ff5c5c;
+
+            border-color:
+                #ff5c5c;
+
+            box-shadow:
+                0 7px 20px
+                rgba(255,92,92,0.25);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           NEXT BUTTON
+           ===================================================== */
+
+        .popup-next {
+
+            width: 100%;
+
+            margin-top: 32px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            background:
+                #ff5c5c;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .popup-next:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(255,92,92,0.3);
+        }
+
+
+        /* =====================================================
+           CLOSE BUTTON
+           ===================================================== */
+
+        .popup-close {
+
+            position: absolute;
+
+            top: 25px;
+
+            right: 35px;
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+
+            color: white;
+
+            cursor: pointer;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            transition:
+                background 0.2s,
+                transform 0.2s;
+        }
+
+
+        .popup-close:hover {
+
+            background:
+                rgba(255,255,255,0.16);
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .booking-popup-content {
+
+                padding: 22px;
+
+                border-radius: 15px;
+            }
+
+
+            .popup-heading {
+
+                font-size: 24px;
+            }
+
+
+            .date-option {
+
+                width: 62px;
+
+                min-height: 65px;
+            }
+
+
+            .date-option .date-number {
+
+                font-size: 19px;
+            }
+
+
+            .selection-option {
+
+                min-width: 75px;
+
+                padding: 10px 12px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
+
     <div class="background-image">
+
+
+        <!-- =================================================
+             MOVIE DETAILS
+             ================================================= -->
+
         <div class="previous-page">
-            <img src="#" alt="" class="btn-alt">
+
+            <img src="#"
+                 alt=""
+                 class="btn-alt">
+
         </div>
+
+
         <div class="book">
+
+
             <div class="left">
-                <img src="/images/venom3.jpg" alt="" class="poster">
+
+                <img src="/images/venom3.jpg"
+                     alt=""
+                     class="poster">
+
             </div>
+
+
             <div class="right">
+
+
                 <div class="movie-title">
-                    <h1 class="title">Vemon: The Last Dance</h1>
+
+                    <h1 class="title">
+                        Venom: The Last Dance
+                    </h1>
+
                 </div>
+
+
                 <div class="movie-ratings">
+
                     <div class="rating">
-                        <img src="/images/star.png" alt="" class="star">
+
+                        <img src="/images/star.png"
+                             alt=""
+                             class="star">
+
                         <h3 class="rate">6.6</h3>
                         <h3 class="rate">6.6</h3>
                         <h3 class="rate">6.6</h3>
                         <h3 class="rate">6.6</h3>
+
                     </div>
+
                 </div>
+
+
                 <div class="movie-summary">
-                    <h3>Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are forced into a devastating decision that will bring the curtains down on Venom and Eddie's last dance.</h3>
+
+                    <h3>
+
+                        Eddie and Venom are on the run.
+                        Hunted by both of their worlds and
+                        with the net closing in, the duo are
+                        forced into a devastating decision
+                        that will bring the curtains down on
+                        Venom and Eddie's last dance.
+
+                    </h3>
+
                 </div>
+
+
+                <!-- BOOK TICKET -->
+
                 <div class="movie-booking">
-                    <h3><a href="/booking.html" class="btn">Book Ticket</a></h3>
+
+                    <h3>
+
+                        <a href="#"
+                           class="btn"
+                           id="openBookingPopup">
+
+                            Book Ticket
+
+                        </a>
+
+                    </h3>
+
                 </div>
+
             </div>
+
         </div>
+
+
+        <!-- =================================================
+             TRAILER
+             ================================================= -->
+
         <div class="movie-trailer">
-            <h1 class="trailer">Trailer</h1>
+
+            <h1 class="trailer">
+                Trailer
+            </h1>
+
+
             <div class="trailer-link">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/HyIyd9joTTc?si=0NN8QlusZnfh0Awg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/HyIyd9joTTc?si=0NN8QlusZnfh0Awg"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
+
             </div>
+
         </div>
+
+
         <div class="movie-cast"></div>
+
+
+        <!-- =================================================
+             BOOKING POPUP
+             ================================================= -->
+
+        <div class="booking-popup"
+             id="bookingPopup">
+
+
+            <!-- CLOSE -->
+
+            <div class="popup-close"
+                 id="closeBookingPopup">
+
+                &times;
+
+            </div>
+
+
+            <div class="booking-popup-content">
+
+
+                <!-- MAIN HEADING -->
+
+                <h2 class="popup-heading">
+
+                    Select Your Show
+
+                </h2>
+
+
+                <p class="popup-subheading">
+
+                    Choose your date and preferred format
+
+                </p>
+
+
+                <!-- =================================================
+                     DATE
+                     ================================================= -->
+
+                <div class="selection-section">
+
+
+                    <div class="selection-heading">
+
+                        Select Date
+
+                        <span>
+                            Choose a day
+                        </span>
+
+                    </div>
+
+
+                    <div class="selection-options"
+                         id="dateOptions">
+
+
+                        <!-- 04 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-04">
+
+                            <span class="day">WED</span>
+
+                            <span class="date-number">4</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 05 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-05">
+
+                            <span class="day">THU</span>
+
+                            <span class="date-number">5</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 06 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-06">
+
+                            <span class="day">FRI</span>
+
+                            <span class="date-number">6</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 07 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-07">
+
+                            <span class="day">SAT</span>
+
+                            <span class="date-number">7</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 08 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-08">
+
+                            <span class="day">SUN</span>
+
+                            <span class="date-number">8</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 09 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-09">
+
+                            <span class="day">MON</span>
+
+                            <span class="date-number">9</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 10 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-10">
+
+                            <span class="day">TUE</span>
+
+                            <span class="date-number">10</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 11 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-11">
+
+                            <span class="day">WED</span>
+
+                            <span class="date-number">11</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 12 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-12">
+
+                            <span class="day">THU</span>
+
+                            <span class="date-number">12</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 13 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-13">
+
+                            <span class="day">FRI</span>
+
+                            <span class="date-number">13</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 14 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-14">
+
+                            <span class="day">SAT</span>
+
+                            <span class="date-number">14</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 15 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-15">
+
+                            <span class="day">SUN</span>
+
+                            <span class="date-number">15</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 16 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-16">
+
+                            <span class="day">MON</span>
+
+                            <span class="date-number">16</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+
+                        <!-- 17 NOVEMBER 2026 -->
+
+                        <button class="date-option"
+                                data-date="2026-11-17">
+
+                            <span class="day">TUE</span>
+
+                            <span class="date-number">17</span>
+
+                            <span class="month">NOV</span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SHOW TYPE
+                     ================================================= -->
+
+                <div class="selection-section">
+
+
+                    <div class="selection-heading">
+
+                        Select Format
+
+                        <span>
+                            2D or 3D
+                        </span>
+
+                    </div>
+
+
+                    <div class="selection-options"
+                         id="typeOptions">
+
+
+                        <button class="selection-option"
+                                data-type="2D">
+
+                            2D
+
+                        </button>
+
+
+                        <button class="selection-option"
+                                data-type="3D">
+
+                            3D
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     NEXT
+                     ================================================= -->
+
+                <button class="popup-next"
+                        id="bookingNext">
+
+                    SELECT CINEMA &amp; SHOWTIME
+
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-    
+
+
+    <!-- =================================================
+         POPUP JAVASCRIPT
+         ================================================= -->
+
+    <script>
+
+        const openBookingPopup =
+            document.getElementById(
+                "openBookingPopup"
+            );
+
+
+        const bookingPopup =
+            document.getElementById(
+                "bookingPopup"
+            );
+
+
+        const closeBookingPopup =
+            document.getElementById(
+                "closeBookingPopup"
+            );
+
+
+        const bookingNext =
+            document.getElementById(
+                "bookingNext"
+            );
+
+
+        let selectedDate = null;
+
+        let selectedType = null;
+
+
+        /* =================================================
+           OPEN POPUP
+           ================================================= */
+
+        openBookingPopup.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                bookingPopup.style.display =
+                    "flex";
+
+            }
+        );
+
+
+        /* =================================================
+           CLOSE POPUP
+           ================================================= */
+
+        closeBookingPopup.addEventListener(
+            "click",
+            function() {
+
+                bookingPopup.style.display =
+                    "none";
+
+            }
+        );
+
+
+        /* =================================================
+           DATE SELECTION
+           ================================================= */
+
+        document
+            .querySelectorAll(
+                "#dateOptions .date-option"
+            )
+            .forEach(
+                function(button) {
+
+                    button.addEventListener(
+                        "click",
+                        function() {
+
+                            document
+                                .querySelectorAll(
+                                    "#dateOptions .date-option"
+                                )
+                                .forEach(
+                                    function(item) {
+
+                                        item.classList.remove(
+                                            "selected"
+                                        );
+
+                                    }
+                                );
+
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+
+                            selectedDate =
+                                button.dataset.date;
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =================================================
+           SHOW TYPE
+           ================================================= */
+
+        document
+            .querySelectorAll(
+                "#typeOptions .selection-option"
+            )
+            .forEach(
+                function(button) {
+
+                    button.addEventListener(
+                        "click",
+                        function() {
+
+                            document
+                                .querySelectorAll(
+                                    "#typeOptions .selection-option"
+                                )
+                                .forEach(
+                                    function(item) {
+
+                                        item.classList.remove(
+                                            "selected"
+                                        );
+
+                                    }
+                                );
+
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+
+                            selectedType =
+                                button.dataset.type;
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =================================================
+           NEXT
+           ================================================= */
+
+        bookingNext.addEventListener(
+            "click",
+            function() {
+
+                if (!selectedDate) {
+
+                    alert(
+                        "Please select a date."
+                    );
+
+                    return;
+                }
+
+
+                if (!selectedType) {
+
+                    alert(
+                        "Please select 2D or 3D."
+                    );
+
+                    return;
+                }
+
+
+                /* =============================================
+                   SAVE DATE + FORMAT
+                   ============================================= */
+
+                localStorage.setItem(
+                    "selected_booking_date",
+                    selectedDate
+                );
+
+
+                localStorage.setItem(
+                    "selected_show_type",
+                    selectedType
+                );
+
+
+                /*
+                   No showtime is saved here.
+
+                   Showtime will be selected
+                   after the cinema/venue screen.
+                */
+
+
+                /* =============================================
+                   GO TO VENUE / SHOWTIME SCREEN
+                   ============================================= */
+
+                const url =
+                    "booking.html" +
+                    "?date=" +
+                    encodeURIComponent(
+                        selectedDate
+                    ) +
+                    "&type=" +
+                    encodeURIComponent(
+                        selectedType
+                    );
+
+
+                window.location.href =
+                    url;
+
+            }
+        );
+
+    </script>
+
 </body>
+
 </html>

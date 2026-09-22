@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Bookings</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #111;
+            color: white;
+            padding: 18px 60px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav a:hover {
+            color: #e50914;
+        }
+
+        .home-btn {
+            background: #e50914;
+            padding: 9px 18px;
+            border-radius: 5px;
+        }
+
+        .home-btn:hover {
+            color: white !important;
+            background: #c70812;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 32px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* ================= BOOKING CARD ================= */
+
+        #bookings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .booking-header {
+            background: #111;
+            color: white;
+
+            padding: 18px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .movie-name {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .confirmed {
+            background: #168a3d;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .ticket-body {
+            padding: 25px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* ================= TICKET FOOTER ================= */
+
+        .ticket-footer {
+            border-top: 2px dashed #ddd;
+
+            padding: 18px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .booking-id {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .amount {
+            font-size: 21px;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+            font-size: 18px;
+        }
+
+        /* ================= NO BOOKINGS ================= */
+
+        .no-bookings {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-bookings h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .no-bookings p {
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            background: #e50914;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        /* ================= ERROR ================= */
+
+        .error {
+            background: #ffe5e5;
+            color: #c00000;
+
+            padding: 20px;
+            border-radius: 8px;
+
+            text-align: center;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav {
+                gap: 10px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .booking-header {
+                padding: 15px;
+            }
+
+            .ticket-body {
+                padding: 20px;
+            }
+
+            .ticket-footer {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="header">
+
+        <div class="logo">
+            Ticket Booking
+        </div>
+
+        <div class="nav">
+
+            <a href="home.html">
+                Home
+            </a>
+
+            <a href="booking.html">
+                Book Tickets
+            </a>
+
+            <a href="my_bookings.html"
+               class="home-btn">
+                My Bookings
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="container">
+
+
+        <div class="page-heading">
+
+            <h1>
+                My Bookings
+            </h1>
+
+            <p>
+                View all your movie ticket bookings
+            </p>
+
+        </div>
+
+
+        <div id="bookings-container">
+
+            <div class="loading">
+                Loading your bookings...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    // ==================== DATE FORMAT ====================
+
+    function formatBookingDate(dateString) {
+
+        const [year, month, day] =
+            dateString.split("-");
+
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        return `${day} ${months[Number(month) - 1]}, ${year}`;
+    }
+
+
+    // ==================== BOOKED ON FORMAT ====================
+
+    function formatBookedOn(timestamp) {
+
+        // Example:
+        // 2026-09-22 05:02:12
+
+        const [datePart, timePart] =
+            timestamp.split(" ");
+
+        const [year, month, day] =
+            datePart.split("-");
+
+        let [hour, minute] =
+            timePart.split(":");
+
+        hour = Number(hour);
+
+        const ampm =
+            hour >= 12 ? "PM" : "AM";
+
+        hour =
+            hour % 12 || 12;
+
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        return (
+            `${String(hour).padStart(2, "0")}:` +
+            `${minute} ${ampm} ` +
+            `${day} ${months[Number(month) - 1]}, ${year}`
+        );
+    }
+
+
+    // ==================== LOAD BOOKINGS ====================
+
+    async function loadBookings() {
+
+        const userId =
+            localStorage.getItem("user_id");
+
+        const container =
+            document.getElementById(
+                "bookings-container"
+            );
+
+
+        // ================= CHECK LOGIN =================
+
+        if (!userId) {
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    Please login first to view
+                    your bookings.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+
+                `http://127.0.0.1:5000/my-bookings?user_id=${userId}`
+
+            );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.message ||
+                    "Could not load bookings"
+                );
+
+            }
+
+
+            const bookings =
+                result.bookings;
+
+
+            // ================= NO BOOKINGS =================
+
+            if (bookings.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="no-bookings">
+
+                        <h2>
+                            No Bookings Yet
+                        </h2>
+
+                        <p>
+                            You haven't booked
+                            any movie tickets yet.
+                        </p>
+
+                        <a
+                            href="booking.html"
+                            class="browse-btn"
+                        >
+                            Book Tickets
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            // ================= CLEAR LOADING =================
+
+            container.innerHTML = "";
+
+
+            // ================= DISPLAY BOOKINGS =================
+
+            bookings.forEach(function (booking) {
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "booking-card";
+
+
+                // Get 2D / 3D from show time
+                // Example: "3D 05:00"
+                const showType =
+                    booking.show_time
+                        .split(" ")[0];
+
+
+                const displayMovieName =
+                    `${booking.movie_name} (${showType})`;
+
+
+                card.innerHTML = `
+
+                    <div class="booking-header">
+
+                        <div class="movie-name">
+
+                            ${displayMovieName}
+
+                        </div>
+
+                        <div class="confirmed">
+
+                            ✓ Confirmed
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ticket-body">
+
+                        <div class="details">
+
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Date
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${formatBookingDate(
+                                        booking.booking_date
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Show Time
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${booking.show_time}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Seats
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${booking.seats}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Booked On
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${formatBookedOn(
+                                        booking.booking_time
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ticket-footer">
+
+                        <div class="booking-id">
+
+                            Booking ID:
+                            <strong>
+                                #${booking.id}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="amount">
+
+                            ₹${booking.total_amount}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Error loading bookings:",
+                error
+            );
+
+
+            container.innerHTML = `
+
+                <div class="error">
+
+                    Could not load your bookings.
+
+                    <br><br>
+
+                    Please make sure the
+                    backend is running.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // ==================== LOAD PAGE ====================
+
+    loadBookings();
+
+</script>
+
+
+</body>
+
+</html>

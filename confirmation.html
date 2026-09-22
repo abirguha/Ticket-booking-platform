@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Confirm Booking</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #1f2025;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+        }
+
+
+        .confirmation-container {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #292a30,
+                    #1b1c20
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.5);
+
+        }
+
+
+        .confirmation-title {
+
+            text-align: center;
+
+            margin-bottom: 8px;
+
+            font-size: 30px;
+
+        }
+
+
+        .confirmation-subtitle {
+
+            text-align: center;
+
+            color: #999;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .movie-title {
+
+            text-align: center;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .show-type {
+
+            text-align: center;
+
+            color: #ff5c5c;
+
+            font-weight: 700;
+
+            font-size: 16px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .details-box {
+
+            border:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .detail-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 15px 18px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+
+        }
+
+
+        .detail-row:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .detail-label {
+
+            color: #999;
+
+        }
+
+
+        .detail-value {
+
+            text-align: right;
+
+            font-weight: 600;
+
+        }
+
+
+        .seats-box {
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.08
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.20
+                );
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .seats-title {
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .seats-list {
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            word-break: break-word;
+
+        }
+
+
+        .price-box {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 18px 0;
+
+            margin-bottom: 20px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.10);
+
+        }
+
+
+        .price-label {
+
+            color: #aaa;
+
+            font-size: 16px;
+
+        }
+
+
+        .price-value {
+
+            color: #ff5c5c;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+        }
+
+
+        .confirm-button {
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            background:
+                #ff5c5c;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .confirm-button:hover {
+
+            background:
+                #ff4141;
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .back-button {
+
+            width: 100%;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            border-radius: 10px;
+
+            padding: 13px;
+
+            margin-top: 12px;
+
+            background:
+                transparent;
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-button:hover {
+
+            color: white;
+
+            border-color:
+                rgba(255,255,255,0.30);
+
+        }
+
+
+        .message {
+
+            display: none;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+        }
+
+
+        .message.success {
+
+            display: block;
+
+            background:
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.10
+                );
+
+            color: #4ade80;
+
+            border:
+                1px solid
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.25
+                );
+
+        }
+
+
+        .message.error {
+
+            display: block;
+
+            background:
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.10
+                );
+
+            color: #ff5c5c;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.25
+                );
+
+        }
+
+
+        @media screen and
+            (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .confirmation-container {
+
+                padding: 22px;
+
+            }
+
+
+            .confirmation-title {
+
+                font-size: 25px;
+
+            }
+
+
+            .detail-row {
+
+                flex-direction:
+                    column;
+
+                gap: 5px;
+
+            }
+
+
+            .detail-value {
+
+                text-align: left;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="confirmation-container">
+
+
+    <div
+        class="confirmation-title"
+    >
+        Confirm Your Booking
+    </div>
+
+
+    <div
+        class="confirmation-subtitle"
+    >
+        Please check your selection before confirming.
+    </div>
+
+
+    <div
+        id="movie_title"
+        class="movie-title"
+    >
+        --
+    </div>
+
+
+    <div
+        id="show_type"
+        class="show-type"
+    >
+        --
+    </div>
+
+
+    <div class="details-box">
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Date
+            </span>
+
+            <span
+                id="booking_date"
+                class="detail-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Cinema
+            </span>
+
+            <span
+                id="venue"
+                class="detail-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Showtime
+            </span>
+
+            <span
+                id="show_time"
+                class="detail-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Number of Seats
+            </span>
+
+            <span
+                id="seat_count"
+                class="detail-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="seats-box">
+
+
+        <div class="seats-title">
+            Selected Seats
+        </div>
+
+
+        <div
+            id="seats"
+            class="seats-list"
+        >
+            --
+        </div>
+
+
+    </div>
+
+
+    <div class="price-box">
+
+        <span class="price-label">
+            Total Amount
+        </span>
+
+        <span
+            id="total_amount"
+            class="price-value"
+        >
+            ₹0
+        </span>
+
+    </div>
+
+
+    <button
+        id="confirm_booking"
+        class="confirm-button"
+    >
+        CONFIRM BOOKING
+    </button>
+
+
+    <button
+        id="back_button"
+        class="back-button"
+    >
+        GO BACK
+    </button>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+</div>
+
+
+<script>
+
+    // ========================================================
+    // READ BOOKING DETAILS FROM URL
+    // ========================================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const userId =
+        params.get("user_id");
+
+    const movieName =
+        params.get("movie_name");
+
+    const bookingDate =
+        params.get("booking_date");
+
+    const showTime =
+        params.get("show_time");
+
+    const showType =
+        params.get("show_type");
+
+    const venue =
+        params.get("venue");
+
+    const seats =
+        params.get("seats");
+
+    const totalAmount =
+        params.get("total_amount");
+
+
+    // ========================================================
+    // DISPLAY DETAILS
+    // ========================================================
+
+    document.getElementById(
+        "movie_title"
+    ).textContent =
+        movieName || "--";
+
+
+    document.getElementById(
+        "show_type"
+    ).textContent =
+        showType
+            ? "(" + showType + ")"
+            : "--";
+
+
+    document.getElementById(
+        "booking_date"
+    ).textContent =
+        formatDate(
+            bookingDate
+        );
+
+
+    document.getElementById(
+        "venue"
+    ).textContent =
+        venue || "--";
+
+
+    document.getElementById(
+        "show_time"
+    ).textContent =
+        formatShowTime(
+            showTime
+        );
+
+
+    const seatArray =
+        seats
+            ? seats.split(",")
+            : [];
+
+
+    document.getElementById(
+        "seat_count"
+    ).textContent =
+        seatArray.length;
+
+
+    document.getElementById(
+        "seats"
+    ).textContent =
+        seatArray.length > 0
+            ? seatArray.join(", ")
+            : "No seats selected";
+
+
+    document.getElementById(
+        "total_amount"
+    ).textContent =
+        "₹" +
+        (
+            Number(totalAmount) || 0
+        );
+
+
+    // ========================================================
+    // FORMAT DATE
+    // ========================================================
+
+    function formatDate(
+        value
+    ) {
+
+        if (!value) {
+            return "--";
+        }
+
+
+        const date =
+            new Date(
+                value + "T00:00:00"
+            );
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return value;
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+
+    // ========================================================
+    // FORMAT SHOWTIME
+    // ========================================================
+
+    function formatShowTime(
+        value
+    ) {
+
+        if (!value) {
+            return "--";
+        }
+
+
+        // Example:
+        // 3D 05:30
+        // becomes:
+        // 05:30 PM
+
+        const parts =
+            value.split(" ");
+
+
+        const time =
+            parts.length > 1
+                ? parts[1]
+                : parts[0];
+
+
+        const timeParts =
+            time.split(":");
+
+
+        let hours =
+            parseInt(
+                timeParts[0],
+                10
+            );
+
+
+        const minutes =
+            timeParts[1] || "00";
+
+
+        const ampm =
+            hours >= 12
+                ? "PM"
+                : "AM";
+
+
+        hours =
+            hours % 12;
+
+
+        if (hours === 0) {
+            hours = 12;
+        }
+
+
+        return (
+            String(hours)
+                .padStart(2, "0") +
+            ":" +
+            minutes +
+            " " +
+            ampm
+        );
+    }
+
+
+    // ========================================================
+    // GO BACK
+    // ========================================================
+
+    document
+        .getElementById(
+            "back_button"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                window.history.back();
+
+            }
+        );
+
+
+    // ========================================================
+    // CONFIRM BOOKING
+    // ========================================================
+
+    document
+        .getElementById(
+            "confirm_booking"
+        )
+        .addEventListener(
+            "click",
+            async function () {
+
+                const button =
+                    document.getElementById(
+                        "confirm_booking"
+                    );
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                if (!userId) {
+
+                    message.className =
+                        "message error";
+
+                    message.textContent =
+                        "Please login before booking.";
+
+                    return;
+                }
+
+
+                if (
+                    !movieName ||
+                    !bookingDate ||
+                    !showTime ||
+                    !venue ||
+                    !seats ||
+                    !totalAmount
+                ) {
+
+                    message.className =
+                        "message error";
+
+                    message.textContent =
+                        "Booking information is incomplete.";
+
+                    return;
+                }
+
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "CONFIRMING...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://127.0.0.1:5000/book",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        user_id:
+                                            userId,
+
+                                        movie_name:
+                                            movieName,
+
+                                        booking_date:
+                                            bookingDate,
+
+                                        show_time:
+                                            showTime,
+
+                                        venue:
+                                            venue,
+
+                                        seats:
+                                            seats,
+
+                                        total_amount:
+                                            Number(
+                                                totalAmount
+                                            )
+
+                                    })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        message.className =
+                            "message error";
+
+                        message.textContent =
+                            data.message ||
+                            "Booking failed.";
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "CONFIRM BOOKING";
+
+                        return;
+                    }
+
+
+                    message.className =
+                        "message success";
+
+                    message.textContent =
+                        "Booking confirmed successfully!";
+
+
+                    button.style.display =
+                        "none";
+
+
+                    document
+                        .getElementById(
+                            "back_button"
+                        )
+                        .style.display =
+                        "none";
+
+
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                "home.html";
+
+                        },
+                        1800
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Booking error:",
+                        error
+                    );
+
+
+                    message.className =
+                        "message error";
+
+                    message.textContent =
+                        "Unable to connect to the server. " +
+                        "Please make sure Flask is running.";
+
+
+                    button.disabled =
+                        false;
+
+                    button.textContent =
+                        "CONFIRM BOOKING";
+                }
+
+            }
+        );
+
+</script>
+
+
+</body>
+
+</html>

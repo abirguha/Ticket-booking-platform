@@ -1,337 +1,1419 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
-*{
+
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
-:root{
-    --color: linear-gradient(0deg, transparent, rgba(184,184,184,.2))
+
+
+:root {
+    --color: linear-gradient(
+        0deg,
+        transparent,
+        rgba(184, 184, 184, 0.2)
+    );
+
+    --primary: #fd6565;
+    --selected: #ff5c5c;
+
+    --available: #4ade80;
+    --almost: #f59e0b;
+    --sold: #777;
+
+    --seat: rgba(184, 184, 184, 0.3);
 }
-body{
+
+
+body {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+
     align-items: center;
     justify-content: center;
+
     display: flex;
+
     background: #1f2025;
+
+    overflow-x: hidden;
 }
-.booking{
+
+
+/* ============================================================
+   MAIN BOOKING CONTAINER
+   ============================================================ */
+
+.booking {
     width: 92%;
-    height: 90%;
-    padding: 10px 40px;
-}
-.booking .date-time{
+    min-height: 90vh;
+
+    padding: 20px 40px 60px;
+
     position: relative;
+}
+
+
+/* ============================================================
+   VENUE SELECTION
+   ============================================================ */
+
+#venue_selection {
+    width: 100%;
+
+    padding: 10px 0 30px;
+
+    color: white;
+
+    display: block;
+}
+
+
+/* ============================================================
+   VENUE PAGE HEADER
+   ============================================================ */
+
+.booking-header {
+    width: 100%;
+
     display: flex;
+
     align-items: center;
     justify-content: space-between;
+
+    margin-bottom: 20px;
 }
-.booking .date-time .left-card, .right-card{
-    width: 45%;
-}
-.booking .date-time .title{
+
+
+.booking-header h2 {
     color: white;
+
+    font-size: 25px;
+    font-weight: 600;
 }
-.booking .date-time .crd{
-    width: 100%;
-    overflow-x: auto;
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    border-top: 1px solid rgba(184,184,184,0.2);
-    padding: 5px 0px;
-}
-.booking .date-time .crd::-webkit-scrollbar{
-   height: 3px;
-   background: rgba(184,184,184,0.3);
-}
-.booking .date-time .crd::-webkit-scrollbar-thumb{
-    height: 3px;
-    background: rgba(184,184,184,0.5);
-}
-.booking .date-time .crd li{
-    list-style: none;
-    color: white;
-    min-width: 40px;
-    display: flex;
+
+
+.booking-info-pill {
+    display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
+    padding: 7px 15px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    color: rgba(255, 255, 255, 0.8);
+
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   VENUE LIST
+   ============================================================ */
+
+#venue_list {
+    width: 100%;
+
+    display: flex;
+
     flex-direction: column;
-    cursor: pointer;
-}
-.booking .date-time .crd li h6:nth-child(2){
-   background: transparent;
-   border-radius: 50%;
-   width: 20px;
-   height: 20px;
-   transition: .3s linear;
-   cursor: pointer;
-   align-items: center;
-   justify-content: center;
-   margin-top: 5px;
-}
-.booking .date-time .crd li h6:nth-child(2):hover{
-   background: #fd6565;
- }
- .booking .date-time .right-card li h6:nth-child(2){
-    background: transparent;
-    border-radius: 8px;
-    width: unset;
-    height: unset;
-    padding: 1px 5px 0px 5px;
- }
- .h6_active{
-    background: #fd6565 !important;
- }
- .screen{
-    position: relative;
-    width: 100%;
-    height: 100px;
-    border-top: 3px solid #fd6565;
-    margin-top: 50px;
-    border-radius: 20%;
-    overflow: hidden;
-    box-shadow: inset 0px 10px 20px var(--color);
-    text-align: center;
-    padding: 15px;
-    color: white;
-    letter-spacing: 5px;
-    font-size: 12px;
-    /* display: none; */
- }
- .booking .screen::before{
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    border-radius: 50%;
-    box-shadow: 0px 0px 20px rgba(184,184,184,0.5);
-    top: -20px;
-    left: 0px;
- }
- .booking .chair{
-    width: 95%;
-    margin: auto;
-    /* display: none; */
- }
- .booking .chair .row{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 15px;
- }
- .booking .chair .row li{
-    position: relative;
-    width: 20px;
-    height: 15px;
-    background: rgba(184,184,184,0.3);
-    list-style: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .3s linear;
-    font-size: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 600;
- }
- .booking .chair .row li::before{
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 5px;
-    background: rgba(184,184,184,0.1);
-    bottom: -8px;
-    border-radius: 10px;
- }
- .booking .chair .row li:hover{
-    background: greenyellow;
-    color: black;
- }
- .booking .chair .row li:nth-child(6){
-    margin-right: 20px;
- }
- .booking .chair .row li:nth-last-child(6){
-    margin-left: 20px;
- }
- .booking .chair .row span{
-    color: white;
-    font-weight: 600;
-    font-size: 11px;
- }
- .booking .chair .row .booked{
-    background: #fd6565 !important;
- }
- .booking .chair .row .selected{
-    background: greenyellow !important;
-    color: black !important;
- }
- .booking .details{
-    width: 100%;
-    margin-top: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* display: none; */
- }
- .booking .details .details-chair{
-    display: flex;
-    align-items: center;
- }
- .booking .details .details-chair li{
-    position: relative;
-    list-style-type: none;
-    border-radius: 5px;
-    transition: .3s linear;
-    margin: 0 25px;
-    font-weight: 600;
-    font-size: 12px;
-    color: rgba(184,184,184,0.3);
- }
- .booking .details .details-chair li::before{
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 15px;
-    background: rgba(184,184,184,0.3);
-    border-radius: 5px;
-    left: -30px;
-    top: 2px;
-    transition: .3s linear;
- }
- .booking .details .details-chair li::after{
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 4px;
-    background: rgba(184,184,184,0.1);
-    border-radius: 10px;
-    left: -30px;
-    bottom: -5px;
-    transition: .3s linear;
- }
- .booking .details .details-chair li:nth-child(2)::before{
-    background: #fd6565;
- }
- .booking .details .details-chair li:nth-child(2)::after{
-    background: #fd6565;
- }
- .booking .details .details-chair li:nth-child(3)::before{
-    background: greenyellow;
- }
- .booking .details .details-chair li:nth-child(3)::after{
-    background: greenyellow;
- }
- .booking .book-tic{
-    position: absolute;
-    right: 5%;
-    bottom: 40px;
-    padding: 8px 10px;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    background: #fd6565;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: .3s linear;
-   
- }
- .bi-arrow-left{
-    display: none;
- }
- .booking .book-tic:hover{
-    color: black;
- }
- .booking .ticket{
-    width: 100%;
-    height: 75%;
-    margin-top: 20px;
+
+    gap: 15px;
+
+    max-height: 65vh;
+
     overflow-y: auto;
-    display: none;
- }
- .booking .ticket::-webkit-scrollbar{
-   
- }
- .booking .ticket .tic{
+
+    padding-right: 8px;
+}
+
+
+#venue_list::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+#venue_list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+
+    border-radius: 10px;
+}
+
+
+#venue_list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+
+    border-radius: 10px;
+}
+
+
+/* ============================================================
+   CINEMA CARD
+   ============================================================ */
+
+.cinema-card {
     width: 100%;
-    height: 215px;
+
+    padding: 20px 22px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    transition: 0.3s ease;
+}
+
+
+.cinema-card:hover {
+    border-color: rgba(253, 101, 101, 0.35);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20);
+}
+
+
+/* ============================================================
+   CINEMA HEADER
+   ============================================================ */
+
+.cinema-header {
+    width: 100%;
+
     display: flex;
-    overflow: hidden;
- }
- .booking .ticket .tic .barcode, .tic-details{
-    width: 100%;
-    height: 100%;
-    position: relative;
- }
- .booking .ticket .tic .barcode{
-    width: 300px;
-    padding: 0 20px;
-    background: white;
- }
- .booking .ticket .tic .tic-details{
-    background: url(/images/venom4.jpg)no-repeat center -60px /cover;
- }
- .booking .ticket .tic .barcode .card{
-    width: 100%;
-    display: flex;
+
     align-items: center;
+
     justify-content: space-between;
-    padding: 0 10px;
- }
- .booking .ticket .tic .barcode .card:nth-child(1){
-    margin-top: 15px;
- }
- .booking .ticket .tic .barcode .card h6{
-    width: 60%;
-    text-align: left;
+
+    margin-bottom: 15px;
+}
+
+
+.cinema-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.cinema-info h3 {
+    color: white;
+
+    font-size: 18px;
+
     font-weight: 600;
- }
- .booking .ticket .tic .barcode .card h6:nth-child(1){
-   width: 40%;
- }
- .booking .ticket .tic .tic-details .type{
-   position: absolute;
-   left: 20px;
-   top: 7px;
-   font-weight: 600;
-   color: #fff;
- }
- .booking .ticket .tic .tic-details h1{
-   position: absolute;
-   left: 20px;
-   bottom: 80px;
-   color: #fff;
- }
- .booking .ticket .tic .tic-details .seat-details{
-   position: absolute;
-   bottom: 8px;
-   color: #fff;
-   width: 100%;
-   height: 60px;
-   background: linear-gradient(270deg, transparent, rgba(0,0,0,0.4));
-   display: flex;
-   align-items: center;
-   padding-left: 25px;
- }
- .booking .ticket .tic .tic-details .seat-details .seat-card{
-   width: 100px;
-   height: 60px;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   flex-direction: column;
-   color: #fff;
- }
- .booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(1){
-   font-size: 11px;
-   font-weight: 600;
- }
- .booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(2){
-   font-size: 20px;
-   font-weight: 800;
- }
+}
+
+
+.cinema-info p {
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   NO PRICE ON VENUE PAGE
+   ============================================================ */
+
+.ticket-price {
+    display: none !important;
+}
+
+
+/* ============================================================
+   SHOWTIME TITLE
+   ============================================================ */
+
+.showtime-title {
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 12px;
+
+    margin-bottom: 9px;
+
+    font-weight: 500;
+}
+
+
+/* ============================================================
+   SHOWTIME CONTAINER
+   ============================================================ */
+
+.showtime-container {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+/* ============================================================
+   BASE SHOWTIME BUTTON
+   ============================================================ */
+
+.venue-showtime {
+    min-width: 90px;
+
+    padding: 8px 13px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* ============================================================
+   AVAILABLE = GREEN
+   ============================================================ */
+
+.venue-showtime.available {
+    color: var(--available);
+
+    border-color: rgba(74, 222, 128, 0.35);
+
+    background: rgba(74, 222, 128, 0.035);
+}
+
+
+.venue-showtime.available:hover {
+    background: rgba(74, 222, 128, 0.12);
+
+    border-color: var(--available);
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   ALMOST SOLD = ORANGE
+   ============================================================ */
+
+.venue-showtime.almost {
+    color: var(--almost);
+
+    border-color: rgba(245, 158, 11, 0.40);
+
+    background: rgba(245, 158, 11, 0.045);
+}
+
+
+.venue-showtime.almost:hover {
+    background: rgba(245, 158, 11, 0.13);
+
+    border-color: var(--almost);
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   SOLD OUT = GREY
+   ============================================================ */
+
+.venue-showtime.sold {
+    color: var(--sold);
+
+    border-color: rgba(120, 120, 120, 0.30);
+
+    background: rgba(120, 120, 120, 0.04);
+
+    cursor: not-allowed;
+
+    opacity: 0.55;
+}
+
+
+/* ============================================================
+   SELECTED SHOWTIME = RED
+   ============================================================ */
+
+.venue-showtime.selected {
+    background: rgba(255, 92, 92, 0.20) !important;
+
+    border-color: #ff5c5c !important;
+
+    color: #ff8a8a !important;
+
+    box-shadow:
+        0 0 0 2px #ff5c5c,
+        0 6px 18px rgba(255, 92, 92, 0.20) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+
+/* ============================================================
+   LEGEND
+   ============================================================ */
+
+.showtime-legend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 15px;
+
+    color: rgba(255, 255, 255, 0.50);
+
+    font-size: 11px;
+}
+
+
+.showtime-legend span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+/* ============================================================
+   LEGEND DOT
+   ============================================================ */
+
+.legend-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+}
+
+
+.available-dot {
+    background: var(--available);
+
+    box-shadow:
+        0 0 7px rgba(74, 222, 128, 0.45);
+}
+
+
+.almost-dot {
+    background: var(--almost);
+
+    box-shadow:
+        0 0 7px rgba(245, 158, 11, 0.45);
+}
+
+
+.sold-dot {
+    background: var(--sold);
+}
+
+
+/* ============================================================
+   VENUE CONTINUE BUTTON
+   ============================================================ */
+
+#venue_continue_button {
+    display: none;
+
+    margin: 22px auto 0;
+
+    padding: 11px 25px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+#venue_continue_button:hover {
+    background: #ff7b7b;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px rgba(253, 101, 101, 0.20);
+}
+
+
+/* ============================================================
+   SCREEN
+   ============================================================ */
+
+.booking .screen {
+    position: relative;
+
+    width: 94%;
+
+    height: 90px;
+
+    border-top: 3px solid var(--primary);
+
+    margin: 35px auto 45px;
+
+    border-radius: 20%;
+
+    overflow: hidden;
+
+    box-shadow:
+        inset 0 10px 20px var(--color);
+
+    text-align: center;
+
+    padding: 15px;
+
+    color: white;
+
+    letter-spacing: 5px;
+
+    font-size: 12px;
+
+    display: none;
+}
+
+
+.booking .screen::before {
+    content: '';
+
+    position: absolute;
+
+    width: 100%;
+
+    height: 20px;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 20px rgba(184, 184, 184, 0.5);
+
+    top: -20px;
+
+    left: 0;
+}
+
+
+/* ============================================================
+   SEAT AREA
+   ============================================================ */
+
+.booking .chair {
+
+    width: 94%;
+
+    margin: 0 auto;
+
+    display: none;
+}
+
+
+.booking .chair .row {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 18px;
+
+    min-height: 25px;
+}
+
+
+/* ============================================================
+   ROW LETTER
+   ============================================================ */
+
+.booking .chair .row span {
+
+    width: 30px;
+
+    min-width: 30px;
+
+    color: white;
+
+    font-weight: 600;
+
+    font-size: 12px;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   SEAT
+   ============================================================ */
+
+.booking .chair .row li {
+
+    position: relative;
+
+    width: 24px;
+
+    height: 18px;
+
+    min-width: 24px;
+
+    background: var(--seat);
+
+    list-style: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    transition: 0.2s linear;
+
+    font-size: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   PRICE BOX UNDER EVERY SEAT
+   ============================================================ */
+
+.booking .chair .row li::before {
+
+    content: "₹560";
+
+    position: absolute;
+
+    width: 30px;
+
+    height: 10px;
+
+    left: 50%;
+
+    bottom: -14px;
+
+    transform: translateX(-50%);
+
+    background: rgba(184, 184, 184, 0.12);
+
+    border-radius: 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    font-size: 5px;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   HIDE OLD CENTRAL PRICE NOTE
+   ============================================================ */
+
+#seat_price_note {
+
+    display: none !important;
+}
+
+
+/* ============================================================
+   SEAT HOVER
+   ============================================================ */
+
+.booking .chair .row li:hover {
+
+    background: greenyellow;
+
+    color: black;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   AISLE
+   ============================================================ */
+
+.booking .chair .row li:nth-child(6) {
+    margin-right: 28px;
+}
+
+
+.booking .chair .row li:nth-last-child(6) {
+    margin-left: 28px;
+}
+
+
+/* ============================================================
+   BOOKED SEAT
+   ============================================================ */
+
+.booking .chair .row .booked {
+
+    background: var(--primary) !important;
+
+    color: white !important;
+
+    cursor: not-allowed !important;
+}
+
+
+/* ============================================================
+   SELECTED SEAT
+   ============================================================ */
+
+.booking .chair .row .selected {
+
+    background: greenyellow !important;
+
+    color: black !important;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   SEAT LEGEND
+   ============================================================ */
+
+.booking .details {
+
+    width: 100%;
+
+    margin-top: 45px;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.booking .details .details-chair {
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.booking .details .details-chair li {
+
+    position: relative;
+
+    list-style-type: none;
+
+    border-radius: 5px;
+
+    transition: 0.3s linear;
+
+    margin: 0 25px;
+
+    font-weight: 600;
+
+    font-size: 12px;
+
+    color: rgba(184, 184, 184, 0.3);
+}
+
+
+.booking .details .details-chair li::before {
+
+    position: absolute;
+
+    content: '';
+
+    width: 20px;
+
+    height: 15px;
+
+    background: rgba(184, 184, 184, 0.3);
+
+    border-radius: 5px;
+
+    left: -30px;
+
+    top: 2px;
+
+    transition: 0.3s linear;
+}
+
+
+.booking .details .details-chair li::after {
+
+    position: absolute;
+
+    content: '';
+
+    width: 20px;
+
+    height: 4px;
+
+    background: rgba(184, 184, 184, 0.1);
+
+    border-radius: 10px;
+
+    left: -30px;
+
+    bottom: -5px;
+
+    transition: 0.3s linear;
+}
+
+
+.booking .details .details-chair li:nth-child(2)::before {
+    background: var(--primary);
+}
+
+
+.booking .details .details-chair li:nth-child(2)::after {
+    background: var(--primary);
+}
+
+
+.booking .details .details-chair li:nth-child(3)::before {
+    background: greenyellow;
+}
+
+
+.booking .details .details-chair li:nth-child(3)::after {
+    background: greenyellow;
+}
+
+
+/* ============================================================
+   BOOK / NEXT BUTTON
+   ============================================================ */
+
+.booking .book-tic {
+
+    position: fixed;
+
+    right: 5%;
+
+    bottom: 35px;
+
+    width: 52px;
+
+    height: 52px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border: none;
+
+    outline: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.3s linear;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 20;
+}
+
+
+/* ============================================================
+   ARROW INSIDE CIRCLE
+   ============================================================ */
+
+#book_ticket.book-tic i {
+
+    display: none !important;
+}
+
+
+#book_ticket.book-tic::after {
+
+    content: "→";
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -53%);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    width: 100%;
+
+    height: 100%;
+
+    pointer-events: none;
+}
+
+
+.booking .book-tic:hover {
+
+    transform: scale(1.08);
+
+    background: #ff7b7b;
+}
+
+
+#book_ticket.book-tic:hover::after {
+
+    color: white;
+}
+
+
+/* ============================================================
+   BACK ARROW
+   ============================================================ */
+
+.bi-arrow-left {
+    display: none;
+}
+
+
+/* ============================================================
+   TICKET
+   ============================================================ */
+
+.booking .ticket {
+
+    width: 94%;
+
+    height: auto;
+
+    margin: 55px auto 20px;
+
+    overflow: visible;
+
+    display: none;
+}
+
+
+.booking .ticket::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.booking .ticket::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255, 255, 255, 0.20);
+
+    border-radius: 10px;
+}
+
+
+/* ============================================================
+   TICKET CARD
+   ============================================================ */
+
+.booking .ticket .tic {
+
+    width: 100%;
+
+    height: 215px;
+
+    display: flex;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+}
+
+
+/* ============================================================
+   BARCODE
+   ============================================================ */
+
+.booking .ticket .tic .barcode,
+.booking .ticket .tic-details {
+
+    width: 100%;
+
+    height: 100%;
+
+    position: relative;
+}
+
+
+.booking .ticket .tic .barcode {
+
+    width: 300px;
+
+    padding: 0 20px;
+
+    background: white;
+}
+
+
+.booking .ticket .tic .barcode .card {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 10px;
+}
+
+
+.booking .ticket .tic .barcode .card:nth-child(1) {
+    margin-top: 15px;
+}
+
+
+.booking .ticket .tic .barcode .card h6 {
+
+    width: 60%;
+
+    text-align: left;
+
+    font-weight: 600;
+}
+
+
+.booking .ticket .tic .barcode .card h6:nth-child(1) {
+    width: 40%;
+}
+
+
+/* ============================================================
+   TICKET MOVIE DETAILS
+   ============================================================ */
+
+.booking .ticket .tic .tic-details {
+
+    background:
+        url(/images/venom4.jpg)
+        no-repeat center -60px / cover;
+}
+
+
+/* ============================================================
+   SHOW TYPE HIDDEN
+   ============================================================ */
+
+.booking .ticket .tic .tic-details .type {
+
+    display: none !important;
+}
+
+
+/* ============================================================
+   TICKET TITLE
+   ============================================================ */
+
+.booking .ticket .tic .tic-details h1 {
+
+    position: absolute;
+
+    left: 20px;
+
+    bottom: 80px;
+
+    color: #fff;
+
+    font-size: 25px;
+}
+
+
+/* ============================================================
+   TICKET SEAT DETAILS
+   ============================================================ */
+
+.booking .ticket .tic .tic-details .seat-details {
+
+    position: absolute;
+
+    bottom: 8px;
+
+    color: #fff;
+
+    width: 100%;
+
+    height: 60px;
+
+    background:
+        linear-gradient(
+            270deg,
+            transparent,
+            rgba(0, 0, 0, 0.4)
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    padding-left: 25px;
+}
+
+
+.booking .ticket .tic .tic-details .seat-details .seat-card {
+
+    width: 100px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    color: #fff;
+}
+
+
+.booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(1) {
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(2) {
+
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   TOTAL PRICE
+   ============================================================ */
+
+#booking_total_price {
+
+    margin-top: 15px;
+
+    margin-left: 20px;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media screen and (max-width: 1100px) {
+
+    .booking {
+
+        width: 100%;
+
+        padding: 20px 15px 70px;
+    }
+
+
+    .booking .chair {
+
+        width: 100%;
+
+        overflow-x: auto;
+
+        padding-bottom: 20px;
+    }
+
+
+    .booking .chair .row {
+
+        min-width: 850px;
+    }
+
+
+    .booking .ticket {
+
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+
+    .booking {
+
+        width: 96%;
+
+        padding: 10px 20px;
+    }
+
+
+    .cinema-header {
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+
+    .showtime-container {
+
+        gap: 7px;
+    }
+
+
+    .venue-showtime {
+
+        min-width: 82px;
+
+        padding: 7px 10px;
+    }
+
+
+    .booking .chair {
+
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+
+    body {
+
+        align-items: flex-start;
+    }
+
+
+    .booking {
+
+        width: 100%;
+
+        min-height: 100vh;
+
+        padding: 15px;
+    }
+
+
+    .booking-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+
+    .booking-header h2 {
+
+        font-size: 21px;
+    }
+
+
+    .cinema-card {
+
+        padding: 16px;
+    }
+
+
+    .cinema-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .showtime-legend {
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+
+    .booking .chair .row li {
+
+        width: 17px;
+
+        height: 13px;
+
+        font-size: 6px;
+    }
+
+
+    .booking .chair .row li::before {
+
+        width: 24px;
+
+        height: 9px;
+
+        bottom: -12px;
+
+        font-size: 4.5px;
+    }
+
+
+    .booking .chair .row li:nth-child(6) {
+
+        margin-right: 10px;
+    }
+
+
+    .booking .chair .row li:nth-last-child(6) {
+
+        margin-left: 10px;
+    }
+
+
+    .booking .book-tic {
+
+        width: 48px;
+
+        height: 48px;
+
+        right: 25px;
+
+        bottom: 25px;
+    }
+
+
+    #book_ticket.book-tic::after {
+
+        font-size: 27px;
+    }
+}
+    /* ============================================================
+   PROCEED ARROW INSIDE BOOKING CIRCLE
+   ============================================================ */
+
+#book_ticket {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+}
+
+#book_ticket i {
+    display: none !important;
+}
+
+#book_ticket::after {
+    content: "→" !important;
+
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    transform: translate(-50%, -52%) !important;
+
+    color: white !important;
+
+    font-family: Arial, sans-serif !important;
+
+    font-size: 30px !important;
+
+    font-weight: bold !important;
+
+    line-height: 1 !important;
+
+    display: block !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    pointer-events: none !important;
+}
+
+#book_ticket:hover::after {
+    color: white !important;
+}
