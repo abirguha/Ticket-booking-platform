@@ -24,6 +24,7 @@
             text-decoration: none;
         }
 
+
         .movie-booking a:hover {
             text-decoration: none;
         }
@@ -362,7 +363,7 @@
 
 
         /* =====================================================
-           NEXT BUTTON
+           NEXT / CONFIRM BUTTON
            ===================================================== */
 
         .popup-next {
@@ -392,7 +393,9 @@
 
             transition:
                 transform 0.2s,
-                box-shadow 0.2s;
+                box-shadow 0.2s,
+                background 0.2s,
+                opacity 0.2s;
         }
 
 
@@ -404,6 +407,42 @@
             box-shadow:
                 0 10px 25px
                 rgba(255,92,92,0.3);
+        }
+
+
+        /* =====================================================
+           DISABLED CONFIRM BUTTON
+           ===================================================== */
+
+        .popup-next:disabled {
+
+            background:
+                #666;
+
+            color:
+                rgba(255,255,255,0.55);
+
+            cursor:
+                not-allowed;
+
+            opacity:
+                0.7;
+
+            box-shadow:
+                none;
+
+            transform:
+                none;
+        }
+
+
+        .popup-next:disabled:hover {
+
+            transform:
+                none;
+
+            box-shadow:
+                none;
         }
 
 
@@ -506,6 +545,7 @@
 
 <body>
 
+
     <div class="background-image">
 
 
@@ -597,6 +637,7 @@
                     </h3>
 
                 </div>
+
 
             </div>
 
@@ -889,6 +930,7 @@
 
                         </button>
 
+
                     </div>
 
                 </div>
@@ -931,21 +973,25 @@
 
                         </button>
 
+
                     </div>
 
                 </div>
 
 
                 <!-- =================================================
-                     NEXT
+                     CONFIRM & PROCEED
                      ================================================= -->
 
                 <button class="popup-next"
-                        id="bookingNext">
+                        id="bookingNext"
+                        type="button"
+                        disabled>
 
-                    SELECT CINEMA &amp; SHOWTIME
+                    CONFIRM &amp; PROCEED
 
                 </button>
+
 
             </div>
 
@@ -959,6 +1005,7 @@
          ================================================= -->
 
     <script>
+
 
         const openBookingPopup =
             document.getElementById(
@@ -990,6 +1037,28 @@
 
 
         /* =================================================
+           UPDATE CONFIRM BUTTON
+           ================================================= */
+
+        function updateBookingNextState() {
+
+            if (
+                selectedDate &&
+                selectedType
+            ) {
+
+                bookingNext.disabled = false;
+
+            } else {
+
+                bookingNext.disabled = true;
+
+            }
+
+        }
+
+
+        /* =================================================
            OPEN POPUP
            ================================================= */
 
@@ -1001,6 +1070,8 @@
 
                 bookingPopup.style.display =
                     "flex";
+
+                updateBookingNextState();
 
             }
         );
@@ -1059,6 +1130,9 @@
                             selectedDate =
                                 button.dataset.date;
 
+
+                            updateBookingNextState();
+
                         }
                     );
 
@@ -1104,6 +1178,9 @@
                             selectedType =
                                 button.dataset.type;
 
+
+                            updateBookingNextState();
+
                         }
                     );
 
@@ -1112,30 +1189,25 @@
 
 
         /* =================================================
-           NEXT
+           CONFIRM & PROCEED
            ================================================= */
 
         bookingNext.addEventListener(
             "click",
             function() {
 
-                if (!selectedDate) {
+                /*
+                   Button is disabled until both
+                   date and format are selected.
+                */
 
-                    alert(
-                        "Please select a date."
-                    );
-
-                    return;
-                }
-
-
-                if (!selectedType) {
-
-                    alert(
-                        "Please select 2D or 3D."
-                    );
+                if (
+                    !selectedDate ||
+                    !selectedType
+                ) {
 
                     return;
+
                 }
 
 
@@ -1185,7 +1257,16 @@
             }
         );
 
+
+        /* =================================================
+           INITIAL BUTTON STATE
+           ================================================= */
+
+        updateBookingNextState();
+
+
     </script>
+
 
 </body>
 

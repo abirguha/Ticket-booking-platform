@@ -14,24 +14,20 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <title>Venom: The Last Dance - Booking</title>
+    <title>Venom: The Last Dance - Select Cinema</title>
 
 
     <!-- =====================================================
-         SEAT BOOKING PAGE OVERRIDE
+         CINEMA PAGE VISUAL DESIGN
          ===================================================== -->
 
     <style>
 
         /* =====================================================
-           SHOWTIME BAR
+           HEADER ROW
            ===================================================== */
 
-        .seat-booking-top {
-
-            width: 94%;
-
-            margin: 10px auto 0;
+        .venue-top-row {
 
             display: flex;
 
@@ -39,224 +35,160 @@
 
             justify-content: space-between;
 
-            gap: 30px;
+            gap: 20px;
 
-            color: white;
+            width: 100%;
 
-        }
-
-
-        .movie-heading {
-
-            flex: 1;
-
-            min-width: 0;
+            margin-bottom: 10px;
 
         }
 
 
-        .movie-heading h2 {
+        .venue-top-row h1 {
 
             margin: 0;
 
-            font-size: 24px;
+            text-align: left !important;
 
-            font-weight: 600;
-
-            color: white;
+            flex: 1;
 
         }
 
 
-        .movie-heading h2 span {
+        .venue-top-row .booking-info-pill {
 
-            color: #ff5c5c;
+            margin: 0 !important;
 
-            font-weight: 500;
+            flex-shrink: 0;
 
-        }
-
-
-        .movie-heading p {
-
-            margin-top: 5px;
-
-            font-size: 12px;
-
-            color: rgba(255,255,255,0.50);
+            white-space: nowrap;
 
         }
 
 
         /* =====================================================
-           SHOWTIME AREA
+           CINEMA LIST
            ===================================================== */
 
-        .seat-showtime-area {
+        #venue_list {
+
+            width: 100%;
+
+            max-height: none !important;
+
+            overflow-y: visible !important;
+
+            overflow-x: hidden;
 
             display: flex;
 
             flex-direction: column;
 
-            align-items: flex-end;
+            gap: 12px;
 
-            gap: 8px;
+            padding: 0 4px 4px 0;
 
-        }
-
-
-        .seat-showtime-title {
-
-            color: rgba(255,255,255,0.60);
-
-            font-size: 11px;
-
-            font-weight: 500;
+            box-sizing: border-box;
 
         }
 
 
-        .seat-showtime-list {
+        /* =====================================================
+           COMPACT CINEMA CARD
+           ===================================================== */
 
-            display: flex;
+        #venue_list .cinema-card {
 
-            align-items: center;
+            flex-shrink: 0;
 
-            justify-content: flex-end;
+            width: 100%;
 
-            flex-wrap: wrap;
+            margin: 0;
+
+            padding: 15px 20px !important;
+
+            box-sizing: border-box;
+
+            border-radius: 14px;
+
+        }
+
+
+        /* =====================================================
+           CINEMA HEADER
+           ===================================================== */
+
+        #venue_list .cinema-header {
+
+            margin-bottom: 8px !important;
+
+        }
+
+
+        #venue_list .cinema-info h3 {
+
+            margin: 0;
+
+            font-size: 19px;
+
+            line-height: 1.25;
+
+        }
+
+
+        #venue_list .cinema-info p {
+
+            margin: 3px 0 0;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           SHOWTIME TITLE
+           ===================================================== */
+
+        #venue_list .showtime-title {
+
+            margin: 7px 0 5px !important;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           SHOWTIME BUTTONS
+           ===================================================== */
+
+        #venue_list .showtime-container {
 
             gap: 7px;
 
         }
 
 
-        .seat-showtime-button {
+        #venue_list .venue-showtime {
 
-            min-width: 62px;
+            padding: 7px 14px;
 
-            padding: 7px 10px;
+            border-radius: 8px;
 
-            border-radius: 7px;
+            font-size: 12px;
 
-            border: 1px solid rgba(255,255,255,0.15);
-
-            background: rgba(255,255,255,0.035);
-
-            color: rgba(255,255,255,0.75);
-
-            font-family: "Poppins", sans-serif;
-
-            font-size: 11px;
-
-            font-weight: 500;
-
-            cursor: pointer;
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .seat-showtime-button:hover {
-
-            transform: translateY(-1px);
-
-            border-color: rgba(255,92,92,0.60);
-
-        }
-
-
-        /* Available showtime */
-
-        .seat-showtime-button.available {
-
-            color: #4ade80;
-
-            border-color: rgba(74,222,128,0.30);
-
-            background: rgba(74,222,128,0.035);
-
-        }
-
-
-        /* Almost sold */
-
-        .seat-showtime-button.almost {
-
-            color: #f59e0b;
-
-            border-color: rgba(245,158,11,0.35);
-
-            background: rgba(245,158,11,0.035);
-
-        }
-
-
-        /* Sold */
-
-        .seat-showtime-button.sold {
-
-            color: #777;
-
-            border-color: rgba(120,120,120,0.20);
-
-            background: rgba(120,120,120,0.03);
-
-            cursor: not-allowed;
-
-            opacity: 0.55;
-
-        }
-
-
-        /* Selected */
-
-        .seat-showtime-button.selected {
-
-            background: #ff5c5c !important;
-
-            border-color: #ff5c5c !important;
-
-            color: white !important;
-
-            box-shadow:
-                0 0 0 2px rgba(255,92,92,0.20),
-                0 5px 15px rgba(255,92,92,0.20);
-
-            transform: translateY(-1px);
+            min-height: 32px;
 
         }
 
 
         /* =====================================================
-           DATE INFORMATION
+           SHOWTIME LEGEND
            ===================================================== */
 
-        .seat-booking-date {
+        #venue_list .showtime-legend {
 
-            width: 94%;
-
-            margin: 10px auto 0;
-
-            display: flex;
-
-            justify-content: flex-end;
-
-        }
-
-
-        .seat-date-pill {
-
-            padding: 5px 11px;
-
-            border-radius: 15px;
-
-            background: rgba(255,255,255,0.05);
-
-            border: 1px solid rgba(255,255,255,0.10);
-
-            color: rgba(255,255,255,0.60);
+            margin-top: 7px !important;
 
             font-size: 10px;
 
@@ -264,53 +196,12 @@
 
 
         /* =====================================================
-           SCREEN
+           CONTINUE BUTTON
            ===================================================== */
 
-        .booking .screen {
+        #venue_continue_button {
 
-            width: 94%;
-
-            margin: 40px auto 45px;
-
-        }
-
-
-        /* =====================================================
-           SEAT MAP
-           ===================================================== */
-
-        .booking .chair {
-
-            width: 94%;
-
-            margin: 0 auto;
-
-        }
-
-
-        /* =====================================================
-           SEAT PRICE
-           ===================================================== */
-
-        .booking .chair .seat {
-
-            color: white;
-
-            font-size: 8px;
-
-            font-weight: 600;
-
-        }
-
-
-        /* =====================================================
-           TICKET REMOVED
-           ===================================================== */
-
-        .booking .ticket {
-
-            display: none !important;
+            margin-top: 12px;
 
         }
 
@@ -319,64 +210,45 @@
            MOBILE
            ===================================================== */
 
-        @media screen and (max-width: 900px) {
+        @media (max-width: 700px) {
 
-            .seat-booking-top {
-
-                width: 96%;
+            .venue-top-row {
 
                 flex-direction: column;
 
                 align-items: flex-start;
 
-                gap: 12px;
+                gap: 10px;
 
             }
 
 
-            .seat-showtime-area {
+            .venue-top-row h1 {
 
-                width: 100%;
-
-                align-items: flex-start;
+                text-align: left !important;
 
             }
 
 
-            .seat-showtime-list {
+            .venue-top-row .booking-info-pill {
 
-                justify-content: flex-start;
-
-            }
-
-
-            .seat-booking-date {
-
-                width: 96%;
-
-                justify-content: flex-start;
-
-            }
-
-        }
-
-
-        @media screen and (max-width: 600px) {
-
-            .movie-heading h2 {
-
-                font-size: 20px;
+                margin: 0 !important;
 
             }
 
 
-            .seat-showtime-button {
+            #venue_list {
 
-                min-width: 58px;
+                overflow: visible !important;
 
-                padding: 6px 8px;
+                max-height: none !important;
 
-                font-size: 10px;
+            }
+
+
+            #venue_list .cinema-card {
+
+                padding: 14px !important;
 
             }
 
@@ -390,452 +262,99 @@
 <body>
 
 
-<div class="booking">
+    <div class="booking">
 
 
-    <!-- =====================================================
-         MOVIE + SHOWTIME
-         ===================================================== -->
+        <!-- =====================================================
+             VENUE / SHOWTIME SELECTION PAGE
+             ===================================================== -->
 
-    <div class="seat-booking-top">
+        <div id="venue_selection">
 
-
-        <!-- MOVIE -->
-
-        <div class="movie-heading">
-
-            <h2 id="seat_movie_title">
-                Venom: The Last Dance
-                <span id="seat_show_type"></span>
-            </h2>
-
-            <p id="seat_venue_name">
-                Select a showtime to continue
-            </p>
-
-        </div>
+            <div class="venue-selection-inner">
 
 
-        <!-- SHOWTIMES -->
+                <!-- =================================================
+                     HEADING + DATE
+                     ================================================= -->
 
-        <div class="seat-showtime-area">
+                <div class="venue-top-row">
 
-            <div class="seat-showtime-title">
-                Show Time
+
+                    <h1>
+
+                        Select Cinema & Showtime
+
+                    </h1>
+
+
+                    <!-- SELECTED DATE + SHOW TYPE -->
+
+                    <div
+                        id="selected_date_summary"
+                        class="booking-info-pill">
+
+                        Date: --
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     DESCRIPTION
+                     ================================================= -->
+
+                <p>
+
+                    Choose your preferred cinema and showtime
+                    to continue to seat selection.
+
+                </p>
+
+
+                <!-- =================================================
+                     VENUE LIST
+                     ================================================= -->
+
+                <div
+                    id="venue_list"
+                    class="venue-list">
+
+                    <div class="venue-loading">
+
+                        Loading cinemas...
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CONTINUE
+                     ================================================= -->
+
+                <button
+                    id="venue_continue_button"
+                    type="button">
+
+                    CONTINUE TO SEAT SELECTION
+
+                </button>
+
+
             </div>
 
-            <div
-                class="seat-showtime-list"
-                id="seat_showtime_list">
-
-                <!-- JavaScript will create showtimes here -->
-
-            </div>
-
         </div>
+
 
     </div>
 
 
-    <!-- =====================================================
-         SELECTED DATE
-         Only information - NOT A DATE SELECTOR
-         ===================================================== -->
+    <!-- JAVASCRIPT -->
 
-    <div class="seat-booking-date">
-
-        <div
-            class="seat-date-pill"
-            id="seat_date_display">
-
-            Date: --
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         SCREEN
-         ===================================================== -->
-
-    <div class="screen">
-
-        Screen
-
-    </div>
-
-
-    <!-- =====================================================
-         SEAT MAP
-         ===================================================== -->
-
-    <div class="chair">
-
-
-        <!-- ROW J -->
-
-        <div class="row">
-
-            <span>J</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>J</span>
-
-        </div>
-
-
-        <!-- ROW H -->
-
-        <div class="row">
-
-            <span>H</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>H</span>
-
-        </div>
-
-
-        <!-- ROW G -->
-
-        <div class="row">
-
-            <span>G</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>G</span>
-
-        </div>
-
-
-        <!-- ROW F -->
-
-        <div class="row">
-
-            <span>F</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>F</span>
-
-        </div>
-
-
-        <!-- ROW D -->
-
-        <div class="row">
-
-            <span>D</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>D</span>
-
-        </div>
-
-
-        <!-- ROW C -->
-
-        <div class="row">
-
-            <span>C</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>C</span>
-
-        </div>
-
-
-        <!-- ROW B -->
-
-        <div class="row">
-
-            <span>B</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>B</span>
-
-        </div>
-
-
-        <!-- ROW A -->
-
-        <div class="row">
-
-            <span>A</span>
-
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-            <li class="seat">560</li>
-
-            <span>A</span>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         LEGEND + TOTAL
-         ===================================================== -->
-
-    <div class="details" id="det">
-
-        <div class="details-chair">
-
-            <li>Available</li>
-
-            <li>Booked</li>
-
-            <li>Selected</li>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         TOTAL PRICE
-         ===================================================== -->
-
-    <div
-        id="booking_total_price"
-        style="
-            text-align:center;
-            color:#ff5c5c;
-            font-size:20px;
-            font-weight:700;
-            margin-top:20px;
-        ">
-
-        Total: ₹0
-
-    </div>
-
-
-    <!-- =====================================================
-         BOOK BUTTON
-         ===================================================== -->
-
-    <button
-        class="book-tic"
-        id="book_ticket">
-
-        <i class="bi bi-arrow-right"></i>
-
-    </button>
-
-
-    <!-- =====================================================
-         BACK BUTTON
-         ===================================================== -->
-
-    <button
-        class="book-tic"
-        id="back_ticket">
-
-        <i class="bi bi-arrow-left"></i>
-
-    </button>
-
-
-</div>
-
-
-<!-- =========================================================
-     NO BARCODE LIBRARY
-     ========================================================= -->
-
-
-<script src="function.js"></script>
+    <script src="function.js"></script>
 
 
 </body>

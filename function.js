@@ -1,11 +1,263 @@
 // ============================================================
+// CUSTOM ALERT POPUP
+// ============================================================
+
+function showAppAlert(message, type = "info", onClose = null) {
+
+    const existing = document.getElementById("app-alert-overlay");
+
+    if (existing) {
+        existing.remove();
+    }
+
+    const config = {
+        success: {
+            icon: "bx-check-circle",
+            title: "Success",
+            accent: "#4ade80"
+        },
+        error: {
+            icon: "bx-x-circle",
+            title: "Something went wrong",
+            accent: "#ff5c5c"
+        },
+        warning: {
+            icon: "bx-error-circle",
+            title: "Please check",
+            accent: "#f59e0b"
+        },
+        info: {
+            icon: "bx-info-circle",
+            title: "Notice",
+            accent: "#60a5fa"
+        }
+    };
+
+    const selected = config[type] || config.info;
+
+    const style = document.createElement("style");
+
+    style.id = "app-alert-style";
+
+    style.textContent = `
+        #app-alert-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: appAlertFadeIn 0.2s ease;
+        }
+
+        #app-alert-box {
+            width: min(420px, 92vw);
+            padding: 32px 28px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            background: linear-gradient(
+                145deg,
+                rgba(35, 35, 35, 0.98),
+                rgba(15, 15, 15, 0.98)
+            );
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.55),
+                0 0 35px ${selected.accent}22;
+            text-align: center;
+            transform: scale(0.88);
+            animation: appAlertPop 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        #app-alert-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: ${selected.accent}18;
+            border: 1px solid ${selected.accent}55;
+            box-shadow: 0 0 28px ${selected.accent}22;
+        }
+
+        #app-alert-icon i {
+            font-size: 42px;
+            color: ${selected.accent};
+        }
+
+        #app-alert-title {
+            margin: 0 0 10px;
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        #app-alert-message {
+            margin: 0 auto 24px;
+            max-width: 340px;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        #app-alert-ok {
+            min-width: 110px;
+            padding: 11px 24px;
+            border: none;
+            border-radius: 10px;
+            background: ${selected.accent};
+            color: #111111;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        #app-alert-ok:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+            box-shadow: 0 8px 22px ${selected.accent}35;
+        }
+
+        @keyframes appAlertFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes appAlertPop {
+            to {
+                transform: scale(1);
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+    const overlay = document.createElement("div");
+
+    overlay.id = "app-alert-overlay";
+
+    overlay.innerHTML =
+        '<div id="app-alert-box">' +
+            '<div id="app-alert-icon">' +
+                '<i class="bx ' + selected.icon + '"></i>' +
+            '</div>' +
+            '<h2 id="app-alert-title">' +
+                selected.title +
+            '</h2>' +
+            '<p id="app-alert-message">' +
+                message +
+            '</p>' +
+            '<button id="app-alert-ok" type="button">' +
+                'OK' +
+            '</button>' +
+        '</div>';
+
+    document.body.appendChild(overlay);
+
+    const closePopup = function () {
+
+        overlay.style.animation =
+            "appAlertFadeIn 0.15s ease reverse";
+
+        setTimeout(function () {
+
+            overlay.remove();
+
+            if (style.parentNode) {
+                style.remove();
+            }
+
+            if (typeof onClose === "function") {
+                onClose();
+            }
+
+        }, 120);
+
+    };
+
+    document
+        .getElementById("app-alert-ok")
+        .addEventListener("click", closePopup);
+
+    overlay.addEventListener("click", function (event) {
+
+        if (event.target === overlay) {
+            closePopup();
+        }
+
+    });
+
+    document.addEventListener(
+        "keydown",
+        function handleAlertEnter(event) {
+
+            if (
+                event.key === "Enter" &&
+                document.getElementById("app-alert-overlay")
+            ) {
+
+                // Only close the popup if the popup itself
+                // currently has focus.
+                if (
+                    document.activeElement &&
+                    document.activeElement.id === "app-alert-ok"
+                ) {
+
+                    event.preventDefault();
+
+                    closePopup();
+
+                    document.removeEventListener(
+                        "keydown",
+                        handleAlertEnter
+                    );
+                }
+            }
+
+        }
+    );
+
+    setTimeout(function () {
+
+        const okButton =
+            document.getElementById("app-alert-ok");
+
+        if (okButton) {
+            okButton.focus();
+        }
+
+    }, 50);
+}
+
+
+// ============================================================
 // LOGIN / REGISTER UI
 // ============================================================
 
-var a = document.getElementById("loginBtn");
-var b = document.getElementById("registerBtn");
-var x = document.getElementById("login");
-var y = document.getElementById("register");
+var a =
+    document.getElementById("loginBtn");
+
+var b =
+    document.getElementById("registerBtn");
+
+var x =
+    document.getElementById("login");
+
+var y =
+    document.getElementById("register");
+
 
 function login() {
 
@@ -61,9 +313,14 @@ function myMenuFunction() {
     }
 
     if (menu.className === "nav-menu") {
-        menu.className += " responsive";
+
+        menu.className +=
+            " responsive";
+
     } else {
-        menu.className = "nav-menu";
+
+        menu.className =
+            "nav-menu";
     }
 }
 
@@ -87,14 +344,17 @@ async function Login() {
     const password =
         form["Pass"].value;
 
-    if (!email || !password) {
 
-        alert(
-            "Please enter email and password."
+    if (!email && !password) {
+
+        showAppAlert(
+            "Please enter email and password.",
+            "warning"
         );
 
         return;
     }
+
 
     try {
 
@@ -116,35 +376,42 @@ async function Login() {
                 }
             );
 
+
         const data =
             await response.json();
 
         if (!response.ok) {
 
-            alert(
-                data.message ||
-                "Login failed."
+            showAppAlert(
+                "Wrong credentials.",
+                "error"
             );
 
             return;
         }
+
 
         localStorage.setItem(
             "user_id",
             data.user_id
         );
 
+
         localStorage.setItem(
             "user_name",
             data.name
         );
 
-        alert(
-            "Login successful!"
+
+        showAppAlert(
+            "Welcome back! You have been successfully logged in.",
+            "success",
+            function () {
+                window.location.href =
+                    "home.html";
+            }
         );
 
-        window.location.href =
-            "home.html";
 
     } catch (error) {
 
@@ -153,9 +420,11 @@ async function Login() {
             error
         );
 
-        alert(
+
+        showAppAlert(
             "Unable to connect to the server.\n" +
-            "Please make sure Flask is running."
+            "Please make sure Flask is running.",
+            "error"
         );
     }
 }
@@ -187,14 +456,17 @@ async function signup() {
             "signupPassword"
         );
 
+
     if (
         !firstName ||
         !lastName ||
         !emailInput ||
         !passwordInput
     ) {
+
         return;
     }
+
 
     const first =
         firstName.value.trim();
@@ -208,6 +480,7 @@ async function signup() {
     const password =
         passwordInput.value;
 
+
     if (
         !first ||
         !last ||
@@ -215,15 +488,18 @@ async function signup() {
         !password
     ) {
 
-        alert(
-            "Please fill all fields."
+        showAppAlert(
+            "Please fill all fields.",
+            "warning"
         );
 
         return;
     }
 
+
     const name =
         first + " " + last;
+
 
     try {
 
@@ -246,24 +522,31 @@ async function signup() {
                 }
             );
 
+
         const data =
             await response.json();
 
+
         if (!response.ok) {
 
-            alert(
+            showAppAlert(
                 data.message ||
-                "Signup failed."
+                "Signup failed.",
+                "error"
             );
 
             return;
         }
 
-        alert(
-            "Signup successful! Please login."
+
+        showAppAlert(
+            "Your account has been created successfully. Please login.",
+            "success",
+            function () {
+                login();
+            }
         );
 
-        login();
 
     } catch (error) {
 
@@ -272,16 +555,18 @@ async function signup() {
             error
         );
 
-        alert(
+
+        showAppAlert(
             "Unable to connect to the server.\n" +
-            "Please make sure Flask is running."
+            "Please make sure Flask is running.",
+            "error"
         );
     }
 }
 
 
 // ============================================================
-// BOOKING PAGE
+// BOOKING SYSTEM
 // ============================================================
 
 const bookingPage =
@@ -290,17 +575,10 @@ const bookingPage =
 
 if (bookingPage) {
 
+
     // ========================================================
     // VARIABLES
     // ========================================================
-
-    const selectedSeats = [];
-
-    let selectedDate = null;
-    let selectedTime = null;
-    let selectedShowType = null;
-    let selectedVenue = null;
-    let selectedVenueId = null;
 
     const movieName =
         "Venom: The Last Dance";
@@ -309,666 +587,27 @@ if (bookingPage) {
         560;
 
 
-    // ========================================================
-    // CREATE VENUE SELECTION SCREEN
-    // ========================================================
+    let selectedDate =
+        null;
 
-    function createVenueSelectionContainer() {
+    let selectedShowType =
+        null;
 
-        let existing =
-            document.getElementById(
-                "venue_selection"
-            );
+    let selectedVenue =
+        null;
 
-        if (existing) {
-            return existing;
-        }
+    let selectedVenueId =
+        null;
 
+    let selectedTime =
+        null;
 
-        const venueSelection =
-            document.createElement(
-                "div"
-            );
 
-        venueSelection.id =
-            "venue_selection";
-
-
-        venueSelection.innerHTML = `
-
-            <div class="venue-selection-inner">
-
-                <h1>
-                    Select Cinema & Showtime
-                </h1>
-
-                <p>
-                    Choose your preferred cinema
-                    and showtime to continue
-                    to seat selection.
-                </p>
-
-
-                <div
-                    id="selected_date_summary"
-                    class="booking-info-pill">
-                </div>
-
-
-                <div
-                    id="venue_list"
-                    class="venue-list">
-                </div>
-
-
-                <button
-                    id="venue_continue_button"
-                    type="button">
-
-                    CONTINUE TO SEAT SELECTION
-
-                </button>
-
-            </div>
-        `;
-
-
-        bookingPage.prepend(
-            venueSelection
-        );
-
-
-        // ====================================================
-        // DYNAMIC VENUE PAGE STYLING
-        // ====================================================
-
-        if (
-            !document.getElementById(
-                "dynamic-booking-styles"
-            )
-        ) {
-
-            const style =
-                document.createElement(
-                    "style"
-                );
-
-            style.id =
-                "dynamic-booking-styles";
-
-
-            style.textContent = `
-
-                #venue_selection {
-
-                    width: 100%;
-                    min-height: 100vh;
-
-                    padding: 55px 20px;
-
-                    box-sizing: border-box;
-
-                    background: #1f2025;
-
-                    color: white;
-
-                }
-
-
-                .venue-selection-inner {
-
-                    max-width: 1050px;
-
-                    margin: auto;
-
-                    padding: 35px;
-
-                    border:
-                        1px solid
-                        rgba(255,255,255,0.12);
-
-                    border-radius: 20px;
-
-                    background:
-                        linear-gradient(
-                            145deg,
-                            #24252b,
-                            #1d1e23
-                        );
-
-                    box-sizing: border-box;
-
-                }
-
-
-                .venue-selection-inner h1 {
-
-                    text-align: center;
-
-                    margin: 0;
-
-                    font-size: 30px;
-
-                    color: white;
-
-                }
-
-
-                .venue-selection-inner > p {
-
-                    text-align: center;
-
-                    color: #aaa;
-
-                    margin:
-                        12px 0 25px;
-
-                }
-
-
-                .booking-info-pill {
-
-                    width: fit-content;
-
-                    margin:
-                        0 auto 25px;
-
-                    padding:
-                        9px 17px;
-
-                    border-radius: 20px;
-
-                    border:
-                        1px solid
-                        rgba(255,255,255,0.12);
-
-                    background:
-                        rgba(255,255,255,0.05);
-
-                    color: white;
-
-                    font-size: 13px;
-
-                }
-
-
-                .venue-list {
-
-                    display: flex;
-
-                    flex-direction: column;
-
-                    gap: 20px;
-
-                    max-height: 560px;
-
-                    overflow-y: auto;
-
-                    padding-right: 8px;
-
-                }
-
-
-                .cinema-card {
-
-                    padding: 25px;
-
-                    border-radius: 16px;
-
-                    border:
-                        1px solid
-                        rgba(255,255,255,0.14);
-
-                    background:
-                        rgba(255,255,255,0.035);
-
-                }
-
-
-                .cinema-header {
-
-                    margin-bottom: 20px;
-
-                }
-
-
-                .cinema-info h3 {
-
-                    margin: 0;
-
-                    font-size: 22px;
-
-                    color: white;
-
-                }
-
-
-                .cinema-info p {
-
-                    margin:
-                        6px 0 0;
-
-                    color: #999;
-
-                }
-
-
-                .showtime-title {
-
-                    margin-bottom: 10px;
-
-                    color: #bbb;
-
-                    font-size: 14px;
-
-                }
-
-
-                .showtime-container {
-
-                    display: flex;
-
-                    flex-wrap: wrap;
-
-                    gap: 10px;
-
-                }
-
-
-                .venue-showtime {
-
-                    padding:
-                        10px 18px;
-
-                    border-radius: 8px;
-
-                    background: transparent;
-
-                    font-weight: 600;
-
-                    cursor: pointer;
-
-                    transition: 0.2s;
-
-                }
-
-
-                .venue-showtime.available {
-
-                    color: #4ade80;
-
-                    border:
-                        1px solid
-                        #347b51;
-
-                    background:
-                        rgba(
-                            74,
-                            222,
-                            128,
-                            0.06
-                        );
-
-                }
-
-
-                .venue-showtime.almost {
-
-                    color: #f59e0b;
-
-                    border:
-                        1px solid
-                        #8b621c;
-
-                    background:
-                        rgba(
-                            245,
-                            158,
-                            11,
-                            0.06
-                        );
-
-                }
-
-
-                .venue-showtime.sold {
-
-                    color: #777;
-
-                    border:
-                        1px solid
-                        #555;
-
-                    background:
-                        rgba(
-                            100,
-                            100,
-                            100,
-                            0.05
-                        );
-
-                    cursor:
-                        not-allowed;
-
-                }
-
-
-                .venue-showtime.selected {
-
-                    color:
-                        white !important;
-
-                    background:
-                        #ff5c5c !important;
-
-                    border-color:
-                        #ff5c5c !important;
-
-                    box-shadow:
-                        0 0 0 2px
-                        rgba(
-                            255,
-                            92,
-                            92,
-                            0.18
-                        );
-
-                }
-
-
-                .showtime-legend {
-
-                    display: flex;
-
-                    gap: 20px;
-
-                    margin-top: 18px;
-
-                    color: #aaa;
-
-                    font-size: 12px;
-
-                    flex-wrap: wrap;
-
-                }
-
-
-                .showtime-legend span {
-
-                    display: flex;
-
-                    align-items: center;
-
-                    gap: 6px;
-
-                }
-
-
-                .legend-dot {
-
-                    width: 8px;
-
-                    height: 8px;
-
-                    border-radius: 50%;
-
-                    display: inline-block;
-
-                }
-
-
-                .available-dot {
-
-                    background:
-                        #4ade80;
-
-                }
-
-
-                .almost-dot {
-
-                    background:
-                        #f59e0b;
-
-                }
-
-
-                .sold-dot {
-
-                    background:
-                        #777;
-
-                }
-
-
-                #venue_continue_button {
-
-                    display: none;
-
-                    margin:
-                        25px auto 0;
-
-                    padding:
-                        13px 25px;
-
-                    border: none;
-
-                    border-radius: 8px;
-
-                    background:
-                        #ff5c5c;
-
-                    color: white;
-
-                    font-weight: 600;
-
-                    cursor: pointer;
-
-                }
-
-
-                #venue_continue_button:hover {
-
-                    background:
-                        #ff4141;
-
-                }
-
-
-                .seat-booking-top {
-
-                    display: none;
-
-                }
-
-
-                .seat-booking-date {
-
-                    display: none !important;
-
-                }
-
-
-                #seat_price_note {
-
-                    text-align: center;
-
-                    color: #aaa;
-
-                    font-size: 13px;
-
-                    margin-top: 8px;
-
-                }
-
-
-                #booking_total_price {
-
-                    text-align: center;
-
-                    margin-top: 20px;
-
-                }
-
-
-                #seat_showtime_list {
-
-                    display: flex;
-
-                    flex-wrap: wrap;
-
-                    gap: 8px;
-
-                    justify-content: flex-end;
-
-                }
-
-
-                .seat-showtime-button {
-
-                    padding:
-                        9px 16px;
-
-                    border-radius: 8px;
-
-                    background:
-                        rgba(
-                            74,
-                            222,
-                            128,
-                            0.06
-                        );
-
-                    border:
-                        1px solid
-                        #347b51;
-
-                    color:
-                        #4ade80;
-
-                    font-weight: 600;
-
-                    cursor: pointer;
-
-                }
-
-
-                .seat-showtime-button.almost {
-
-                    color:
-                        #f59e0b;
-
-                    border-color:
-                        #8b621c;
-
-                    background:
-                        rgba(
-                            245,
-                            158,
-                            11,
-                            0.06
-                        );
-
-                }
-
-
-                .seat-showtime-button.sold {
-
-                    color:
-                        #777;
-
-                    border-color:
-                        #555;
-
-                    background:
-                        rgba(
-                            100,
-                            100,
-                            100,
-                            0.05
-                        );
-
-                    cursor:
-                        not-allowed;
-
-                }
-
-
-                .seat-showtime-button.selected {
-
-                    color:
-                        white !important;
-
-                    background:
-                        #ff5c5c !important;
-
-                    border-color:
-                        #ff5c5c !important;
-
-                    box-shadow:
-                        0 0 0 2px
-                        rgba(
-                            255,
-                            92,
-                            92,
-                            0.18
-                        );
-
-                }
-
-
-                @media screen and
-                    (max-width: 900px) {
-
-                    .venue-selection-inner {
-
-                        padding: 22px;
-
-                    }
-
-
-                    .seat-booking-top {
-
-                        flex-direction:
-                            column;
-
-                        align-items:
-                            flex-start;
-
-                    }
-
-
-                    #seat_showtime_list {
-
-                        justify-content:
-                            flex-start;
-
-                    }
-
-                }
-
-            `;
-
-
-            document.head.appendChild(
-                style
-            );
-        }
-
-
-        return venueSelection;
-    }
+    const selectedSeats = [];
 
 
     // ========================================================
-    // CREATE VENUE PAGE FIRST
-    // ========================================================
-
-    createVenueSelectionContainer();
-
-
-    // ========================================================
-    // NOW GET VENUE ELEMENTS
+    // VENUE PAGE ELEMENTS
     // ========================================================
 
     const venueSelection =
@@ -976,15 +615,18 @@ if (bookingPage) {
             "venue_selection"
         );
 
+
     const venueList =
         document.getElementById(
             "venue_list"
         );
 
+
     const venueContinueButton =
         document.getElementById(
             "venue_continue_button"
         );
+
 
     const selectedDateSummary =
         document.getElementById(
@@ -996,57 +638,71 @@ if (bookingPage) {
     // SEAT PAGE ELEMENTS
     // ========================================================
 
-    const screen =
-        document.querySelector(".screen");
-
-    const chair =
-        document.querySelector(".chair");
-
-    const ticket =
-        document.querySelector(".ticket");
-
-    const details =
-        document.getElementById("det");
-
-    const bookButton =
-        document.getElementById(
-            "book_ticket"
-        );
-
-    const backButton =
-        document.getElementById(
-            "back_ticket"
-        );
-
     const seatBookingTop =
         document.querySelector(
             ".seat-booking-top"
         );
 
-    const seatBookingDate =
-        document.querySelector(
-            ".seat-booking-date"
-        );
 
     const seatMovieTitle =
         document.getElementById(
             "seat_movie_title"
         );
 
+
     const seatShowType =
         document.getElementById(
             "seat_show_type"
         );
+
 
     const seatVenueName =
         document.getElementById(
             "seat_venue_name"
         );
 
+
     const seatShowtimeList =
         document.getElementById(
             "seat_showtime_list"
         );
+
+
+    const seatDateDisplay =
+        document.getElementById(
+            "seat_date_display"
+        );
+
+
+    const screen =
+        document.querySelector(
+            ".screen"
+        );
+
+
+    const chair =
+        document.querySelector(
+            ".chair"
+        );
+
+
+    const details =
+        document.getElementById(
+            "det"
+        );
+
+
+    const bookButton =
+        document.getElementById(
+            "book_ticket"
+        );
+
+
+    const backButton =
+        document.getElementById(
+            "back_ticket"
+        );
+
 
     const bookingTotalPrice =
         document.getElementById(
@@ -1054,91 +710,90 @@ if (bookingPage) {
         );
 
 
+    const selectedSeatsDisplay =
+        document.getElementById(
+            "selected_seats_display"
+        );
+
+
+    // ========================================================
+    // PAGE DETECTION
+    // ========================================================
+
+    const isVenuePage =
+        !!venueSelection;
+
+
+    const isSeatPage =
+        !!seatBookingTop;
+
+
     // ========================================================
     // SHOWTIME DATA
     // ========================================================
 
     const showtimeList = [
-
-        {
-            type: "2D",
-            time: "09:30",
-            displayTime: "09:30 AM"
-        },
-
-        {
-            type: "2D",
-            time: "12:00",
-            displayTime: "12:00 PM"
-        },
-
-        {
-            type: "2D",
-            time: "02:30",
-            displayTime: "02:30 PM"
-        },
-
-        {
-            type: "3D",
-            time: "05:30",
-            displayTime: "05:30 PM"
-        },
-
-        {
-            type: "3D",
-            time: "08:00",
-            displayTime: "08:00 PM"
-        },
-
-        {
-            type: "3D",
-            time: "11:00",
-            displayTime: "11:00 PM"
-        },
-
-        {
-            type: "2D",
-            time: "09:00",
-            displayTime: "09:00 AM"
-        },
-
-        {
-            type: "2D",
-            time: "02:00",
-            displayTime: "02:00 PM"
-        },
-
-        {
-            type: "3D",
-            time: "05:00",
-            displayTime: "05:00 PM"
-        },
-
-        {
-            type: "3D",
-            time: "10:30",
-            displayTime: "10:30 PM"
-        },
-
-        {
-            type: "2D",
-            time: "08:30",
-            displayTime: "08:30 PM"
-        }
-
-    ];
-
+    {
+        type: "2D",
+        time: "09:00",
+        displayTime: "09:00 AM"
+    },
+    {
+        type: "2D",
+        time: "12:00",
+        displayTime: "12:00 PM"
+    },
+    {
+        type: "2D",
+        time: "15:00",
+        displayTime: "03:00 PM"
+    },
+    {
+        type: "2D",
+        time: "18:00",
+        displayTime: "06:00 PM"
+    },
+    {
+        type: "2D",
+        time: "21:00",
+        displayTime: "09:00 PM"
+    },
+    {
+        type: "3D",
+        time: "10:00",
+        displayTime: "10:00 AM"
+    },
+    {
+        type: "3D",
+        time: "13:00",
+        displayTime: "01:00 PM"
+    },
+    {
+        type: "3D",
+        time: "16:00",
+        displayTime: "04:00 PM"
+    },
+    {
+        type: "3D",
+        time: "19:00",
+        displayTime: "07:00 PM"
+    },
+    {
+        type: "3D",
+        time: "22:00",
+        displayTime: "10:00 PM"
+    }
+];
 
     // ========================================================
     // UNIQUE SHOWTIMES
     // ========================================================
 
-    function getUniqueShowtimes(
-        type
-    ) {
+    function getUniqueShowtimes(type) {
 
         const seen =
             new Set();
+
 
         return showtimeList.filter(
             function (show) {
@@ -1146,19 +801,24 @@ if (bookingPage) {
                 if (
                     show.type !== type
                 ) {
+
                     return false;
                 }
+
 
                 const key =
                     show.type +
                     "|" +
                     show.time;
 
+
                 if (
                     seen.has(key)
                 ) {
+
                     return false;
                 }
+
 
                 seen.add(key);
 
@@ -1178,6 +838,7 @@ if (bookingPage) {
             return "";
         }
 
+
         if (
             /^\d{4}-\d{2}-\d{2}$/.test(
                 selectedDate
@@ -1186,6 +847,7 @@ if (bookingPage) {
 
             return selectedDate;
         }
+
 
         return (
             "2024-11-" +
@@ -1196,7 +858,7 @@ if (bookingPage) {
 
 
     // ========================================================
-    // FORMAT DATE
+    // FORMAT BOOKING DATE
     // ========================================================
 
     function formatBookingDate(
@@ -1207,196 +869,288 @@ if (bookingPage) {
             return "--";
         }
 
-        let date;
+
+        const parts =
+            String(dateValue).split("-");
+
 
         if (
-            /^\d{4}-\d{2}-\d{2}$/.test(
-                dateValue
-            )
-        ) {
-
-            date =
-                new Date(
-                    dateValue +
-                    "T00:00:00"
-                );
-
-        } else {
-
-            date =
-                new Date(
-                    "2024-11-" +
-                    String(dateValue)
-                        .padStart(2, "0") +
-                    "T00:00:00"
-                );
-        }
-
-        if (
-            isNaN(
-                date.getTime()
-            )
+            parts.length !== 3
         ) {
 
             return dateValue;
         }
 
-        return date.toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
-    }
+
+        const year =
+            Number(parts[0]);
+
+        const month =
+            Number(parts[1]);
+
+        const day =
+            Number(parts[2]);
 
 
-    // ========================================================
-    // CONVERT 24 HOUR TO 12 HOUR
-    // ========================================================
+        const months = [
 
-    function convertTo12Hour(
-        time
-    ) {
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
 
-        if (!time) {
-            return "--";
+        ];
+
+
+        if (
+            month < 1 ||
+            month > 12
+        ) {
+
+            return dateValue;
         }
 
-        const parts =
-            time.split(":");
-
-        let hours =
-            parseInt(
-                parts[0],
-                10
-            );
-
-        const minutes =
-            parts[1] || "00";
-
-        const ampm =
-            hours >= 12
-                ? "PM"
-                : "AM";
-
-        hours =
-            hours % 12;
-
-        if (hours === 0) {
-            hours = 12;
-        }
 
         return (
-            String(hours)
-                .padStart(2, "0") +
-            ":" +
-            minutes +
+            String(day) +
             " " +
-            ampm
+            months[month - 1] +
+            ", " +
+            String(year)
         );
     }
 
 
     // ========================================================
-    // AVAILABILITY STATUS
+    // SHOW / HIDE SEAT PAGE
     // ========================================================
 
-    function getStatus(
-        availableSeats,
-        totalSeats
-    ) {
+    function hideSeatPage() {
 
-        availableSeats =
-            Number(
-                availableSeats
-            );
+        if (seatBookingTop) {
 
-        totalSeats =
-            Number(
-                totalSeats
-            );
-
-        if (
-            availableSeats <= 0
-        ) {
-
-            return "sold";
+            seatBookingTop.style.display =
+                "none";
         }
 
-        if (
-            totalSeats <= 0
-        ) {
 
-            return "available";
+        if (seatDateDisplay) {
+
+            const dateContainer =
+                seatDateDisplay.closest(
+                    ".seat-booking-date"
+                );
+
+            if (dateContainer) {
+
+                dateContainer.style.display =
+                    "none";
+            }
         }
 
-        const percentage =
-            (
-                availableSeats /
-                totalSeats
-            ) * 100;
 
-        if (
-            percentage <= 40
-        ) {
+        if (screen) {
 
-            return "almost";
+            screen.style.display =
+                "none";
         }
 
-        return "available";
+
+        if (chair) {
+
+            chair.style.display =
+                "none";
+        }
+
+
+        if (details) {
+
+            details.style.display =
+                "none";
+        }
+
+
+        if (bookButton) {
+
+            bookButton.style.display =
+                "none";
+        }
+
+
+        if (backButton) {
+
+            backButton.style.display =
+                "none";
+        }
+
+
+        if (bookingTotalPrice) {
+
+            bookingTotalPrice.style.display =
+                "none";
+        }
+
+
+        if (selectedSeatsDisplay) {
+
+            selectedSeatsDisplay.style.display =
+                "none";
+        }
+    }
+
+
+    function showSeatPage() {
+
+        if (seatBookingTop) {
+
+            seatBookingTop.style.display =
+                "";
+        }
+
+
+        if (seatDateDisplay) {
+
+            const dateContainer =
+                seatDateDisplay.closest(
+                    ".seat-booking-date"
+                );
+
+            if (dateContainer) {
+
+                dateContainer.style.display =
+                    "";
+            }
+        }
+
+
+        if (screen) {
+
+            screen.style.display =
+                "block";
+        }
+
+
+        if (chair) {
+
+            chair.style.display =
+                "block";
+        }
+
+
+        if (details) {
+
+            details.style.display =
+                "";
+        }
+
+
+        if (bookButton) {
+
+            bookButton.style.display =
+                "flex";
+        }
+
+
+        if (backButton) {
+
+            backButton.style.display =
+                "flex";
+        }
+
+
+        if (bookingTotalPrice) {
+
+            bookingTotalPrice.style.display =
+                "";
+        }
+
+
+        if (selectedSeatsDisplay) {
+
+            selectedSeatsDisplay.style.display =
+                "";
+        }
     }
 
 
     // ========================================================
-    // NORMALIZE AVAILABILITY RESPONSE
+    // VENUE AVAILABILITY
     // ========================================================
 
-    function normalizeAvailabilityResponse(
-        responseData
+    async function getVenueAvailability(
+        showTime
     ) {
 
-        if (
-            Array.isArray(
-                responseData
-            )
-        ) {
+        try {
 
-            return responseData;
+            const url =
+                "http://127.0.0.1:5000/venue-availability" +
+                "?movie_name=" +
+                encodeURIComponent(
+                    movieName
+                ) +
+                "&booking_date=" +
+                encodeURIComponent(
+                    getBookingDate()
+                ) +
+                "&show_time=" +
+                encodeURIComponent(
+                    showTime
+                );
+
+
+            const response =
+                await fetch(url);
+
+
+            if (!response.ok) {
+
+                return [];
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                Array.isArray(data)
+            ) {
+
+                return data;
+            }
+
+
+            if (
+                Array.isArray(
+                    data.venues
+                )
+            ) {
+
+                return data.venues;
+            }
+
+
+            return [];
+
+
+        } catch (error) {
+
+            console.error(
+                "Venue availability error:",
+                error
+            );
+
+            return [];
         }
-
-        if (
-            responseData &&
-            Array.isArray(
-                responseData.availability
-            )
-        ) {
-
-            return responseData.availability;
-        }
-
-        if (
-            responseData &&
-            Array.isArray(
-                responseData.venues
-            )
-        ) {
-
-            return responseData.venues;
-        }
-
-        if (
-            responseData &&
-            Array.isArray(
-                responseData.data
-            )
-        ) {
-
-            return responseData.data;
-        }
-
-        return [];
     }
 
 
@@ -1409,14 +1163,18 @@ if (bookingPage) {
         venueId
     ) {
 
-        return normalizeAvailabilityResponse(
-            availability
-        ).find(
-            function (item) {
+        if (
+            !Array.isArray(
+                availability
+            )
+        ) {
 
-                if (!item) {
-                    return false;
-                }
+            return null;
+        }
+
+
+        return availability.find(
+            function (item) {
 
                 return (
                     Number(item.id) ===
@@ -1428,830 +1186,49 @@ if (bookingPage) {
 
 
     // ========================================================
-    // HIDE SEAT PAGE
+    // AVAILABILITY STATUS
     // ========================================================
 
-    function hideSeatSelection() {
+    function getAvailabilityStatus(
+        availableSeats,
+        totalSeats
+    ) {
 
-        if (seatBookingTop) {
-
-            seatBookingTop.style.display =
-                "none";
-        }
-
-        if (seatBookingDate) {
-
-            seatBookingDate.style.display =
-                "none";
-        }
-
-        if (screen) {
-
-            screen.style.display =
-                "none";
-        }
-
-        if (chair) {
-
-            chair.style.display =
-                "none";
-        }
-
-        if (ticket) {
-
-            ticket.style.display =
-                "none";
-        }
-
-        if (details) {
-
-            details.style.display =
-                "none";
-        }
-
-        if (bookingTotalPrice) {
-
-            bookingTotalPrice.style.display =
-                "none";
-        }
-
-        if (bookButton) {
-
-            bookButton.style.display =
-                "none";
-        }
-
-        if (backButton) {
-
-            backButton.style.display =
-                "none";
-        }
-
-        const priceNote =
-            document.getElementById(
-                "seat_price_note"
+        const available =
+            Number(
+                availableSeats
             );
 
-        if (priceNote) {
 
-            priceNote.style.display =
-                "none";
-        }
-    }
-
-
-    // ========================================================
-    // SHOW SEAT PAGE
-    // ========================================================
-
-    function showSeatSelection() {
-
-        if (venueSelection) {
-
-            venueSelection.style.display =
-                "none";
-        }
-
-        if (seatBookingTop) {
-
-            seatBookingTop.style.display =
-                "flex";
-        }
-
-        if (seatBookingDate) {
-
-            seatBookingDate.style.display =
-                "none";
-        }
-
-        if (screen) {
-
-            screen.style.display =
-                "block";
-        }
-
-        if (chair) {
-
-            chair.style.display =
-                "block";
-        }
-
-        if (ticket) {
-
-            ticket.style.display =
-                "none";
-        }
-
-        if (details) {
-
-            details.style.display =
-                "flex";
-        }
-
-        if (bookingTotalPrice) {
-
-            bookingTotalPrice.style.display =
-                "block";
-        }
-
-        if (bookButton) {
-
-            bookButton.style.display =
-                "block";
-        }
-
-        if (backButton) {
-
-            backButton.style.display =
-                "block";
-        }
-
-        const priceNote =
-            document.getElementById(
-                "seat_price_note"
+        const total =
+            Number(
+                totalSeats
             );
 
-        if (priceNote) {
 
-            priceNote.style.display =
-                "block";
+        if (
+            available <= 0
+        ) {
+
+            return "sold";
         }
 
-        updateSeatPageHeader();
 
-        renderSeatShowtimes();
-
-        updateTotalAmount();
-    }
-
-
-    // ========================================================
-    // SHOW VENUE PAGE
-    // ========================================================
-
-    function showVenueSelection() {
-
-        hideSeatSelection();
-
-        if (venueSelection) {
-
-            venueSelection.style.display =
-                "block";
-        }
-
-        showContinueButton();
-    }
-
-
-    // ========================================================
-    // UPDATE SEAT PAGE HEADER
-    // ========================================================
-
-    function updateSeatPageHeader() {
-
-        if (seatMovieTitle) {
-
-            seatMovieTitle.innerHTML =
-                movieName +
-                " " +
-                "<span>" +
-                "(" +
-                (
-                    selectedShowType ||
-                    ""
-                ) +
-                ")" +
-                "</span>";
-        }
-
-        if (seatVenueName) {
-
-            seatVenueName.textContent =
-                selectedVenue ||
-                "Select a showtime";
-        }
-    }
-
-
-    // ========================================================
-    // CREATE PRICE NOTE
-    // ========================================================
-
-    function createSeatPriceNote() {
-
-        let priceNote =
-            document.getElementById(
-                "seat_price_note"
-            );
-
-        if (!priceNote) {
-
-            priceNote =
-                document.createElement(
-                    "div"
-                );
-
-            priceNote.id =
-                "seat_price_note";
-
-            priceNote.textContent =
-                "₹" +
-                pricePerSeat +
-                " per ticket";
-
-            if (details) {
-
-                details.parentNode.insertBefore(
-                    priceNote,
-                    bookingTotalPrice
-                );
-            }
-        }
-
-        priceNote.style.display =
-            "none";
-    }
-
-
-    // ========================================================
-    // UPDATE TOTAL / SELECTED SEATS
-    // ========================================================
-
-    function updateTotalAmount() {
-
-        if (!bookingTotalPrice) {
-            return;
-        }
-
-        const count =
-            selectedSeats.length;
-
-        const selectedText =
-            count > 0
-                ? "Selected: " +
-                  selectedSeats.join(", ")
-                : "Selected: None";
-
-        bookingTotalPrice.innerHTML = `
-
-            <div style="
-                font-size:16px;
-                font-weight:600;
-                color:#ffffff;
-                margin-bottom:8px;
-            ">
-
-                ${selectedText}
-
-            </div>
-
-
-            <div style="
-                font-size:20px;
-                font-weight:700;
-                color:#ff5c5c;
-            ">
-
-                Total:
-                ${count}
-                ${count === 1 ? "seat" : "seats"}
-
-            </div>
-
-        `;
-    }
-
-
-    // ========================================================
-    // CLEAR SELECTED SEATS
-    // ========================================================
-
-    function clearSelectedSeats() {
-
-        selectedSeats.length =
-            0;
-
-        if (chair) {
-
-            chair
-                .querySelectorAll(
-                    "li"
+        if (
+            available <=
+            Math.max(
+                10,
+                Math.ceil(
+                    total * 0.15
                 )
-                .forEach(
-                    function (seat) {
-
-                        seat.classList.remove(
-                            "selected"
-                        );
-                    }
-                );
-        }
-
-        updateTotalAmount();
-    }
-
-
-    // ========================================================
-    // SETUP SEAT MAP
-    // ========================================================
-
-    function setupSeats() {
-
-        if (!chair) {
-            return;
-        }
-
-        chair.innerHTML =
-            "";
-
-        const rows = [
-            "J",
-            "H",
-            "G",
-            "F",
-            "D",
-            "C",
-            "B",
-            "A"
-        ];
-
-        rows.forEach(
-            function (rowName) {
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
-
-                row.className =
-                    "row";
-
-                const leftLabel =
-                    document.createElement(
-                        "span"
-                    );
-
-                leftLabel.textContent =
-                    rowName;
-
-                row.appendChild(
-                    leftLabel
-                );
-
-                for (
-                    let i = 1;
-                    i <= 24;
-                    i++
-                ) {
-
-                    const seat =
-                        document.createElement(
-                            "li"
-                        );
-
-                    const seatNumber =
-                        rowName + i;
-
-                    seat.className =
-                        "seat";
-
-                    seat.dataset.seat =
-                        seatNumber;
-
-                    seat.textContent =
-                        seatNumber;
-
-                    seat.addEventListener(
-                        "click",
-                        function () {
-
-                            if (
-                                seat.classList.contains(
-                                    "booked"
-                                )
-                            ) {
-
-                                return;
-                            }
-
-                            const index =
-                                selectedSeats.indexOf(
-                                    seatNumber
-                                );
-
-                            if (
-                                index === -1
-                            ) {
-
-                                selectedSeats.push(
-                                    seatNumber
-                                );
-
-                                seat.classList.add(
-                                    "selected"
-                                );
-
-                            } else {
-
-                                selectedSeats.splice(
-                                    index,
-                                    1
-                                );
-
-                                seat.classList.remove(
-                                    "selected"
-                                );
-                            }
-
-                            updateTotalAmount();
-                        }
-                    );
-
-                    row.appendChild(
-                        seat
-                    );
-                }
-
-                const rightLabel =
-                    document.createElement(
-                        "span"
-                    );
-
-                rightLabel.textContent =
-                    rowName;
-
-                row.appendChild(
-                    rightLabel
-                );
-
-                chair.appendChild(
-                    row
-                );
-            }
-        );
-    }
-
-
-    // ========================================================
-    // LOAD BOOKED SEATS
-    // ========================================================
-
-    async function loadBookedSeats() {
-
-        if (!chair) {
-            return;
-        }
-
-        chair
-            .querySelectorAll(
-                "li"
             )
-            .forEach(
-                function (seat) {
+        ) {
 
-                    seat.classList.remove(
-                        "booked"
-                    );
-
-                    seat.classList.remove(
-                        "selected"
-                    );
-
-                    seat.style.pointerEvents =
-                        "";
-                }
-            );
-
-        try {
-
-            const params =
-                new URLSearchParams({
-
-                    movie_name:
-                        movieName,
-
-                    booking_date:
-                        getBookingDate(),
-
-                    show_time:
-                        selectedTime,
-
-                    venue:
-                        selectedVenue
-                });
-
-            const response =
-                await fetch(
-                    "http://127.0.0.1:5000/" +
-                    "booked-seats?" +
-                    params.toString()
-                );
-
-            if (!response.ok) {
-
-                console.error(
-                    "Unable to load booked seats."
-                );
-
-                return;
-            }
-
-            const data =
-                await response.json();
-
-            const bookedSeats =
-                Array.isArray(
-                    data.booked_seats
-                )
-                    ? data.booked_seats
-                    : [];
-
-            chair
-                .querySelectorAll(
-                    "li"
-                )
-                .forEach(
-                    function (seat) {
-
-                        const seatNumber =
-                            seat.dataset.seat;
-
-                        if (
-                            bookedSeats.includes(
-                                seatNumber
-                            )
-                        ) {
-
-                            seat.classList.add(
-                                "booked"
-                            );
-
-                            seat.style.pointerEvents =
-                                "none";
-                        }
-                    }
-                );
-
-        } catch (error) {
-
-            console.error(
-                "Booked seats error:",
-                error
-            );
-        }
-    }
-
-
-    // ========================================================
-    // LOAD VENUES
-    // ========================================================
-
-    async function loadVenues() {
-
-        if (!venueList) {
-            return;
+            return "almost";
         }
 
-        venueList.innerHTML =
-            "";
 
-        selectedVenue =
-            null;
-
-        selectedVenueId =
-            null;
-
-        selectedTime =
-            null;
-
-        if (venueContinueButton) {
-
-            venueContinueButton.style.display =
-                "none";
-        }
-
-        if (!selectedShowType) {
-
-            venueList.innerHTML =
-                "<p style='color:#aaa;'>" +
-                "No show format selected." +
-                "</p>";
-
-            return;
-        }
-
-        try {
-
-            const response =
-                await fetch(
-                    "http://127.0.0.1:5000/venues"
-                );
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Unable to load venues."
-                );
-            }
-
-            const venueResponse =
-                await response.json();
-
-            const venues =
-                Array.isArray(
-                    venueResponse
-                )
-                    ? venueResponse
-                    : (
-                        Array.isArray(
-                            venueResponse.venues
-                        )
-                            ? venueResponse.venues
-                            : []
-                    );
-
-            if (
-                venues.length === 0
-            ) {
-
-                venueList.innerHTML =
-                    "<p style='color:#aaa;'>" +
-                    "No cinemas found." +
-                    "</p>";
-
-                return;
-            }
-
-            const filteredShows =
-                getUniqueShowtimes(
-                    selectedShowType
-                );
-
-            const availabilityMap =
-                {};
-
-            for (
-                const show
-                of filteredShows
-            ) {
-
-                const showKey =
-                    show.type +
-                    " " +
-                    show.time;
-
-                const params =
-                    new URLSearchParams({
-
-                        movie_name:
-                            movieName,
-
-                        booking_date:
-                            getBookingDate(),
-
-                        show_time:
-                            showKey
-                    });
-
-                try {
-
-                    const availabilityResponse =
-                        await fetch(
-                            "http://127.0.0.1:5000/" +
-                            "venue-availability?" +
-                            params.toString()
-                        );
-
-                    if (
-                        availabilityResponse.ok
-                    ) {
-
-                        const responseData =
-                            await availabilityResponse.json();
-
-                        availabilityMap[
-                            showKey
-                        ] =
-                            normalizeAvailabilityResponse(
-                                responseData
-                            );
-
-                    } else {
-
-                        availabilityMap[
-                            showKey
-                        ] = [];
-                    }
-
-                } catch (error) {
-
-                    console.error(
-                        "Availability error:",
-                        error
-                    );
-
-                    availabilityMap[
-                        showKey
-                    ] = [];
-                }
-            }
-
-            venues.forEach(
-                function (venue) {
-
-                    const venueShows =
-                        [];
-
-                    filteredShows.forEach(
-                        function (show) {
-
-                            const showKey =
-                                show.type +
-                                " " +
-                                show.time;
-
-                            const availability =
-                                availabilityMap[
-                                    showKey
-                                ] || [];
-
-                            const venueData =
-                                findVenueAvailability(
-                                    availability,
-                                    venue.id
-                                );
-
-                            let availableSeats =
-                                Number(
-                                    venue.total_seats
-                                );
-
-                            if (
-                                venueData &&
-                                venueData.available_seats !==
-                                undefined
-                            ) {
-
-                                availableSeats =
-                                    Number(
-                                        venueData.available_seats
-                                    );
-                            }
-
-                            const status =
-                                getStatus(
-                                    availableSeats,
-                                    Number(
-                                        venue.total_seats
-                                    )
-                                );
-
-                            venueShows.push({
-
-                                type:
-                                    show.type,
-
-                                time:
-                                    show.time,
-
-                                displayTime:
-                                    show.displayTime,
-
-                                availableSeats:
-                                    availableSeats,
-
-                                status:
-                                    status
-
-                            });
-                        }
-                    );
-
-                    const card =
-                        createVenueCard(
-                            venue,
-                            venueShows
-                        );
-
-                    venueList.appendChild(
-                        card
-                    );
-                }
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Venue loading error:",
-                error
-            );
-
-            venueList.innerHTML =
-                "<p style='color:#ff5c5c;'>" +
-                "Unable to display cinemas. " +
-                "Please make sure Flask is running." +
-                "</p>";
-        }
+        return "available";
     }
 
 
@@ -2261,7 +1238,7 @@ if (bookingPage) {
 
     function createVenueCard(
         venue,
-        showtimes
+        showtimeAvailability
     ) {
 
         const card =
@@ -2269,82 +1246,108 @@ if (bookingPage) {
                 "div"
             );
 
+
         card.className =
             "cinema-card";
+
 
         const header =
             document.createElement(
                 "div"
             );
 
+
         header.className =
             "cinema-header";
+
 
         const info =
             document.createElement(
                 "div"
             );
 
+
         info.className =
             "cinema-info";
 
-        const name =
+
+        const title =
             document.createElement(
                 "h3"
             );
 
-        name.textContent =
+
+        title.textContent =
             venue.venue_name;
+
 
         const location =
             document.createElement(
                 "p"
             );
 
+
         location.textContent =
             venue.location ||
-            "Kolkata";
+            "";
+
 
         info.appendChild(
-            name
+            title
         );
+
 
         info.appendChild(
             location
         );
 
+
         header.appendChild(
             info
         );
+
 
         card.appendChild(
             header
         );
 
-        const timeTitle =
+
+        const titleLabel =
             document.createElement(
                 "div"
             );
 
-        timeTitle.className =
+
+        titleLabel.className =
             "showtime-title";
 
-        timeTitle.textContent =
+
+        titleLabel.textContent =
             "Showtimes";
 
+
         card.appendChild(
-            timeTitle
+            titleLabel
         );
+
 
         const timeContainer =
             document.createElement(
                 "div"
             );
 
+
         timeContainer.className =
             "showtime-container";
 
-        showtimes.forEach(
+
+        const shows =
+            getUniqueShowtimes(
+                selectedShowType
+            );
+
+
+        shows.forEach(
             function (show) {
 
                 const button =
@@ -2352,26 +1355,71 @@ if (bookingPage) {
                         "button"
                     );
 
+
                 button.type =
                     "button";
 
+
                 button.className =
-                    "venue-showtime " +
-                    show.status;
+                    "venue-showtime";
+
+
+                const showKey =
+                    show.type +
+                    " " +
+                    show.time;
+
 
                 button.textContent =
                     show.displayTime;
 
+
+                const availability =
+                    findVenueAvailability(
+                        showtimeAvailability[
+                            showKey
+                        ],
+                        venue.id
+                    );
+
+
+                let availableSeats =
+                    Number(
+                        venue.total_seats
+                    );
+
+
                 if (
-                    show.status ===
-                    "sold"
+                    availability &&
+                    availability.available_seats !==
+                    undefined
+                ) {
+
+                    availableSeats =
+                        Number(
+                            availability.available_seats
+                        );
+                }
+
+
+                const status =
+                    getAvailabilityStatus(
+                        availableSeats,
+                        venue.total_seats
+                    );
+
+
+                button.classList.add(
+                    status
+                );
+
+
+                if (
+                    status === "sold"
                 ) {
 
                     button.disabled =
                         true;
-
-                    button.title =
-                        "Sold Out";
 
                 } else {
 
@@ -2394,40 +1442,47 @@ if (bookingPage) {
                                     }
                                 );
 
+
                             button.classList.add(
                                 "selected"
                             );
 
+
                             selectedVenue =
                                 venue.venue_name;
+
 
                             selectedVenueId =
                                 venue.id;
 
+
                             selectedTime =
-                                selectedShowType +
-                                " " +
-                                show.time;
+                                showKey;
+
 
                             localStorage.setItem(
                                 "selected_venue",
                                 selectedVenue
                             );
 
+
                             localStorage.setItem(
                                 "selected_venue_id",
                                 selectedVenueId
                             );
+
 
                             localStorage.setItem(
                                 "selected_show_time",
                                 selectedTime
                             );
 
+
                             showContinueButton();
                         }
                     );
                 }
+
 
                 timeContainer.appendChild(
                     button
@@ -2435,76 +1490,869 @@ if (bookingPage) {
             }
         );
 
+
         card.appendChild(
             timeContainer
         );
+
 
         const legend =
             document.createElement(
                 "div"
             );
 
+
         legend.className =
             "showtime-legend";
 
-        const availableLegend =
-            document.createElement(
-                "span"
-            );
 
-        availableLegend.innerHTML =
+        legend.innerHTML =
+            '<span>' +
             '<span class="legend-dot available-dot"></span>' +
-            "Available";
+            'Available' +
+            '</span>' +
 
-        const almostLegend =
-            document.createElement(
-                "span"
-            );
-
-        almostLegend.innerHTML =
+            '<span>' +
             '<span class="legend-dot almost-dot"></span>' +
-            "Almost Sold";
+            'Almost Sold' +
+            '</span>' +
 
-        const soldLegend =
-            document.createElement(
-                "span"
-            );
-
-        soldLegend.innerHTML =
+            '<span>' +
             '<span class="legend-dot sold-dot"></span>' +
-            "Sold Out";
+            'Sold Out' +
+            '</span>';
 
-        legend.appendChild(
-            availableLegend
-        );
-
-        legend.appendChild(
-            almostLegend
-        );
-
-        legend.appendChild(
-            soldLegend
-        );
 
         card.appendChild(
             legend
         );
+
 
         return card;
     }
 
 
     // ========================================================
-    // SHOW CONTINUE BUTTON
+    // LOAD VENUES
+    // ========================================================
+
+    async function loadVenues() {
+
+        const venueSelection =
+            createVenueSelectionContainer();
+
+
+        const venueList =
+            document.getElementById(
+                "venue_list"
+            );
+
+
+        const venueContinueButton =
+            document.getElementById(
+                "venue_continue_button"
+            );
+
+
+        if (!venueList) {
+            return;
+        }
+
+
+        venueList.innerHTML =
+            "";
+
+
+        selectedVenue =
+            null;
+
+        selectedTime =
+            null;
+
+
+        if (venueContinueButton) {
+
+            venueContinueButton.style.display =
+                "none";
+        }
+
+
+        if (!selectedShowType) {
+
+            venueList.innerHTML =
+                "<p>No show format selected.</p>";
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://127.0.0.1:5000/venues"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load venues."
+                );
+            }
+
+
+            const venueResponse =
+                await response.json();
+
+
+            const venues =
+                Array.isArray(
+                    venueResponse
+                )
+                    ? venueResponse
+                    : (
+                        Array.isArray(
+                            venueResponse.venues
+                        )
+                            ? venueResponse.venues
+                            : []
+                    );
+
+
+            if (
+                venues.length === 0
+            ) {
+
+                venueList.innerHTML =
+                    "<p>No cinemas found.</p>";
+
+                return;
+            }
+
+
+            const filteredShows =
+                showtimeList.filter(
+                    function (show) {
+
+                        return (
+                            show.type ===
+                            selectedShowType
+                        );
+                    }
+                );
+
+
+            for (
+                const venue
+                of venues
+            ) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "cinema-card";
+
+
+                const header =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                header.className =
+                    "cinema-header";
+
+
+                const info =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                info.className =
+                    "cinema-info";
+
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+
+                title.textContent =
+                    venue.venue_name;
+
+
+                const location =
+                    document.createElement(
+                        "p"
+                    );
+
+
+                location.textContent =
+                    venue.location ||
+                    "";
+
+
+                info.appendChild(
+                    title
+                );
+
+
+                info.appendChild(
+                    location
+                );
+
+
+                header.appendChild(
+                    info
+                );
+
+
+                card.appendChild(
+                    header
+                );
+
+
+                const showtimeTitle =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                showtimeTitle.className =
+                    "showtime-title";
+
+
+                showtimeTitle.textContent =
+                    selectedShowType +
+                    " Showtimes";
+
+
+                card.appendChild(
+                    showtimeTitle
+                );
+
+
+                const showtimeContainer =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                showtimeContainer.className =
+                    "showtime-container";
+
+
+                for (
+                    const show
+                    of filteredShows
+                ) {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    button.type =
+                        "button";
+
+
+                    button.className =
+                        "venue-showtime";
+
+
+                    const showKey =
+                        show.type +
+                        " " +
+                        show.time;
+
+
+                    button.textContent =
+                        show.displayTime;
+
+
+                    let availableSeats =
+                        Number(
+                            venue.total_seats
+                        );
+
+
+                    try {
+
+                        const availability =
+                            await getVenueAvailability(
+                                showKey
+                            );
+
+
+                        const venueAvailability =
+                            findVenueAvailability(
+                                availability,
+                                venue.id
+                            );
+
+
+                        if (
+                            venueAvailability &&
+                            venueAvailability.available_seats !==
+                            undefined
+                        ) {
+
+                            availableSeats =
+                                Number(
+                                    venueAvailability.available_seats
+                                );
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "Showtime availability error:",
+                            error
+                        );
+                    }
+
+
+                    const status =
+                        getAvailabilityStatus(
+                            availableSeats,
+                            venue.total_seats
+                        );
+
+
+                    button.classList.add(
+                        status
+                    );
+
+
+                    if (
+                        status === "sold"
+                    ) {
+
+                        button.disabled =
+                            true;
+
+                    } else {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                document
+                                    .querySelectorAll(
+                                        ".venue-showtime.selected"
+                                    )
+                                    .forEach(
+                                        function (
+                                            oldButton
+                                        ) {
+
+                                            oldButton.classList.remove(
+                                                "selected"
+                                            );
+                                        }
+                                    );
+
+
+                                button.classList.add(
+                                    "selected"
+                                );
+
+
+                                selectedVenue =
+                                    venue.venue_name;
+
+
+                                selectedVenueId =
+                                    venue.id;
+
+
+                                selectedTime =
+                                    showKey;
+
+
+                                localStorage.setItem(
+                                    "selected_venue",
+                                    selectedVenue
+                                );
+
+
+                                localStorage.setItem(
+                                    "selected_venue_id",
+                                    selectedVenueId
+                                );
+
+
+                                localStorage.setItem(
+                                    "selected_show_time",
+                                    selectedTime
+                                );
+
+
+                                showContinueButton();
+                            }
+                        );
+                    }
+
+
+                    showtimeContainer.appendChild(
+                        button
+                    );
+                }
+
+
+                card.appendChild(
+                    showtimeContainer
+                );
+
+
+                const legend =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                legend.className =
+                    "showtime-legend";
+
+
+                legend.innerHTML =
+                    '<span>' +
+                    '<span class="legend-dot available-dot"></span>' +
+                    'Available' +
+                    '</span>' +
+
+                    '<span>' +
+                    '<span class="legend-dot almost-dot"></span>' +
+                    'Almost Sold' +
+                    '</span>' +
+
+                    '<span>' +
+                    '<span class="legend-dot sold-dot"></span>' +
+                    'Sold Out' +
+                    '</span>';
+
+
+                card.appendChild(
+                    legend
+                );
+
+
+                venueList.appendChild(
+                    card
+                );
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Load venues error:",
+                error
+            );
+
+
+            venueList.innerHTML =
+                "<p>Unable to load cinemas. " +
+                "Please make sure Flask is running.</p>";
+        }
+    }
+
+
+    // ========================================================
+    // CREATE VENUE SELECTION CONTAINER
+    // ========================================================
+
+    function createVenueSelectionContainer() {
+
+        const existing =
+            document.getElementById(
+                "venue_selection_dynamic_style"
+            );
+
+
+        if (existing) {
+            return venueSelection;
+        }
+
+
+        const style =
+            document.createElement(
+                "style"
+            );
+
+
+        style.id =
+            "venue_selection_dynamic_style";
+
+
+        style.textContent = `
+
+            .venue-selection-inner {
+
+                width: 92%;
+
+                max-width: 1100px;
+
+                margin: 0 auto;
+
+                padding-top: 40px;
+
+            }
+
+
+            .venue-selection-inner h1 {
+
+                color: white;
+
+                margin-bottom: 8px;
+
+            }
+
+
+            .venue-selection-inner > p {
+
+                color: #aaa;
+
+                margin-bottom: 30px;
+
+            }
+
+
+            #venue_list {
+
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 18px;
+
+            }
+
+
+            .cinema-card {
+
+                background:
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.035
+                    );
+
+                border:
+                    1px solid
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.10
+                    );
+
+                border-radius: 15px;
+
+                padding: 20px;
+
+            }
+
+
+            .cinema-header {
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: space-between;
+
+                gap: 15px;
+
+            }
+
+
+            .cinema-info h3 {
+
+                margin: 0;
+
+                color: white;
+
+                font-size: 18px;
+
+            }
+
+
+            .cinema-info p {
+
+                margin:
+                    5px 0 0;
+
+                color: #888;
+
+                font-size: 12px;
+
+            }
+
+
+            .showtime-title {
+
+                margin-top: 15px;
+
+                color: #aaa;
+
+                font-size: 12px;
+
+            }
+
+
+            .showtime-container {
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 8px;
+
+                margin-top: 8px;
+
+            }
+
+
+            .venue-showtime {
+
+                padding:
+                    8px 14px;
+
+                border-radius: 8px;
+
+                border:
+                    1px solid
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.15
+                    );
+
+                background:
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.035
+                    );
+
+                color: white;
+
+                cursor: pointer;
+
+                font-size: 12px;
+
+            }
+
+
+            .venue-showtime.available {
+
+                color: #4ade80;
+
+                border:
+                    1px solid
+                    #286b45;
+
+                background:
+                    rgba(
+                        74,
+                        222,
+                        128,
+                        0.06
+                    );
+
+            }
+
+
+            .venue-showtime.almost {
+
+                color: #f59e0b;
+
+                border:
+                    1px solid
+                    #8b621c;
+
+                background:
+                    rgba(
+                        245,
+                        158,
+                        11,
+                        0.06
+                    );
+
+            }
+
+
+            .venue-showtime.sold {
+
+                color: #777;
+
+                border:
+                    1px solid
+                    #555;
+
+                background:
+                    rgba(
+                        100,
+                        100,
+                        100,
+                        0.05
+                    );
+
+                cursor: not-allowed;
+
+            }
+
+
+            .venue-showtime.selected {
+
+                color: white !important;
+
+                background:
+                    #ff5c5c !important;
+
+                border-color:
+                    #ff5c5c !important;
+
+                box-shadow:
+                    0 0 0 2px
+                    rgba(
+                        255,
+                        92,
+                        92,
+                        0.18
+                    );
+
+            }
+
+
+            .showtime-legend {
+
+                display: flex;
+
+                gap: 20px;
+
+                margin-top: 18px;
+
+                color: #aaa;
+
+                font-size: 12px;
+
+            }
+
+
+            .showtime-legend span {
+
+                display: flex;
+
+                align-items: center;
+
+                gap: 6px;
+
+            }
+
+
+            .legend-dot {
+
+                width: 8px;
+
+                height: 8px;
+
+                border-radius: 50%;
+
+                display: inline-block;
+
+            }
+
+
+            .available-dot {
+
+                background: #4ade80;
+
+            }
+
+
+            .almost-dot {
+
+                background: #f59e0b;
+
+            }
+
+
+            .sold-dot {
+
+                background: #777;
+
+            }
+
+
+            #venue_continue_button {
+
+                display: none;
+
+                margin: 25px auto 0;
+
+                padding: 13px 25px;
+
+                border: none;
+
+                border-radius: 8px;
+
+                background: #ff5c5c;
+
+                color: white;
+
+                font-weight: 600;
+
+                cursor: pointer;
+
+            }
+
+        `;
+
+
+        document.head.appendChild(
+            style
+        );
+
+
+        return venueSelection;
+    }
+
+
+    // ========================================================
+    // LOAD VENUES
+    // ========================================================
+
+    async function loadVenuesOld() {
+
+        // Preserved compatibility wrapper.
+
+        return loadVenues();
+    }
+
+
+    // ========================================================
+    // CONTINUE BUTTON
     // ========================================================
 
     function showContinueButton() {
 
-        if (
-            !venueContinueButton
-        ) {
+        if (!venueContinueButton) {
             return;
         }
+
 
         if (
             selectedVenue &&
@@ -2523,71 +2371,420 @@ if (bookingPage) {
 
 
     // ========================================================
-    // GET VENUE ID FROM BACKEND
+    // VENUE → SEAT SELECTION
     // ========================================================
 
-    async function getCurrentVenueId() {
+    if (
+        venueContinueButton
+    ) {
+
+        venueContinueButton.addEventListener(
+            "click",
+            function () {
+
+                if (!selectedVenue) {
+
+                    showAppAlert(
+                        "Please select a cinema.",
+                        "warning"
+                    );
+
+                    return;
+                }
+
+
+                if (!selectedTime) {
+
+                    showAppAlert(
+                        "Please select a showtime.",
+                        "warning"
+                    );
+
+                    return;
+                }
+
+
+                const params =
+                    new URLSearchParams();
+
+
+                params.set(
+                    "date",
+                    getBookingDate()
+                );
+
+
+                params.set(
+                    "type",
+                    selectedShowType
+                );
+
+
+                params.set(
+                    "venue",
+                    selectedVenue
+                );
+
+
+                params.set(
+                    "venue_id",
+                    selectedVenueId
+                );
+
+
+                params.set(
+                    "show_time",
+                    selectedTime
+                );
+
+
+                window.location.href =
+                    "seat_selection.html?" +
+                    params.toString();
+            }
+        );
+    }
+
+
+    // ========================================================
+    // SEAT MAP
+    // ========================================================
+
+    function setupSeats() {
 
         if (
-            selectedVenueId
+            !chair ||
+            !isSeatPage
         ) {
 
-            return selectedVenueId;
+            return;
         }
+
+
+        chair.innerHTML =
+            "";
+
+
+        const rows = [
+            "J",
+            "H",
+            "G",
+            "F",
+            "D",
+            "C",
+            "B",
+            "A"
+        ];
+
+
+        rows.forEach(
+            function (rowLetter) {
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                row.className =
+                    "row";
+
+
+                for (
+                    let i = 1;
+                    i <= 24;
+                    i++
+                ) {
+
+                    const seat =
+                        document.createElement(
+                            "li"
+                        );
+
+
+                    const seatNumber =
+                        rowLetter +
+                        i;
+
+
+                    seat.textContent =
+                        seatNumber;
+
+
+                    seat.dataset.seat =
+                        seatNumber;
+
+
+                    seat.className =
+                        "chair-seat";
+
+
+                    seat.addEventListener(
+                        "click",
+                        function () {
+
+                            if (
+                                seat.classList.contains(
+                                    "booked"
+                                )
+                            ) {
+
+                                return;
+                            }
+
+
+                            toggleSeat(
+                                seat,
+                                seatNumber
+                            );
+                        }
+                    );
+
+
+                    row.appendChild(
+                        seat
+                    );
+                }
+
+
+                chair.appendChild(
+                    row
+                );
+            }
+        );
+    }
+
+
+    // ========================================================
+    // TOGGLE SEAT
+    // ========================================================
+
+    function toggleSeat(
+        seat,
+        seatNumber
+    ) {
+
+        const index =
+            selectedSeats.indexOf(
+                seatNumber
+            );
+
+
+        if (
+            index === -1
+        ) {
+
+            selectedSeats.push(
+                seatNumber
+            );
+
+
+            seat.classList.add(
+                "selected"
+            );
+
+        } else {
+
+            selectedSeats.splice(
+                index,
+                1
+            );
+
+
+            seat.classList.remove(
+                "selected"
+            );
+        }
+
+
+        updateSeatSummary();
+    }
+
+
+    // ========================================================
+    // UPDATE SEAT SUMMARY
+    // ========================================================
+
+    function updateSeatSummary() {
+
+        const count =
+            selectedSeats.length;
+
+
+        const total =
+            count *
+            pricePerSeat;
+
+
+        if (bookingTotalPrice) {
+
+            bookingTotalPrice.textContent =
+                "Total: " +
+                count +
+                " seats";
+        }
+
+
+        if (selectedSeatsDisplay) {
+
+            if (count === 0) {
+
+                selectedSeatsDisplay.textContent =
+                    "Selected: --";
+
+            } else {
+
+                selectedSeatsDisplay.textContent =
+                    "Selected: " +
+                    selectedSeats.join(
+                        ", "
+                    );
+            }
+        }
+
+
+        const priceNote =
+            document.getElementById(
+                "seat_price_note"
+            );
+
+
+        if (priceNote) {
+
+            priceNote.textContent =
+                "₹" +
+                pricePerSeat +
+                " per seat • Total ₹" +
+                total;
+        }
+    }
+
+
+    // ========================================================
+    // LOAD BOOKED SEATS
+    // ========================================================
+
+    async function loadBookedSeats() {
+
+        if (
+            !chair ||
+            !selectedVenue ||
+            !selectedTime
+        ) {
+
+            return;
+        }
+
+
+        document
+            .querySelectorAll(
+                ".chair-seat"
+            )
+            .forEach(
+                function (seat) {
+
+                    seat.classList.remove(
+                        "booked"
+                    );
+                }
+            );
+
 
         try {
 
-            const response =
-                await fetch(
-                    "http://127.0.0.1:5000/venues"
+            const url =
+                "http://127.0.0.1:5000/booked-seats" +
+                "?movie_name=" +
+                encodeURIComponent(
+                    movieName
+                ) +
+                "&booking_date=" +
+                encodeURIComponent(
+                    getBookingDate()
+                ) +
+                "&show_time=" +
+                encodeURIComponent(
+                    selectedTime
+                ) +
+                "&venue=" +
+                encodeURIComponent(
+                    selectedVenue
                 );
 
+
+            const response =
+                await fetch(url);
+
+
             if (!response.ok) {
-                return null;
+
+                return;
             }
+
 
             const data =
                 await response.json();
 
-            const venues =
+
+            let bookedSeats =
+                [];
+
+
+            if (
                 Array.isArray(data)
-                    ? data
-                    : (
-                        Array.isArray(
-                            data.venues
-                        )
-                            ? data.venues
-                            : []
-                    );
+            ) {
 
-            const venue =
-                venues.find(
-                    function (item) {
+                bookedSeats =
+                    data;
 
-                        return (
-                            item.venue_name ===
-                            selectedVenue
+            } else if (
+                Array.isArray(
+                    data.booked_seats
+                )
+            ) {
+
+                bookedSeats =
+                    data.booked_seats;
+
+            } else if (
+                Array.isArray(
+                    data.seats
+                )
+            ) {
+
+                bookedSeats =
+                    data.seats;
+            }
+
+
+            bookedSeats.forEach(
+                function (seatNumber) {
+
+                    const seat =
+                        document.querySelector(
+                            '[data-seat="' +
+                            seatNumber +
+                            '"]'
+                        );
+
+
+                    if (seat) {
+
+                        seat.classList.add(
+                            "booked"
                         );
                     }
-                );
+                }
+            );
 
-            if (venue) {
-
-                selectedVenueId =
-                    venue.id;
-
-                return venue.id;
-            }
 
         } catch (error) {
 
             console.error(
-                "Venue ID error:",
+                "Booked seats error:",
                 error
             );
         }
-
-        return null;
     }
 
 
@@ -2601,115 +2798,49 @@ if (bookingPage) {
             return;
         }
 
+
         seatShowtimeList.innerHTML =
             "";
 
-        if (
-            !selectedShowType ||
-            !selectedVenue
-        ) {
-
-            return;
-        }
 
         const shows =
             getUniqueShowtimes(
                 selectedShowType
             );
 
-        const venueId =
-            await getCurrentVenueId();
 
         for (
             const show
             of shows
         ) {
 
-            const showKey =
-                show.type +
-                " " +
-                show.time;
-
-            let status =
-                "available";
-
-            try {
-
-                const params =
-                    new URLSearchParams({
-
-                        movie_name:
-                            movieName,
-
-                        booking_date:
-                            getBookingDate(),
-
-                        show_time:
-                            showKey
-                    });
-
-                const response =
-                    await fetch(
-                        "http://127.0.0.1:5000/" +
-                        "venue-availability?" +
-                        params.toString()
-                    );
-
-                if (
-                    response.ok
-                ) {
-
-                    const data =
-                        await response.json();
-
-                    const availability =
-                        normalizeAvailabilityResponse(
-                            data
-                        );
-
-                    const venueData =
-                        findVenueAvailability(
-                            availability,
-                            venueId
-                        );
-
-                    if (venueData) {
-
-                        status =
-                            getStatus(
-                                venueData.available_seats,
-                                venueData.total_seats ||
-                                192
-                            );
-                    }
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Seat showtime availability error:",
-                    error
-                );
-            }
-
             const button =
                 document.createElement(
                     "button"
                 );
 
+
             button.type =
                 "button";
 
+
             button.className =
-                "seat-showtime-button " +
-                status;
+                "seat-showtime-button";
+
 
             button.textContent =
                 show.displayTime;
 
+
+            const showKey =
+                show.type +
+                " " +
+                show.time;
+
+
             if (
-                selectedTime ===
-                showKey
+                showKey ===
+                selectedTime
             ) {
 
                 button.classList.add(
@@ -2717,57 +2848,133 @@ if (bookingPage) {
                 );
             }
 
-            if (
-                status === "sold"
-            ) {
 
-                button.disabled =
-                    true;
+            try {
 
-                button.title =
-                    "Sold Out";
+                const availability =
+                    await getVenueAvailability(
+                        showKey
+                    );
 
-            } else {
 
-                button.addEventListener(
-                    "click",
-                    async function () {
+                const venueAvailability =
+                    findVenueAvailability(
+                        availability,
+                        selectedVenueId
+                    );
 
-                        selectedTime =
-                            showKey;
 
-                        localStorage.setItem(
-                            "selected_show_time",
-                            selectedTime
+                let availableSeats =
+                    0;
+
+
+                let totalSeats =
+                    192;
+
+
+                if (
+                    venueAvailability
+                ) {
+
+                    availableSeats =
+                        Number(
+                            venueAvailability.available_seats
                         );
 
-                        clearSelectedSeats();
 
-                        seatShowtimeList
-                            .querySelectorAll(
-                                ".seat-showtime-button"
-                            )
-                            .forEach(
-                                function (
-                                    item
-                                ) {
+                    if (
+                        venueAvailability.total_seats
+                    ) {
 
-                                    item.classList.remove(
-                                        "selected"
-                                    );
-                                }
+                        totalSeats =
+                            Number(
+                                venueAvailability.total_seats
                             );
-
-                        button.classList.add(
-                            "selected"
-                        );
-
-                        updateSeatPageHeader();
-
-                        await loadBookedSeats();
                     }
+                }
+
+
+                const status =
+                    getAvailabilityStatus(
+                        availableSeats,
+                        totalSeats
+                    );
+
+
+                button.classList.add(
+                    status
+                );
+
+
+                if (
+                    status === "sold" &&
+                    showKey !== selectedTime
+                ) {
+
+                    button.disabled =
+                        true;
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Showtime availability error:",
+                    error
                 );
             }
+
+
+            button.addEventListener(
+                "click",
+                async function () {
+
+                    if (
+                        button.disabled
+                    ) {
+
+                        return;
+                    }
+
+
+                    selectedTime =
+                        showKey;
+
+
+                    localStorage.setItem(
+                        "selected_show_time",
+                        selectedTime
+                    );
+
+
+                    document
+                        .querySelectorAll(
+                            ".seat-showtime-button"
+                        )
+                        .forEach(
+                            function (
+                                oldButton
+                            ) {
+
+                                oldButton.classList.remove(
+                                    "selected"
+                                );
+                            }
+                        );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    clearSelectedSeats();
+
+
+                    await loadBookedSeats();
+                }
+            );
+
 
             seatShowtimeList.appendChild(
                 button
@@ -2777,86 +2984,69 @@ if (bookingPage) {
 
 
     // ========================================================
-    // VENUE CONTINUE BUTTON
+    // CLEAR SELECTED SEATS
     // ========================================================
 
-    if (
-        venueContinueButton
-    ) {
+    function clearSelectedSeats() {
 
-        venueContinueButton.addEventListener(
-            "click",
-            async function () {
+        selectedSeats.length =
+            0;
 
-                if (
-                    !selectedVenue ||
-                    !selectedTime
-                ) {
 
-                    alert(
-                        "Please select a cinema and showtime."
+        document
+            .querySelectorAll(
+                ".chair-seat.selected"
+            )
+            .forEach(
+                function (seat) {
+
+                    seat.classList.remove(
+                        "selected"
                     );
-
-                    return;
                 }
+            );
 
-                clearSelectedSeats();
 
-                setupSeats();
-
-                createSeatPriceNote();
-
-                showSeatSelection();
-
-                await loadBookedSeats();
-            }
-        );
+        updateSeatSummary();
     }
 
 
     // ========================================================
-    // BACK BUTTON
+    // BACK TO VENUE PAGE
     // ========================================================
 
     if (backButton) {
 
         backButton.addEventListener(
             "click",
-            async function () {
+            function () {
 
-                clearSelectedSeats();
+                const params =
+                    new URLSearchParams();
 
-                selectedVenue =
-                    null;
 
-                selectedVenueId =
-                    null;
-
-                selectedTime =
-                    null;
-
-                localStorage.removeItem(
-                    "selected_venue"
+                params.set(
+                    "date",
+                    getBookingDate()
                 );
 
-                localStorage.removeItem(
-                    "selected_venue_id"
+
+                params.set(
+                    "type",
+                    selectedShowType
                 );
 
-                localStorage.removeItem(
-                    "selected_show_time"
-                );
 
-                showVenueSelection();
-
-                await loadVenues();
+                window.location.href =
+                    "booking.html?" +
+                    params.toString();
             }
         );
     }
 
 
     // ========================================================
-    // GO TO CONFIRMATION PAGE
+    // PROCEED TO CONFIRMATION
     // ========================================================
 
     if (bookButton) {
@@ -2865,180 +3055,337 @@ if (bookingPage) {
             "click",
             function () {
 
-                const userId =
-                    localStorage.getItem(
-                        "user_id"
-                    );
-
-                if (!userId) {
-
-                    alert(
-                        "Please login before booking."
-                    );
-
-                    return;
-                }
-
                 if (!selectedDate) {
 
-                    alert(
-                        "Please select a date."
+                    showAppAlert(
+                        "Please select a date.",
+                        "warning"
                     );
 
                     return;
                 }
+
 
                 if (!selectedVenue) {
 
-                    alert(
-                        "Please select a cinema."
+                    showAppAlert(
+                        "Please select a cinema.",
+                        "warning"
                     );
 
                     return;
                 }
+
 
                 if (!selectedTime) {
 
-                    alert(
-                        "Please select a showtime."
+                    showAppAlert(
+                        "Please select a showtime.",
+                        "warning"
                     );
 
                     return;
                 }
+
 
                 if (!selectedShowType) {
 
-                    alert(
-                        "Please select a show format."
+                    showAppAlert(
+                        "Please select 2D or 3D.",
+                        "warning"
                     );
 
                     return;
                 }
+
 
                 if (
                     selectedSeats.length === 0
                 ) {
 
-                    alert(
-                        "Please select at least one seat."
+                    showAppAlert(
+                        "Please select at least one seat.",
+                        "warning"
                     );
 
                     return;
                 }
 
+
                 const totalAmount =
                     selectedSeats.length *
                     pricePerSeat;
 
-                const confirmationParams =
-                    new URLSearchParams({
 
-                        user_id:
-                            userId,
+                const userId =
+                    localStorage.getItem(
+                        "user_id"
+                    );
 
-                        movie_name:
-                            movieName,
 
-                        booking_date:
-                            getBookingDate(),
+                if (!userId) {
 
-                        show_time:
-                            selectedTime,
+                    showAppAlert(
+                        "Please login before booking a ticket.",
+                        "warning"
+                    );
 
-                        show_type:
-                            selectedShowType,
+                    return;
+                }
 
-                        venue:
-                            selectedVenue,
 
-                        seats:
-                            selectedSeats.join(","),
+                const params =
+                    new URLSearchParams();
 
-                        total_amount:
-                            totalAmount.toString()
-                    });
+
+                params.set(
+                    "user_id",
+                    userId
+                );
+
+
+                params.set(
+                    "movie_name",
+                    movieName
+                );
+
+
+                params.set(
+                    "booking_date",
+                    getBookingDate()
+                );
+
+
+                params.set(
+                    "show_time",
+                    selectedTime
+                );
+
+
+                params.set(
+                    "show_type",
+                    selectedShowType
+                );
+
+
+                params.set(
+                    "venue",
+                    selectedVenue
+                );
+
+
+                params.set(
+                    "seats",
+                    selectedSeats.join(
+                        ", "
+                    )
+                );
+
+
+                params.set(
+                    "total_amount",
+                    totalAmount
+                );
+
 
                 window.location.href =
                     "confirmation.html?" +
-                    confirmationParams.toString();
+                    params.toString();
             }
         );
     }
 
 
     // ========================================================
-    // LOAD DATE + FORMAT FROM URL
+    // LOAD SEAT PAGE DATA FROM URL
     // ========================================================
 
-    function loadSelectionFromURL() {
+    function loadSeatPageFromURL() {
 
         const params =
             new URLSearchParams(
                 window.location.search
             );
 
-        const urlDate =
-            params.get("date");
 
-        const urlType =
-            params.get("type");
+        selectedDate =
+            params.get("date") ||
+            localStorage.getItem(
+                "selected_booking_date"
+            );
 
 
-        if (urlDate) {
+        selectedShowType =
+            params.get("type") ||
+            localStorage.getItem(
+                "selected_show_type"
+            );
 
-            selectedDate =
-                urlDate;
+
+        selectedVenue =
+            params.get("venue") ||
+            localStorage.getItem(
+                "selected_venue"
+            );
+
+
+        selectedVenueId =
+            params.get("venue_id") ||
+            localStorage.getItem(
+                "selected_venue_id"
+            );
+
+
+        selectedTime =
+            params.get("show_time") ||
+            localStorage.getItem(
+                "selected_show_time"
+            );
+
+
+        if (selectedDate) {
 
             localStorage.setItem(
                 "selected_booking_date",
                 selectedDate
             );
-
-        } else {
-
-            selectedDate =
-                localStorage.getItem(
-                    "selected_booking_date"
-                );
         }
 
 
-        if (urlType) {
-
-            selectedShowType =
-                urlType;
+        if (selectedShowType) {
 
             localStorage.setItem(
                 "selected_show_type",
                 selectedShowType
             );
-
-        } else {
-
-            selectedShowType =
-                localStorage.getItem(
-                    "selected_show_type"
-                );
         }
 
 
-        if (
-            selectedDateSummary
-        ) {
+        if (selectedVenue) {
 
-            selectedDateSummary.textContent =
+            localStorage.setItem(
+                "selected_venue",
+                selectedVenue
+            );
+        }
+
+
+        if (selectedVenueId) {
+
+            localStorage.setItem(
+                "selected_venue_id",
+                selectedVenueId
+            );
+        }
+
+
+        if (selectedTime) {
+
+            localStorage.setItem(
+                "selected_show_time",
+                selectedTime
+            );
+        }
+
+
+        if (seatMovieTitle) {
+
+            seatMovieTitle.innerHTML =
+                movieName +
+                " <span>(" +
+                selectedShowType +
+                ")</span>";
+        }
+
+
+        if (seatShowType) {
+
+            seatShowType.textContent =
+                "";
+        }
+
+
+        if (seatVenueName) {
+
+            seatVenueName.textContent =
+                selectedVenue ||
+                "";
+        }
+
+
+        if (seatDateDisplay) {
+
+            seatDateDisplay.textContent =
                 "Date: " +
                 formatBookingDate(
                     selectedDate
-                );
+                ) +
+                " • " +
+                selectedShowType;
         }
+
+
+        showSeatPage();
+
+
+        setupSeats();
+
+
+        renderSeatShowtimes();
+
+
+        loadBookedSeats();
+
+
+        updateSeatSummary();
+    }
+
+
+    // ========================================================
+    // LOAD VENUE PAGE DATA FROM URL
+    // ========================================================
+
+    function loadVenuePageFromURL() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        selectedDate =
+            params.get("date") ||
+            localStorage.getItem(
+                "selected_booking_date"
+            );
+
+
+        selectedShowType =
+            params.get("type") ||
+            localStorage.getItem(
+                "selected_show_type"
+            );
+
+
+        localStorage.setItem(
+            "selected_booking_date",
+            selectedDate || ""
+        );
+
+
+        localStorage.setItem(
+            "selected_show_type",
+            selectedShowType || ""
+        );
 
 
         selectedVenue =
             null;
 
+
         selectedVenueId =
             null;
+
 
         selectedTime =
             null;
@@ -3048,16 +3395,38 @@ if (bookingPage) {
             "selected_venue"
         );
 
+
         localStorage.removeItem(
             "selected_venue_id"
         );
+
 
         localStorage.removeItem(
             "selected_show_time"
         );
 
 
-        showVenueSelection();
+        if (selectedDateSummary) {
+
+            selectedDateSummary.textContent =
+                "Date: " +
+                formatBookingDate(
+                    selectedDate
+                ) +
+                " • " +
+                selectedShowType;
+        }
+
+
+        if (venueContinueButton) {
+
+            venueContinueButton.style.display =
+                "none";
+        }
+
+
+        hideSeatPage();
+
 
         loadVenues();
     }
@@ -3067,21 +3436,15 @@ if (bookingPage) {
     // INITIALIZATION
     // ========================================================
 
-    hideSeatSelection();
+    if (isVenuePage) {
 
-
-    if (
-        venueContinueButton
-    ) {
-
-        venueContinueButton.style.display =
-            "none";
+        loadVenuePageFromURL();
     }
 
 
-    createSeatPriceNote();
+    if (isSeatPage) {
 
-    setupSeats();
+        loadSeatPageFromURL();
+    }
 
-    loadSelectionFromURL();
 }

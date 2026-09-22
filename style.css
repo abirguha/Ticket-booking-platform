@@ -126,6 +126,8 @@ header{
     display: flex;
     gap: 10px;
 }
+
+
 .input-field{
     font-size: 15px;
     background: rgba(255, 255, 255, 0.2);
@@ -239,4 +241,9 @@ header{
         flex-direction: column;
         gap: 0;
     }
+}
+
+/* LOGIN FIELD SPACING */
+.login-container .input-box:nth-child(2) {
+    margin-bottom: 20px !important;
 }

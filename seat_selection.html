@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="/style_booking.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <title>Venom: The Last Dance - Select Seats</title>
+
+
+    <!-- =====================================================
+         SEAT SELECTION PAGE
+         ===================================================== -->
+
+    <style>
+
+        /* =====================================================
+           MAIN SEAT PAGE
+           ===================================================== */
+
+        .booking {
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px 0 80px;
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           MOVIE + SHOWTIME HEADER
+           ===================================================== */
+
+        .seat-booking-top {
+
+            width: 94%;
+
+            margin: 10px auto 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            color: white;
+
+        }
+
+
+        .movie-heading {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .movie-heading h2 {
+
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 600;
+
+            color: white;
+
+        }
+
+
+        .movie-heading h2 span {
+
+            color: #ff5c5c;
+
+            font-weight: 500;
+
+        }
+
+
+        .movie-heading p {
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.50
+                );
+
+        }
+
+
+        /* =====================================================
+           SHOWTIME AREA
+           ===================================================== */
+
+        .seat-showtime-area {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 8px;
+
+        }
+
+
+        .seat-showtime-title {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.60
+                );
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+        }
+
+
+        .seat-showtime-list {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+        }
+
+
+        .seat-showtime-button {
+
+            min-width: 62px;
+
+            padding: 7px 10px;
+
+            border-radius: 7px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.15
+                );
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.035
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.75
+                );
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+
+        }
+
+
+        .seat-showtime-button:hover {
+
+            transform:
+                translateY(-1px);
+
+            border-color:
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.60
+                );
+
+        }
+
+
+        .seat-showtime-button.available {
+
+            color: #4ade80;
+
+            border-color:
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.30
+                );
+
+            background:
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.035
+                );
+
+        }
+
+
+        .seat-showtime-button.almost {
+
+            color: #f59e0b;
+
+            border-color:
+                rgba(
+                    245,
+                    158,
+                    11,
+                    0.35
+                );
+
+            background:
+                rgba(
+                    245,
+                    158,
+                    11,
+                    0.035
+                );
+
+        }
+
+
+        .seat-showtime-button.sold {
+
+            color: #777;
+
+            border-color:
+                rgba(
+                    120,
+                    120,
+                    120,
+                    0.20
+                );
+
+            background:
+                rgba(
+                    120,
+                    120,
+                    120,
+                    0.03
+                );
+
+            cursor: not-allowed;
+
+            opacity: 0.55;
+
+        }
+
+
+        .seat-showtime-button.selected {
+
+            background:
+                #ff5c5c !important;
+
+            border-color:
+                #ff5c5c !important;
+
+            color:
+                white !important;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.20
+                ),
+                0 5px 15px
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.20
+                );
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           DATE
+           ===================================================== */
+
+        .seat-booking-date {
+
+            width: 94%;
+
+            margin: 10px auto 0;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+        }
+
+
+        .seat-date-pill {
+
+            padding:
+                5px 11px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.10
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.60
+                );
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           SCREEN
+           ===================================================== */
+
+        .booking .screen {
+
+            display: block;
+
+            width: 94%;
+
+            margin:
+                40px auto 45px;
+
+        }
+
+
+        /* =====================================================
+           SEAT MAP
+           ===================================================== */
+
+        .booking .chair {
+
+            display: block;
+
+            width: 94%;
+
+            margin: 0 auto;
+
+        }
+
+
+        .booking .chair .seat {
+
+            color: white;
+
+            font-size: 8px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =====================================================
+           LEGEND
+           ===================================================== */
+
+        .details {
+
+            width: 94%;
+
+            margin:
+                30px auto 0;
+
+        }
+
+
+        /* =====================================================
+           SELECTED SEATS
+           ===================================================== */
+
+        #selected_seats_display {
+
+            text-align: center;
+
+            margin:
+                14px auto 0;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =====================================================
+           TOTAL
+           ===================================================== */
+
+        #booking_total_price {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =====================================================
+           PROCEED BUTTON
+           ===================================================== */
+
+        #book_ticket {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            width: 52px;
+
+            height: 52px;
+
+            padding: 0;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #ff5c5c;
+
+            color: white;
+
+            cursor: pointer;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 5px 20px
+                rgba(
+                    255,
+                    92,
+                    92,
+                    0.30
+                );
+
+            transition:
+                0.2s ease;
+
+        }
+
+
+        #book_ticket:hover {
+
+            background:
+                #ff4141;
+
+            transform:
+                scale(1.05);
+
+        }
+
+
+        #book_ticket i {
+
+            display: none;
+
+        }
+
+
+        #book_ticket::after {
+
+            content: "→";
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(
+                    -50%,
+                    -53%
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            width: 100%;
+
+            height: 100%;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           BACK BUTTON
+           ===================================================== */
+
+        #back_ticket {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: fixed;
+
+            left: 25px;
+
+            bottom: 25px;
+
+            width: 45px;
+
+            height: 45px;
+
+            padding: 0;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.10
+                );
+
+            color: white;
+
+            cursor: pointer;
+
+            z-index: 1000;
+
+            transition:
+                0.2s ease;
+
+        }
+
+
+        #back_ticket:hover {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            transform:
+                scale(1.05);
+
+        }
+
+
+        #back_ticket i {
+
+            display: none;
+
+        }
+
+
+        #back_ticket::after {
+
+            content: "←";
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(
+                    -50%,
+                    -53%
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            width: 100%;
+
+            height: 100%;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media screen and
+               (max-width: 900px) {
+
+            .seat-booking-top {
+
+                width: 96%;
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+                gap: 12px;
+
+            }
+
+
+            .seat-showtime-area {
+
+                width: 100%;
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .seat-showtime-list {
+
+                justify-content:
+                    flex-start;
+
+            }
+
+
+            .seat-booking-date {
+
+                width: 96%;
+
+                justify-content:
+                    flex-start;
+
+            }
+
+
+            .booking .screen {
+
+                width: 96%;
+
+            }
+
+
+            .booking .chair {
+
+                width: 96%;
+
+            }
+
+        }
+
+
+        @media screen and
+               (max-width: 600px) {
+
+            .movie-heading h2 {
+
+                font-size: 20px;
+
+            }
+
+
+            .seat-showtime-button {
+
+                min-width: 58px;
+
+                padding:
+                    6px 8px;
+
+                font-size: 10px;
+
+            }
+
+
+            #book_ticket {
+
+                right: 15px;
+
+                bottom: 15px;
+
+            }
+
+
+            #back_ticket {
+
+                left: 15px;
+
+                bottom: 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="booking">
+
+
+    <!-- =====================================================
+         MOVIE + SHOWTIME
+         ===================================================== -->
+
+    <div class="seat-booking-top">
+
+
+        <div class="movie-heading">
+
+            <h2 id="seat_movie_title">
+
+                Venom: The Last Dance
+
+                <span id="seat_show_type"></span>
+
+            </h2>
+
+
+            <p id="seat_venue_name">
+
+                Select a showtime to continue
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SHOWTIMES
+             ================================================= -->
+
+        <div class="seat-showtime-area">
+
+            <div class="seat-showtime-title">
+
+                Show Time
+
+            </div>
+
+
+            <div
+                class="seat-showtime-list"
+                id="seat_showtime_list">
+
+                <!-- JavaScript creates showtimes -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DATE
+         ===================================================== -->
+
+    <div class="seat-booking-date">
+
+        <div
+            class="seat-date-pill"
+            id="seat_date_display">
+
+            Date: --
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SCREEN
+         ===================================================== -->
+
+    <div class="screen">
+
+        Screen
+
+    </div>
+
+
+    <!-- =====================================================
+         SEAT MAP
+         ===================================================== -->
+
+    <div class="chair">
+
+        <!-- JavaScript generates all 192 seats -->
+
+    </div>
+
+
+    <!-- =====================================================
+         AVAILABLE / BOOKED / SELECTED LEGEND
+         ===================================================== -->
+
+    <div
+        class="details"
+        id="det">
+
+        <div class="details-chair">
+
+            <li>
+                Available
+            </li>
+
+            <li>
+                Booked
+            </li>
+
+            <li>
+                Selected
+            </li>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SELECTED SEATS
+         ===================================================== -->
+
+    <div id="selected_seats_display">
+
+        Selected: --
+
+    </div>
+
+
+    <!-- =====================================================
+         TOTAL
+         ===================================================== -->
+
+    <div id="booking_total_price">
+
+        Total: 0 seats
+
+    </div>
+
+
+    <!-- =====================================================
+         BACK
+         ===================================================== -->
+
+    <button
+        class="book-tic"
+        id="back_ticket"
+        type="button">
+
+        <i class="bi bi-arrow-left"></i>
+
+    </button>
+
+
+    <!-- =====================================================
+         PROCEED
+         ===================================================== -->
+
+    <button
+        class="book-tic"
+        id="book_ticket"
+        type="button">
+
+        <i class="bi bi-arrow-right"></i>
+
+    </button>
+
+
+</div>
+
+
+<script src="function.js"></script>
+
+
+</body>
+
+</html>

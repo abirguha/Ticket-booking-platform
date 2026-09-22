@@ -112,7 +112,7 @@ body {
 
     background: rgba(255, 255, 255, 0.06);
 
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(189, 51, 51, 0.12);
 
     color: rgba(255, 255, 255, 0.8);
 
@@ -747,7 +747,7 @@ body {
 
     margin-top: 45px;
 
-    display: none;
+    display: flex;
 
     align-items: center;
 
@@ -760,6 +760,10 @@ body {
     display: flex;
 
     align-items: center;
+
+    justify-content: center;
+
+    gap: 35px;
 }
 
 
@@ -773,13 +777,15 @@ body {
 
     transition: 0.3s linear;
 
-    margin: 0 25px;
+    margin: 0;
 
-    font-weight: 600;
+    padding-left: 18px;
+
+    font-weight: 500;
 
     font-size: 12px;
 
-    color: rgba(184, 184, 184, 0.3);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 
@@ -789,61 +795,62 @@ body {
 
     content: '';
 
-    width: 20px;
+    width: 9px;
 
-    height: 15px;
+    height: 9px;
 
-    background: rgba(184, 184, 184, 0.3);
+    background: var(--seat);
 
-    border-radius: 5px;
+    border-radius: 50%;
 
-    left: -30px;
+    left: 0;
 
-    top: 2px;
+    top: 50%;
+
+    transform: translateY(-50%);
 
     transition: 0.3s linear;
+
+    box-shadow: 0 0 7px rgba(184, 184, 184, 0.25);
 }
 
 
 .booking .details .details-chair li::after {
 
-    position: absolute;
-
-    content: '';
-
-    width: 20px;
-
-    height: 4px;
-
-    background: rgba(184, 184, 184, 0.1);
-
-    border-radius: 10px;
-
-    left: -30px;
-
-    bottom: -5px;
-
-    transition: 0.3s linear;
+    display: none;
 }
 
+
+/* AVAILABLE */
+
+.booking .details .details-chair li:nth-child(1)::before {
+
+    background: var(--available);
+
+    box-shadow:
+        0 0 7px rgba(74, 222, 128, 0.45);
+}
+
+
+/* BOOKED */
 
 .booking .details .details-chair li:nth-child(2)::before {
+
     background: var(--primary);
+
+    box-shadow:
+        0 0 7px rgba(253, 101, 101, 0.45);
 }
 
 
-.booking .details .details-chair li:nth-child(2)::after {
-    background: var(--primary);
-}
-
+/* SELECTED */
 
 .booking .details .details-chair li:nth-child(3)::before {
-    background: greenyellow;
-}
 
-
-.booking .details .details-chair li:nth-child(3)::after {
     background: greenyellow;
+
+    box-shadow:
+        0 0 7px rgba(173, 255, 47, 0.45);
 }
 
 
@@ -992,6 +999,7 @@ body {
    TICKET CARD
    ============================================================ */
 
+
 .booking .ticket .tic {
 
     width: 100%;
@@ -1031,7 +1039,7 @@ body {
 }
 
 
-.booking .ticket .tic .barcode .card {
+booking .ticket .tic .barcode .card {
 
     width: 100%;
 
@@ -1162,7 +1170,7 @@ body {
 }
 
 
-.booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(2) {
+booking .ticket .tic .tic-details .seat-details .seat-card h6:nth-child(2) {
 
     font-size: 20px;
 
@@ -1416,4 +1424,15 @@ body {
 
 #book_ticket:hover::after {
     color: white !important;
+}
+/* ============================================================
+   SEAT SELECTION - AVAILABLE LEGEND
+   ============================================================ */
+
+.booking .details .details-chair li:nth-child(1)::before {
+    background: rgba(184, 184, 184, 0.3) !important;
+}
+
+.booking .details .details-chair li:nth-child(1)::after {
+    background: rgba(184, 184, 184, 0.1) !important;
 }
