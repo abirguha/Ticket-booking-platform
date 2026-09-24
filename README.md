@@ -37,6 +37,7 @@ MySQL Database (Aiven)
 ```
 
 🔄 Booking Flow
+```text
 
 Movie Selection
       ↓
@@ -48,6 +49,7 @@ Booking Confirmation
       ↓
 My Bookings
 
+```
 
 🌐 Live Demo
 
