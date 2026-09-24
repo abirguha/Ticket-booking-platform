@@ -1,46 +1,54 @@
 # 🎟️ Online Ticket Booking & Reservation Platform
 
-A web-based ticket booking and reservation platform designed to provide users with a simple and convenient way to browse available movies and make ticket reservations.
-
-## 📌 Project Overview
-
-This project is a front-end web application developed using HTML, CSS and JavaScript.
-
-Users can browse movies, view available options, and proceed through the ticket booking process. The project also includes an admin interface for managing the platform.
+A full-stack web-based movie ticket booking and reservation platform that allows users to browse movies, select cinemas and showtimes, choose seats, confirm bookings, and view booking history.
 
 ## ✨ Features
 
-- 🎬 Browse available movies
-- 🎟️ Ticket booking and reservation
-- 👤 User-friendly interface
+- 🎬 Movie browsing and selection
+- 👤 User registration and login
+- 🏢 Cinema and showtime selection
+- 💺 Interactive seat selection
+- 🔒 Seat availability tracking
+- 🚫 Duplicate seat booking prevention
+- ✅ Booking confirmation
+- 📋 Booking history
 - 🛠️ Admin interface
-- 📱 Responsive web design
-- 🖼️ Movie images and details
-- ⚡ JavaScript-based functionality
+- 📱 Responsive web interface
 
 ## 🛠️ Technologies Used
 
-- HTML5
-- CSS3
-- JavaScript
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Backend:** Python, Flask, REST API
+- **Database:** MySQL
+- **Deployment:** GitHub Pages, Render, Aiven MySQL
+- **Version Control:** Git & GitHub
 
-## 📂 Project Structure
+## 🏗️ Architecture
 
 ```text
-Ticket-booking-platform/
-│
-├── images/
-├── admin_home.html
-├── booking.html
-├── function.js
-├── home.html
-├── index.html
-├── movie1.html
-├── movie2.html
-├── movie3.html
-├── movie4.html
-├── movie5.html
-├── movie6.html
-├── movie7.html
-├── movie8.html
-└── style.css
+GitHub Pages
+     │
+     ▼
+Flask Backend (Render)
+     │
+     ▼
+MySQL Database (Aiven)
+
+```
+
+🔄 Booking Flow
+
+Movie Selection
+      ↓
+Cinema & Showtime Selection
+      ↓
+Seat Selection
+      ↓
+Booking Confirmation
+      ↓
+My Bookings
+
+
+🌐 Live Demo
+
+https://abirguha.github.io/Ticket-booking-platform/
