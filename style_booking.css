@@ -1080,7 +1080,7 @@ booking .ticket .tic .barcode .card {
 .booking .ticket .tic .tic-details {
 
     background:
-        url(/images/venom4.jpg)
+        url(images/venom4.jpg)
         no-repeat center -60px / cover;
 }
 

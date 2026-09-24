@@ -14,7 +14,7 @@ body{
     background: rgb(31, 32, 37);
 }
 .background-image{
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.253), rgb(31, 32, 37)), url("/images/DandW3.jpg");
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.253), rgb(31, 32, 37)), url("images/DandW3.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
