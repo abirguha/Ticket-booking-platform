@@ -1321,7 +1321,8 @@ if (bookingPage) {
 
 
         titleLabel.textContent =
-            "Showtimes";
+            selectedShowType +
+            " Showtimes";
 
 
         card.appendChild(
@@ -1629,324 +1630,73 @@ if (bookingPage) {
             }
 
 
-            const filteredShows =
-                showtimeList.filter(
-                    function (show) {
-
-                        return (
-                            show.type ===
-                            selectedShowType
-                        );
-                    }
+            const shows =
+                getUniqueShowtimes(
+                    selectedShowType
                 );
 
 
-            for (
-                const venue
-                of venues
-            ) {
+            // ====================================================
+            // LOAD ALL SHOWTIME AVAILABILITY IN PARALLEL
+            // ====================================================
+            // The old code waited for every showtime request
+            // before starting the next one. That made the page
+            // feel like it was loading one item at a time.
+            // There are only five showtimes for each format, and
+            // each response already contains availability for all
+            // cinemas, so five parallel requests are sufficient.
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+            const availabilityResults =
+                await Promise.all(
+                    shows.map(
+                        async function (show) {
 
+                            const showKey =
+                                show.type +
+                                " " +
+                                show.time;
 
-                card.className =
-                    "cinema-card";
-
-
-                const header =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                header.className =
-                    "cinema-header";
-
-
-                const info =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                info.className =
-                    "cinema-info";
-
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-
-                title.textContent =
-                    venue.venue_name;
-
-
-                const location =
-                    document.createElement(
-                        "p"
-                    );
-
-
-                location.textContent =
-                    venue.location ||
-                    "";
-
-
-                info.appendChild(
-                    title
-                );
-
-
-                info.appendChild(
-                    location
-                );
-
-
-                header.appendChild(
-                    info
-                );
-
-
-                card.appendChild(
-                    header
-                );
-
-
-                const showtimeTitle =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                showtimeTitle.className =
-                    "showtime-title";
-
-
-                showtimeTitle.textContent =
-                    selectedShowType +
-                    " Showtimes";
-
-
-                card.appendChild(
-                    showtimeTitle
-                );
-
-
-                const showtimeContainer =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                showtimeContainer.className =
-                    "showtime-container";
-
-
-                for (
-                    const show
-                    of filteredShows
-                ) {
-
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
-
-
-                    button.type =
-                        "button";
-
-
-                    button.className =
-                        "venue-showtime";
-
-
-                    const showKey =
-                        show.type +
-                        " " +
-                        show.time;
-
-
-                    button.textContent =
-                        show.displayTime;
-
-
-                    let availableSeats =
-                        Number(
-                            venue.total_seats
-                        );
-
-
-                    try {
-
-                        const availability =
-                            await getVenueAvailability(
-                                showKey
-                            );
-
-
-                        const venueAvailability =
-                            findVenueAvailability(
-                                availability,
-                                venue.id
-                            );
-
-
-                        if (
-                            venueAvailability &&
-                            venueAvailability.available_seats !==
-                            undefined
-                        ) {
-
-                            availableSeats =
-                                Number(
-                                    venueAvailability.available_seats
-                                );
+                            return [
+                                showKey,
+                                await getVenueAvailability(
+                                    showKey
+                                )
+                            ];
                         }
-
-                    } catch (error) {
-
-                        console.error(
-                            "Showtime availability error:",
-                            error
-                        );
-                    }
+                    )
+                );
 
 
-                    const status =
-                        getAvailabilityStatus(
-                            availableSeats,
-                            venue.total_seats
-                        );
+            const availabilityMap =
+                {};
 
 
-                    button.classList.add(
-                        status
-                    );
+            availabilityResults.forEach(
+                function (result) {
+
+                    availabilityMap[
+                        result[0]
+                    ] =
+                        result[1];
+                }
+            );
 
 
-                    if (
-                        status === "sold"
-                    ) {
+            // ====================================================
+            // RENDER ALL CINEMAS AFTER AVAILABILITY IS READY
+            // ====================================================
 
-                        button.disabled =
-                            true;
+            venues.forEach(
+                function (venue) {
 
-                    } else {
-
-                        button.addEventListener(
-                            "click",
-                            function () {
-
-                                document
-                                    .querySelectorAll(
-                                        ".venue-showtime.selected"
-                                    )
-                                    .forEach(
-                                        function (
-                                            oldButton
-                                        ) {
-
-                                            oldButton.classList.remove(
-                                                "selected"
-                                            );
-                                        }
-                                    );
-
-
-                                button.classList.add(
-                                    "selected"
-                                );
-
-
-                                selectedVenue =
-                                    venue.venue_name;
-
-
-                                selectedVenueId =
-                                    venue.id;
-
-
-                                selectedTime =
-                                    showKey;
-
-
-                                localStorage.setItem(
-                                    "selected_venue",
-                                    selectedVenue
-                                );
-
-
-                                localStorage.setItem(
-                                    "selected_venue_id",
-                                    selectedVenueId
-                                );
-
-
-                                localStorage.setItem(
-                                    "selected_show_time",
-                                    selectedTime
-                                );
-
-
-                                showContinueButton();
-                            }
-                        );
-                    }
-
-
-                    showtimeContainer.appendChild(
-                        button
+                    venueList.appendChild(
+                        createVenueCard(
+                            venue,
+                            availabilityMap
+                        )
                     );
                 }
-
-
-                card.appendChild(
-                    showtimeContainer
-                );
-
-
-                const legend =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                legend.className =
-                    "showtime-legend";
-
-
-                legend.innerHTML =
-                    '<span>' +
-                    '<span class="legend-dot available-dot"></span>' +
-                    'Available' +
-                    '</span>' +
-
-                    '<span>' +
-                    '<span class="legend-dot almost-dot"></span>' +
-                    'Almost Sold' +
-                    '</span>' +
-
-                    '<span>' +
-                    '<span class="legend-dot sold-dot"></span>' +
-                    'Sold Out' +
-                    '</span>';
-
-
-                card.appendChild(
-                    legend
-                );
-
-
-                venueList.appendChild(
-                    card
-                );
-            }
+            );
 
 
         } catch (error) {
