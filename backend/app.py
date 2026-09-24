@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_from_directory
 from flask_cors import CORS
 from functools import wraps
 import mysql.connector
@@ -35,8 +35,7 @@ def get_db_connection():
 
 @app.route("/")
 def home():
-    return "Ticket Booking Backend is running!"
-
+    return send_from_directory("..", "index.html")
 
 # ==================== SIGNUP ====================
 
