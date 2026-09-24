@@ -1,29 +1,1185 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style_ADMIN.css">
-    <title>Document</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:200i,300i,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style_ADMIN.css"
+    >
+
+    <title>Admin Dashboard</title>
+
+
+    <style>
+
+        /* =========================================================
+           ADMIN DASHBOARD
+           ========================================================= */
+
+        .admin-dashboard {
+
+            width: 92%;
+
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding: 30px 0 50px;
+
+        }
+
+
+        .dashboard-heading {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .dashboard-heading h1 {
+
+            margin: 0;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            color: #111;
+
+        }
+
+
+        .dashboard-heading p {
+
+            margin-top: 8px;
+
+            color: #777;
+
+            font-size: 15px;
+
+        }
+
+
+        /* =========================================================
+           STATISTICS CARDS
+           ========================================================= */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .stat-card {
+
+            position: relative;
+
+            background: #ffffff;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            min-height: 135px;
+
+            border: 1px solid #eeeeee;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.08);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+        }
+
+
+        .stat-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 28px
+                rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        .stat-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 5px;
+
+            height: 100%;
+
+            background: #ff8c00;
+
+        }
+
+
+        .stat-title {
+
+            color: #777;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .stat-value {
+
+            color: #111;
+
+            font-size: 31px;
+
+            font-weight: 700;
+
+            line-height: 1.2;
+
+        }
+
+
+        .stat-icon {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 22px;
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #fff3df;
+
+            color: #ff8c00;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =========================================================
+           RECENT BOOKINGS
+           ========================================================= */
+
+        .bookings-section {
+
+            background: #ffffff;
+
+            border-radius: 12px;
+
+            border: 1px solid #eeeeee;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.08);
+
+            overflow: hidden;
+
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 22px 25px;
+
+            border-bottom: 1px solid #eeeeee;
+
+        }
+
+
+        .section-header h2 {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            color: #111;
+
+            font-weight: 600;
+
+        }
+
+
+        .refresh-button {
+
+            border: none;
+
+            background: #ff8c00;
+
+            color: #ffffff;
+
+            padding: 9px 17px;
+
+            border-radius: 6px;
+
+            font-family: Poppins, sans-serif;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+
+        .refresh-button:hover {
+
+            background: #e67e00;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+        }
+
+
+        .bookings-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 800px;
+
+        }
+
+
+        .bookings-table th {
+
+            text-align: left;
+
+            padding: 15px 18px;
+
+            background: #fff7ec;
+
+            color: #444;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+        }
+
+
+        .bookings-table td {
+
+            padding: 15px 18px;
+
+            border-top: 1px solid #eeeeee;
+
+            color: #555;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .bookings-table tr:hover td {
+
+            background: #fffaf4;
+
+        }
+
+
+        .amount {
+
+            color: #e67e00 !important;
+
+            font-weight: 600;
+
+        }
+
+
+        .loading {
+
+            padding: 35px;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        .empty-state {
+
+            padding: 35px;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        .error-state {
+
+            padding: 35px;
+
+            text-align: center;
+
+            color: #d9534f;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================================================
+           LOGOUT
+           ========================================================= */
+
+        .logout-button {
+
+            margin-left: 15px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #ffffff;
+
+            font-family: Poppins, sans-serif;
+
+            font-size: inherit;
+
+            cursor: pointer;
+
+            text-decoration: underline;
+
+        }
+
+
+        .logout-button:hover {
+
+            opacity: 0.8;
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .admin-dashboard {
+
+                width: 94%;
+
+                padding-top: 20px;
+
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .dashboard-heading h1 {
+
+                font-size: 28px;
+
+            }
+
+
+            .section-header {
+
+                padding: 18px;
+
+            }
+
+
+            .admin-login-box {
+
+                padding: 25px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
+
+
+    <!-- =====================================================
+         ADMIN NAVIGATION
+         ===================================================== -->
+
     <div class="main-menu">
+
         <nav class="navigation">
-            <label class="logo">LOGO.</label>
+
             <ul class="nav menu">
-                <li class="active"><a href="#">Home </a></li>
-                <li><a href="#">Movies </a></li>
-                <li><a href="#">Customers </a></li>
-                <li><a href="#">Bookings</a></li>
-                <li><a href="#">Users</a></li>
+
+                <li class="active">
+                    <a href="#">
+                        Movies
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Bookings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Users
+                    </a>
+                </li>
+
+                <li>
+                    <button
+                        type="button"
+                        class="logout-button"
+                        onclick="logoutAdmin()"
+                    >
+                        Logout
+                    </button>
+                </li>
+
             </ul>
+
         </nav>
+
     </div>
+
+
+    <!-- =====================================================
+         ADMIN DASHBOARD
+         ===================================================== -->
+
     <section>
-        <div class="home">
-            <h1>Welcome Admin!</h1>
+
+        <div class="admin-dashboard">
+
+
+            <div class="dashboard-heading">
+
+                <h1>
+                    Welcome Admin!
+                </h1>
+
+                <p>
+                    Overview of your ticket booking platform
+                </p>
+
+            </div>
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        Total Users
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="total-users"
+                    >
+                        —
+                    </div>
+
+                    <div class="stat-icon">
+                        U
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        Total Bookings
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="total-bookings"
+                    >
+                        —
+                    </div>
+
+                    <div class="stat-icon">
+                        B
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        Total Revenue
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="total-revenue"
+                    >
+                        —
+                    </div>
+
+                    <div class="stat-icon">
+                        ₹
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-title">
+                        Total Venues
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="total-venues"
+                    >
+                        —
+                    </div>
+
+                    <div class="stat-icon">
+                        V
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= RECENT BOOKINGS ================= -->
+
+            <div class="bookings-section">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Recent Bookings
+                    </h2>
+
+                    <button
+                        type="button"
+                        class="refresh-button"
+                        onclick="loadDashboard()"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="bookings-container"
+                    class="table-wrapper"
+                >
+
+                    <div class="loading">
+                        Loading bookings...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
         </div>
+
     </section>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+
+        const API_BASE_URL =
+            "http://127.0.0.1:5000";
+
+
+        // =====================================================
+        // ADMIN CHECK
+        // =====================================================
+
+        async function checkAdminAuthentication() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE_URL +
+                        "/admin-check",
+                        {
+                            method: "GET",
+
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    window.location.href = "index.html";
+
+                    return false;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    data.authenticated === true
+                ) {
+
+                    return true;
+
+                }
+
+
+                window.location.href = "index.html";
+
+                return false;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Admin authentication check failed:",
+                    error
+                );
+
+                window.location.href = "index.html";
+
+                return false;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // LOAD DASHBOARD
+        // =====================================================
+
+        async function loadDashboard() {
+
+            const authenticated =
+                await checkAdminAuthentication();
+
+
+            if (!authenticated) {
+
+                return;
+
+            }
+
+
+            await loadStats();
+
+            await loadBookings();
+
+        }
+
+
+        // =====================================================
+        // LOAD STATISTICS
+        // =====================================================
+
+        async function loadStats() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE_URL +
+                        "/admin/stats",
+                        {
+                            method: "GET",
+
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (
+                    response.status === 401
+                ) {
+
+                    window.location.href = "index.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not load statistics."
+                    );
+
+                }
+
+
+                document
+                    .getElementById(
+                        "total-users"
+                    )
+                    .textContent =
+                    data.total_users;
+
+
+                document
+                    .getElementById(
+                        "total-bookings"
+                    )
+                    .textContent =
+                    data.total_bookings;
+
+
+                document
+                    .getElementById(
+                        "total-revenue"
+                    )
+                    .textContent =
+                    "₹" +
+                    Number(
+                        data.total_revenue
+                    ).toLocaleString(
+                        "en-IN"
+                    );
+
+
+                document
+                    .getElementById(
+                        "total-venues"
+                    )
+                    .textContent =
+                    data.total_venues;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Statistics error:",
+                    error
+                );
+
+                document
+                    .getElementById(
+                        "total-users"
+                    )
+                    .textContent =
+                    "—";
+
+                document
+                    .getElementById(
+                        "total-bookings"
+                    )
+                    .textContent =
+                    "—";
+
+                document
+                    .getElementById(
+                        "total-revenue"
+                    )
+                    .textContent =
+                    "—";
+
+                document
+                    .getElementById(
+                        "total-venues"
+                    )
+                    .textContent =
+                    "—";
+
+            }
+
+        }
+
+
+        // =====================================================
+        // LOAD RECENT BOOKINGS
+        // =====================================================
+
+        async function loadBookings() {
+
+            const container =
+                document.getElementById(
+                    "bookings-container"
+                );
+
+
+            container.innerHTML =
+                '<div class="loading">' +
+                'Loading bookings...' +
+                '</div>';
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE_URL +
+                        "/admin/bookings",
+                        {
+                            method: "GET",
+
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (
+                    response.status === 401
+                ) {
+
+                    window.location.href = "index.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not load bookings."
+                    );
+
+                }
+
+
+                const bookings =
+                    data.bookings || [];
+
+
+                if (
+                    bookings.length === 0
+                ) {
+
+                    container.innerHTML =
+                        '<div class="empty-state">' +
+                        'No bookings found.' +
+                        '</div>';
+
+                    return;
+
+                }
+
+
+                let html =
+
+                    '<table class="bookings-table">' +
+
+                    '<thead>' +
+
+                    '<tr>' +
+
+                    '<th>Movie</th>' +
+
+                    '<th>Date</th>' +
+
+                    '<th>Show Time</th>' +
+
+                    '<th>Venue</th>' +
+
+                    '<th>Seats</th>' +
+
+                    '<th>Amount</th>' +
+
+                    '<th>Booked On</th>' +
+
+                    '</tr>' +
+
+                    '</thead>' +
+
+                    '<tbody>';
+
+
+                bookings.forEach(
+                    function (booking) {
+
+                        html +=
+
+                            '<tr>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                booking.movie_name
+                            ) +
+                            '</td>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                booking.booking_date
+                            ) +
+                            '</td>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                booking.show_time
+                            ) +
+                            '</td>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                booking.venue
+                            ) +
+                            '</td>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                String(
+                                    booking.seat_count ??
+                                    0
+                                )
+                            ) +
+                            '</td>' +
+
+                            '<td class="amount">' +
+                            '₹' +
+                            Number(
+                                booking.total_amount ||
+                                0
+                            ).toLocaleString(
+                                "en-IN"
+                            ) +
+                            '</td>' +
+
+                            '<td>' +
+                            escapeHtml(
+                                booking.booking_time
+                            ) +
+                            '</td>' +
+
+                            '</tr>';
+
+                    }
+                );
+
+
+                html +=
+
+                    '</tbody>' +
+
+                    '</table>';
+
+
+                container.innerHTML =
+                    html;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Bookings error:",
+                    error
+                );
+
+
+                container.innerHTML =
+
+                    '<div class="error-state">' +
+
+                    'Unable to load recent bookings.' +
+
+                    '</div>';
+
+            }
+
+        }
+
+
+        // =====================================================
+        // HTML ESCAPE
+        // =====================================================
+
+        function escapeHtml(value) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.textContent =
+                value ?? "";
+
+            return div.innerHTML;
+
+        }
+
+
+        // =====================================================
+        // LOGOUT
+        // =====================================================
+
+        async function logoutAdmin() {
+
+            try {
+
+                await fetch(
+                    API_BASE_URL +
+                    "/admin-logout",
+                    {
+                        method: "POST",
+
+                        credentials: "include"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+            }
+
+
+            window.location.href = "index.html";
+
+
+        }
+
+
+        // =====================================================
+        // INITIALIZE DASHBOARD
+        // =====================================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadDashboard();
+
+            }
+        );
+
+
+    </script>
+
+
 </body>
+
 </html>

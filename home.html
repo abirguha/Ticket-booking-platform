@@ -1,123 +1,1764 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_home.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style_home.css"
+    >
+
     <title>Home Page</title>
+
+
+    <style>
+
+        /* =====================================================
+           DATE INPUT
+           ===================================================== */
+
+        #filterDate {
+
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 8px 10px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 5px;
+
+            background: rgba(255,255,255,0.05);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+
+        }
+
+
+        #filterDate:focus {
+
+            border-color: #ff5c5c;
+
+        }
+
+
+        /* =====================================================
+           FILTER STATUS
+           ===================================================== */
+
+        #filterStatus {
+
+            margin-top: 12px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            color: #aaa;
+
+        }
+
+
+        /* =====================================================
+           NO RESULTS
+           ===================================================== */
+
+        #noMoviesMessage {
+
+            display: none;
+
+            width: 100%;
+
+            text-align: center;
+
+            padding: 40px 20px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        #noMoviesMessage h2 {
+
+            color: white;
+
+            margin-bottom: 8px;
+
+        }
+
+        .catalogue-movie[hidden] {
+            display: none !important;
+        }
+
+
+        #noMoviesMessage p {
+
+            color: #aaa;
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        .logout-link {
+
+            cursor: pointer;
+
+        }
+
+
+        .logout-link:hover {
+
+            color: #ff5c5c !important;
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
-   <section class="top-bar">
+
+
+    <!-- =====================================================
+         TOP BAR
+         ===================================================== -->
+
+    <section class="top-bar">
+
+
         <div class="left-content">
+
             <ul class="navigation">
-                <li><a class="active" href="home.html">Home</a></li>
-                <li><a href="#">Store</a></li>
-                <li><a href="my_bookings.html">My Bookings</a></li>
+
+
+                <li>
+
+                    <a
+                        class="active"
+                        href="home.html"
+                    >
+                        Home
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="my_bookings.html">
+                        My Bookings
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="#"
+                        id="logoutButton"
+                        class="logout-link"
+                    >
+                        Logout
+                    </a>
+
+                </li>
+
+
             </ul>
+
         </div>
-        <div class="right-content">
-            <img src="images/filter.png" alt="" class="filter">
-            <img src="images/cart.png" alt="" class="cart">
-            <img src="images/help.png" alt="" class="help">
-            <div class="profile-img-box">
-                <img src="images/person.png" alt="">
-            </div>
-            <img src="images/menu.png" alt="" class="menu">
-        </div>
-   </section>
-   <section class="main-container">
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN CONTAINER
+         ===================================================== -->
+
+    <section class="main-container">
+
+
+        <!-- =================================================
+             SIDEBAR
+             ================================================= -->
+
         <div class="sidebar">
-            <form action="#">
+
+
+            <form
+                id="movieFilterForm"
+                action="#"
+            >
+
+
+                <!-- =========================================
+                     SHOW DATE
+                     ========================================= -->
+
                 <div class="sidebar-groups">
-                    <h3 class="sg-title">Categories</h3>
-                    <input type="checkbox" id="adventure" name="adventure" value="adventure">
-                    <label for="adventure">Adventure</label><br>
-                    <input type="checkbox" id="action" name="action" value="action">
-                    <label for="action">Action</label><br>
-                    <input type="checkbox" id="animation" name="animation" value="animation">
-                    <label for="animation">Animation</label><br>
-                    <input type="checkbox" id="comedy" name="comedy" value="comedy">
-                    <label for="comedy">Comedy</label><br>
-                    <input type="checkbox" id="science" name="science" value="science">
-                    <label for="science">Science Fiction</label><br>
-                    <input type="checkbox" id="thiller" name="thiller" value="thiller">
-                    <label for="thiller">Thriller</label><br>
-                    <input type="checkbox" id="history" name="history" value="history">
-                    <label for="history">History</label><br>
-                    <input type="checkbox" id="documentary" name="documentary" value="documentary">
-                    <label for="documentary">Documentary</label><br>
-                    <input type="checkbox" id="fantacy" name="fantacy" value="fantacy">
-                    <label for="fantacy">Fantacy</label><br>
+
+                    <h3 class="sg-title">
+                        Show Date
+                    </h3>
+
+
+                    <input
+                        type="date"
+                        id="filterDate"
+                        name="filterDate"
+                    >
+
                 </div>
+
+
+
+                <!-- =========================================
+                     CATEGORIES
+                     ========================================= -->
+
                 <div class="sidebar-groups">
-                    <h3 class="sg-title">Language</h3>
-                    <input type="checkbox" id="english" name="english" value="english">
-                    <label for="english">English</label><br>
-                    <input type="checkbox" id="hindi" name="hindi" value="hindi">
-                    <label for="hindi">Hindi</label><br>
-                    <input type="checkbox" id="bengali" name="bengali" value="bengali">
-                    <label for="bengali">Bengali</label><br>
+
+                    <h3 class="sg-title">
+                        Categories
+                    </h3>
+
+
+                    <input
+                        type="checkbox"
+                        id="adventure"
+                        name="category"
+                        value="adventure"
+                    >
+
+                    <label for="adventure">
+                        Adventure
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="action"
+                        name="category"
+                        value="action"
+                    >
+
+                    <label for="action">
+                        Action
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="animation"
+                        name="category"
+                        value="animation"
+                    >
+
+                    <label for="animation">
+                        Animation
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="comedy"
+                        name="category"
+                        value="comedy"
+                    >
+
+                    <label for="comedy">
+                        Comedy
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="science"
+                        name="category"
+                        value="science"
+                    >
+
+                    <label for="science">
+                        Science Fiction
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="thriller"
+                        name="category"
+                        value="thriller"
+                    >
+
+                    <label for="thriller">
+                        Thriller
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="horror"
+                        name="category"
+                        value="horror"
+                    >
+
+                    <label for="horror">
+                        Horror
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="history"
+                        name="category"
+                        value="history"
+                    >
+
+                    <label for="history">
+                        History
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="documentary"
+                        name="category"
+                        value="documentary"
+                    >
+
+                    <label for="documentary">
+                        Documentary
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="fantasy"
+                        name="category"
+                        value="fantasy"
+                    >
+
+                    <label for="fantasy">
+                        Fantasy
+                    </label>
+
                 </div>
+
+
+
+                <!-- =========================================
+                     LANGUAGE
+                     ========================================= -->
+
                 <div class="sidebar-groups">
-                    <h3 class="sg-title">Time</h3>
-                    <input type="radio" id="morning" name="time" value="morning">
-                    <label for="morning">Morning</label><br>
-                    <input type="radio" id="night" name="time" value="night">
-                    <label for="night">Night</label>
+
+                    <h3 class="sg-title">
+                        Language
+                    </h3>
+
+
+                    <input
+                        type="checkbox"
+                        id="english"
+                        name="language"
+                        value="english"
+                    >
+
+                    <label for="english">
+                        English
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="hindi"
+                        name="language"
+                        value="hindi"
+                    >
+
+                    <label for="hindi">
+                        Hindi
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="bengali"
+                        name="language"
+                        value="bengali"
+                    >
+
+                    <label for="bengali">
+                        Bengali
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="checkbox"
+                        id="telugu"
+                        name="language"
+                        value="telugu"
+                    >
+
+                    <label for="telugu">
+                        Telugu
+                    </label>
+
                 </div>
+
+
+
+                <!-- =========================================
+                     TIME
+                     ========================================= -->
+
                 <div class="sidebar-groups">
-                    <a href="#" class="btn-1 btn">Apply Filters</a>
+
+                    <h3 class="sg-title">
+                        Time
+                    </h3>
+
+
+                    <input
+                        type="radio"
+                        id="morning"
+                        name="time"
+                        value="morning"
+                    >
+
+                    <label for="morning">
+                        Morning
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="radio"
+                        id="noon"
+                        name="time"
+                        value="noon"
+                    >
+
+                    <label for="noon">
+                        Noon
+                    </label>
+
+                    <br>
+
+
+                    <input
+                        type="radio"
+                        id="night"
+                        name="time"
+                        value="night"
+                    >
+
+                    <label for="night">
+                        Night
+                    </label>
+
                 </div>
+
+
+
+                <!-- =========================================
+                     APPLY FILTERS
+                     ========================================= -->
+
+                <div class="sidebar-groups">
+
+                    <a
+                        href="#"
+                        class="btn-1 btn"
+                        id="applyFilters"
+                    >
+                        Apply Filters
+                    </a>
+
+                </div>
+
+
+                <div id="filterStatus"></div>
+
+
             </form>
+
         </div>
+
+
+
+        <!-- =================================================
+             MOVIES CONTAINER
+             ================================================= -->
+
         <div class="movies-container">
-            <div class="upcoming-img-box">
-                <img src="images/Venom.jpg" alt="">
-                <p class="upcoming-title">Upcoming Movies</p>
+
+
+            <!-- =============================================
+                 UPCOMING MOVIE
+                 ============================================= -->
+
+            <div
+                class="upcoming-img-box catalogue-movie"
+                id="venomMovie"
+
+                data-movie-name="Venom: The Last Dance"
+
+                data-categories="
+                    action
+                    adventure
+                    science
+                    fantasy
+                "
+
+                data-language="english"
+            >
+
+                <img
+                    src="images/Venom.jpg"
+                    alt="Venom: The Last Dance"
+                >
+
+
+                <p class="upcoming-title">
+                    Upcoming Movies
+                </p>
+
+
                 <div class="buttons">
-                    <a href="movie1.html" class="btn">Book Now</a>
-                    <a href="https://youtu.be/HyIyd9joTTc?si=ucCxHpZA0cEmTzLw" class="btn-alt btn">Play Trailer</a>
+
+
+                    <a
+                        href="movie1.html"
+                        class="btn"
+                    >
+                        Book Now
+                    </a>
+
+
+                    <a
+                        href="https://youtu.be/HyIyd9joTTc?si=ucCxHpZA0cEmTzLw"
+                        class="btn-alt btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Play Trailer
+                    </a>
+
+
                 </div>
+
             </div>
+
+
+
+            <!-- =============================================
+                 CURRENT MOVIES
+                 ============================================= -->
+
             <div class="current-movies">
-                <div class="current-movie">
+
+
+                <!-- =========================================
+                     ALIEN: ROMULUS
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="Alien: Romulus"
+
+                    data-categories="
+                        science
+                        thriller
+                        horror
+                    "
+
+                    data-language="english"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie2.html"><img src="images/alien.jpg" alt=""></a>
+
+                        <a href="movie2.html">
+
+                            <img
+                                src="images/alien.jpg"
+                                alt="Alien: Romulus"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">Alien: Romulus</h3>
+
+
+                    <h3 class="movie-title">
+                        Alien: Romulus
+                    </h3>
+
                 </div>
-                <div class="current-movie">
+
+
+
+                <!-- =========================================
+                     THE SUBSTANCE
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="The Substance"
+
+                    data-categories="
+                        science
+                        thriller
+                        horror
+                    "
+
+                    data-language="english"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie3.html"><img src="images/substance.jpg" alt=""></a>
+
+                        <a href="movie3.html">
+
+                            <img
+                                src="images/substance.jpg"
+                                alt="The Substance"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">The Substance</h3>
+
+
+                    <h3 class="movie-title">
+                        The Substance
+                    </h3>
+
                 </div>
-                <div class="current-movie">
+
+
+
+                <!-- =========================================
+                     DEADPOOL AND WOLVERINE
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="Deadpool and Wolverine"
+
+                    data-categories="
+                        action
+                        adventure
+                        comedy
+                        science
+                    "
+
+                    data-language="english"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie4.html"><img src="images/DandW.jpg" alt=""></a>
+
+                        <a href="movie4.html">
+
+                            <img
+                                src="images/DandW.jpg"
+                                alt="Deadpool and Wolverine"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">Deadpool and Wolverine</h3>
+
+
+                    <h3 class="movie-title">
+                        Deadpool and Wolverine
+                    </h3>
+
                 </div>
-                <div class="current-movie">
+
+
+
+                <!-- =========================================
+                     TEKKA
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="Tekka"
+
+                    data-categories="
+                        action
+                        thriller
+                    "
+
+                    data-language="bengali"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie5.html"><img src="images/Tekka_poster.jpg" alt=""></a>
+
+                        <a href="movie5.html">
+
+                            <img
+                                src="images/Tekka_poster.jpg"
+                                alt="Tekka"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">Tekka</h3>
+
+
+                    <h3 class="movie-title">
+                        Tekka
+                    </h3>
+
                 </div>
-                <div class="current-movie">
+
+
+
+                <!-- =========================================
+                     STREE 2
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="Stree 2"
+
+                    data-categories="
+                        comedy
+                        horror
+                    "
+
+                    data-language="hindi"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie6.html"><img src="images/stree.jpg" alt=""></a>
+
+                        <a href="movie6.html">
+
+                            <img
+                                src="images/stree.jpg"
+                                alt="Stree 2"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">Stree 2</h3>
+
+
+                    <h3 class="movie-title">
+                        Stree 2
+                    </h3>
+
                 </div>
-                <div class="current-movie">
+
+
+
+                <!-- =========================================
+                     DEVARA - PART 1
+                     ========================================= -->
+
+                <div
+                    class="current-movie catalogue-movie"
+
+                    data-movie-name="Devara - Part 1"
+
+                    data-categories="
+                        action
+                        adventure
+                        thriller
+                        fantasy
+                    "
+
+                    data-language="telugu"
+                >
+
                     <div class="cm-img-box">
-                        <a href="movie7.html"><img src="images/devara.jpg" alt=""></a>
+
+                        <a href="movie7.html">
+
+                            <img
+                                src="images/devara.jpg"
+                                alt="Devara - Part 1"
+                            >
+
+                        </a>
+
                     </div>
-                    <h3 class="movie-title">Devara - Part 1</h3>
+
+
+                    <h3 class="movie-title">
+                        Devara - Part 1
+                    </h3>
+
                 </div>
+
+
             </div>
+
+
+
+            <!-- =============================================
+                 NO RESULTS
+                 ============================================= -->
+
+            <div id="noMoviesMessage">
+
+                <h2>
+                    No Movies Found
+                </h2>
+
+                <p>
+                    No movies are available for the selected filters.
+                </p>
+
+            </div>
+
+
         </div>
-   </section>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           LOCAL FLASK SERVER
+           ===================================================== */
+
+        const API_BASE_URL =
+            "http://127.0.0.1:5000";
+
+
+
+        /* =====================================================
+           SHOWTIMES
+
+           These match the existing booking system.
+
+           Morning:
+           05:00 - 11:59
+
+           Noon:
+           12:00 - 17:59
+
+           Night:
+           18:00 - 04:59
+           ===================================================== */
+
+        const SHOWTIMES = [
+
+            {
+                type: "2D",
+                time: "09:00"
+            },
+
+            {
+                type: "2D",
+                time: "12:00"
+            },
+
+            {
+                type: "2D",
+                time: "15:00"
+            },
+
+            {
+                type: "2D",
+                time: "18:00"
+            },
+
+            {
+                type: "2D",
+                time: "21:00"
+            },
+
+            {
+                type: "3D",
+                time: "10:00"
+            },
+
+            {
+                type: "3D",
+                time: "13:00"
+            },
+
+            {
+                type: "3D",
+                time: "16:00"
+            },
+
+            {
+                type: "3D",
+                time: "19:00"
+            },
+
+            {
+                type: "3D",
+                time: "22:00"
+            }
+
+        ];
+
+
+
+        /* =====================================================
+           ELEMENTS
+           ===================================================== */
+
+        const filterDate =
+            document.getElementById(
+                "filterDate"
+            );
+
+
+        const applyFiltersButton =
+            document.getElementById(
+                "applyFilters"
+            );
+
+
+        const filterStatus =
+            document.getElementById(
+                "filterStatus"
+            );
+
+
+        const noMoviesMessage =
+            document.getElementById(
+                "noMoviesMessage"
+            );
+
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+
+        /* =====================================================
+           TODAY'S DATE
+           ===================================================== */
+
+        function getTodayDate() {
+
+            const today =
+                new Date();
+
+
+            const year =
+                today.getFullYear();
+
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            return (
+                year +
+                "-" +
+                month +
+                "-" +
+                day
+            );
+
+        }
+
+
+
+        /* =====================================================
+           INITIALISE DATE
+           ===================================================== */
+
+        function initialiseDate() {
+
+            const today =
+                getTodayDate();
+
+
+            /*
+             * Browser calendar cannot go before today.
+             */
+
+            filterDate.min =
+                today;
+
+
+            const savedDate =
+                localStorage.getItem(
+                    "selected_booking_date"
+                );
+
+
+            /*
+             * Use saved date only if it is today or later.
+             */
+
+            if (
+                savedDate &&
+                /^\d{4}-\d{2}-\d{2}$/.test(
+                    savedDate
+                ) &&
+                savedDate >= today
+            ) {
+
+                filterDate.value =
+                    savedDate;
+
+            } else {
+
+                filterDate.value =
+                    today;
+
+                localStorage.setItem(
+                    "selected_booking_date",
+                    today
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           DATE CHANGE
+           ===================================================== */
+
+        filterDate.addEventListener(
+            "change",
+            function() {
+
+                const today =
+                    getTodayDate();
+
+
+                /*
+                 * Extra protection against manually
+                 * entering a past date.
+                 */
+
+                if (
+                    !filterDate.value ||
+                    filterDate.value < today
+                ) {
+
+                    filterDate.value =
+                        today;
+
+                }
+
+
+                localStorage.setItem(
+                    "selected_booking_date",
+                    filterDate.value
+                );
+
+
+                /*
+                 * Remove old result text.
+                 */
+
+                filterStatus.textContent =
+                    "";
+
+            }
+        );
+
+
+
+        /* =====================================================
+           SELECTED CATEGORIES
+           ===================================================== */
+
+        function getSelectedCategories() {
+
+            return Array.from(
+                document.querySelectorAll(
+                    'input[name="category"]:checked'
+                )
+            ).map(
+                function(input) {
+
+                    return input.value
+                        .toLowerCase();
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           SELECTED LANGUAGES
+           ===================================================== */
+
+        function getSelectedLanguages() {
+
+            return Array.from(
+                document.querySelectorAll(
+                    'input[name="language"]:checked'
+                )
+            ).map(
+                function(input) {
+
+                    return input.value
+                        .toLowerCase();
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           SELECTED TIME
+           ===================================================== */
+
+        function getSelectedTime() {
+
+            const selected =
+                document.querySelector(
+                    'input[name="time"]:checked'
+                );
+
+
+            return selected
+                ? selected.value
+                : null;
+
+        }
+
+
+
+        /* =====================================================
+           TIME PERIOD
+           ===================================================== */
+
+        function getTimePeriod(
+            time
+        ) {
+
+            const hour =
+                Number(
+                    time.split(":")[0]
+                );
+
+
+            if (
+                hour >= 5 &&
+                hour < 12
+            ) {
+
+                return "morning";
+
+            }
+
+
+            if (
+                hour >= 12 &&
+                hour < 18
+            ) {
+
+                return "noon";
+
+            }
+
+
+            return "night";
+
+        }
+
+
+
+        /* =====================================================
+           SHOWTIMES FOR PERIOD
+           ===================================================== */
+
+        function getShowtimesForPeriod(
+            period
+        ) {
+
+            return SHOWTIMES.filter(
+                function(show) {
+
+                    return (
+                        getTimePeriod(
+                            show.time
+                        ) === period
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           BASIC FILTER MATCH
+           ===================================================== */
+
+        function movieMatchesBasicFilters(
+            movie,
+            selectedCategories,
+            selectedLanguages
+        ) {
+
+            const movieCategories =
+                (
+                    movie.dataset.categories ||
+                    ""
+                )
+                .toLowerCase()
+                .split(/\s+/)
+                .filter(Boolean);
+
+
+            const movieLanguage =
+                (
+                    movie.dataset.language ||
+                    ""
+                )
+                .toLowerCase();
+
+
+            /*
+             * Category filters use OR.
+             *
+             * Example:
+             * Action + Comedy
+             *
+             * means Action OR Comedy.
+             */
+
+            if (
+                selectedCategories.length > 0
+            ) {
+
+                const categoryMatch =
+                    selectedCategories.some(
+                        function(category) {
+
+                            return movieCategories.includes(
+                                category
+                            );
+
+                        }
+                    );
+
+
+                if (!categoryMatch) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            /*
+             * Language filters use OR.
+             */
+
+            if (
+                selectedLanguages.length > 0
+            ) {
+
+                const languageMatch =
+                    selectedLanguages.includes(
+                        movieLanguage
+                    );
+
+
+                if (!languageMatch) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+
+        /* =====================================================
+           APPLY FILTERS
+           ===================================================== */
+
+        async function applyMovieFilters() {
+
+            const selectedCategories =
+                getSelectedCategories();
+
+
+            const selectedLanguages =
+                getSelectedLanguages();
+
+
+            const selectedTime =
+                getSelectedTime();
+
+
+            const bookingDate =
+                filterDate.value ||
+                getTodayDate();
+
+
+            const movies =
+                Array.from(
+                    document.querySelectorAll(
+                        ".catalogue-movie"
+                    )
+                );
+
+
+            localStorage.setItem(
+                "selected_booking_date",
+                bookingDate
+            );
+
+
+            filterStatus.textContent =
+                "Searching...";
+
+
+            applyFiltersButton.style.pointerEvents =
+                "none";
+
+
+            applyFiltersButton.style.opacity =
+                "0.6";
+
+
+            noMoviesMessage.style.display =
+                "none";
+
+
+            /*
+             * Always hide everything first.
+             * The hidden property cannot be overridden
+             * by the existing movie-card CSS.
+             */
+
+            movies.forEach(
+                function(movie) {
+                    movie.hidden = true;
+                }
+            );
+
+
+            try {
+
+                /*
+                 * First apply category and language.
+                 */
+
+                const candidateMovies =
+                    movies.filter(
+                        function(movie) {
+
+                            return movieMatchesBasicFilters(
+                                movie,
+                                selectedCategories,
+                                selectedLanguages
+                            );
+
+                        }
+                    );
+
+
+                let visibleCount =
+                    0;
+
+
+                /*
+                 * No time selected:
+                 * show every category/language match.
+                 */
+
+                if (!selectedTime) {
+
+                    candidateMovies.forEach(
+                        function(movie) {
+
+                            movie.hidden = false;
+                            visibleCount++;
+
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Time selected:
+                 * check the real showtime availability
+                 * for every matching movie.
+                 */
+
+                else {
+
+                    /*
+                     * Check every candidate movie and every showtime
+                     * in the selected period with ONE backend request.
+                     */
+
+                    const movieNames =
+                        candidateMovies.map(
+                            function(movie) {
+                                return movie.dataset.movieName;
+                            }
+                        );
+
+
+                    const params =
+                        new URLSearchParams({
+
+                            booking_date:
+                                bookingDate,
+
+                            period:
+                                selectedTime,
+
+                            movie_names:
+                                movieNames.join("|")
+
+                        });
+
+
+                    let availabilityData = {};
+
+
+                    try {
+
+                        const controller =
+                            new AbortController();
+
+
+                        const timeoutId =
+                            setTimeout(
+                                function() {
+                                    controller.abort();
+                                },
+                                10000
+                            );
+
+
+                        const response =
+                            await fetch(
+                                API_BASE_URL +
+                                "/movie-time-availability?" +
+                                params.toString(),
+                                {
+                                    method: "GET",
+                                    signal: controller.signal
+                                }
+                            );
+
+
+                        clearTimeout(timeoutId);
+
+
+                        if (!response.ok) {
+                            throw new Error(
+                                "Movie availability request failed"
+                            );
+                        }
+
+
+                        const data =
+                            await response.json();
+
+
+                        availabilityData =
+                            data.availability || {};
+
+                    } catch (error) {
+
+                        /*
+                         * Keep technical errors out of the UI.
+                         */
+
+                        console.error(
+                            "Movie availability:",
+                            error
+                        );
+
+                        availabilityData = {};
+
+                    }
+
+
+                    candidateMovies.forEach(
+                        function(movie) {
+
+                            const movieName =
+                                movie.dataset.movieName;
+
+
+                            if (
+                                availabilityData[movieName] === true
+                            ) {
+
+                                movie.hidden =
+                                    false;
+
+                                visibleCount++;
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Final result.
+                 */
+
+                if (
+                    visibleCount === 0
+                ) {
+
+                    noMoviesMessage.style.display =
+                        "block";
+
+
+                    filterStatus.textContent =
+                        "No movies available.";
+
+                } else {
+
+                    filterStatus.textContent =
+                        visibleCount +
+                        (
+                            visibleCount === 1
+                                ? " movie available"
+                                : " movies available"
+                        );
+
+                }
+
+
+            } catch (error) {
+
+                /*
+                 * Never expose technical/API errors
+                 * to the customer.
+                 */
+
+                console.error(
+                    "Movie filter:",
+                    error
+                );
+
+
+                movies.forEach(
+                    function(movie) {
+                        movie.hidden = true;
+                    }
+                );
+
+
+                noMoviesMessage.style.display =
+                    "block";
+
+
+                filterStatus.textContent =
+                    "No movies available.";
+
+            }
+
+
+            /*
+             * Always restore the button.
+             */
+
+            applyFiltersButton.style.pointerEvents =
+                "";
+
+
+            applyFiltersButton.style.opacity =
+                "";
+
+        }
+
+
+        /* =====================================================
+           APPLY BUTTON
+           ===================================================== */
+
+        applyFiltersButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                applyMovieFilters();
+
+            }
+        );
+
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        logoutButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+
+                /*
+                 * Remove customer login information.
+                 */
+
+                localStorage.removeItem(
+                    "user_id"
+                );
+
+
+                localStorage.removeItem(
+                    "user_name"
+                );
+
+
+                localStorage.removeItem(
+                    "selected_booking_date"
+                );
+
+
+                localStorage.removeItem(
+                    "selected_show_type"
+                );
+
+
+                localStorage.removeItem(
+                    "selected_show_time"
+                );
+
+
+                localStorage.removeItem(
+                    "selected_venue"
+                );
+
+
+                localStorage.removeItem(
+                    "selected_venue_id"
+                );
+
+
+                localStorage.removeItem(
+                    "confirmation_booking"
+                );
+
+
+                /*
+                 * Return to login page.
+                 */
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+
+        /* =====================================================
+           INITIALISE PAGE
+           ===================================================== */
+
+        initialiseDate();
+
+        document
+            .querySelectorAll(".catalogue-movie")
+            .forEach(function(movie) {
+                movie.hidden = false;
+            });
+
+
+    </script>
+
+
 </body>
+
 </html>

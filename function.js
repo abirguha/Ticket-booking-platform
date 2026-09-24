@@ -345,7 +345,7 @@ async function Login() {
         form["Pass"].value;
 
 
-    if (!email && !password) {
+    if (!email || !password) {
 
         showAppAlert(
             "Please enter email and password.",
@@ -357,6 +357,67 @@ async function Login() {
 
 
     try {
+
+        // ========================================================
+        // ADMIN LOGIN
+        // ========================================================
+        // Admin credentials are checked by Flask.
+        // They are NOT stored in this JavaScript file.
+
+        const adminResponse =
+            await fetch(
+                "http://127.0.0.1:5000/admin-login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify({
+                        username: email,
+                        password: password
+                    })
+                }
+            );
+
+
+        if (adminResponse.ok) {
+
+            const adminData =
+                await adminResponse.json();
+
+
+            localStorage.setItem(
+                "admin_logged_in",
+                "true"
+            );
+
+
+            showAppAlert(
+                adminData.message ||
+                "Admin login successful.",
+                "success",
+                function () {
+
+                    window.location.href =
+                        "admin_home.html";
+                }
+            );
+
+
+            return;
+        }
+
+
+        // ========================================================
+        // CUSTOMER LOGIN
+        // ========================================================
+        // If the credentials are not valid admin credentials,
+        // continue with the normal customer login.
 
         const response =
             await fetch(
@@ -380,9 +441,11 @@ async function Login() {
         const data =
             await response.json();
 
+
         if (!response.ok) {
 
             showAppAlert(
+                data.message ||
                 "Wrong credentials.",
                 "error"
             );
@@ -403,10 +466,19 @@ async function Login() {
         );
 
 
+        // Make sure an old admin flag cannot remain
+        // after a normal customer login.
+
+        localStorage.removeItem(
+            "admin_logged_in"
+        );
+
+
         showAppAlert(
             "Welcome back! You have been successfully logged in.",
             "success",
             function () {
+
                 window.location.href =
                     "home.html";
             }
@@ -422,7 +494,7 @@ async function Login() {
 
 
         showAppAlert(
-            "Something went wrong. Please try again in a moment.",
+            "Unable to connect to the server.\nPlease make sure Flask is running.",
             "error"
         );
     }

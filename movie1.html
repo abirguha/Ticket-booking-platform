@@ -734,203 +734,6 @@
                     <div class="selection-options"
                          id="dateOptions">
 
-
-                        <!-- 04 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-04">
-
-                            <span class="day">WED</span>
-
-                            <span class="date-number">4</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 05 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-05">
-
-                            <span class="day">THU</span>
-
-                            <span class="date-number">5</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 06 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-06">
-
-                            <span class="day">FRI</span>
-
-                            <span class="date-number">6</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 07 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-07">
-
-                            <span class="day">SAT</span>
-
-                            <span class="date-number">7</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 08 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-08">
-
-                            <span class="day">SUN</span>
-
-                            <span class="date-number">8</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 09 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-09">
-
-                            <span class="day">MON</span>
-
-                            <span class="date-number">9</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 10 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-10">
-
-                            <span class="day">TUE</span>
-
-                            <span class="date-number">10</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 11 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-11">
-
-                            <span class="day">WED</span>
-
-                            <span class="date-number">11</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 12 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-12">
-
-                            <span class="day">THU</span>
-
-                            <span class="date-number">12</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 13 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-13">
-
-                            <span class="day">FRI</span>
-
-                            <span class="date-number">13</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 14 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-14">
-
-                            <span class="day">SAT</span>
-
-                            <span class="date-number">14</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 15 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-15">
-
-                            <span class="day">SUN</span>
-
-                            <span class="date-number">15</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 16 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-16">
-
-                            <span class="day">MON</span>
-
-                            <span class="date-number">16</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
-                        <!-- 17 NOVEMBER 2026 -->
-
-                        <button class="date-option"
-                                data-date="2026-11-17">
-
-                            <span class="day">TUE</span>
-
-                            <span class="date-number">17</span>
-
-                            <span class="month">NOV</span>
-
-                        </button>
-
-
                     </div>
 
                 </div>
@@ -1090,6 +893,120 @@
 
             }
         );
+
+
+        /* =================================================
+           GENERATE CURRENT + FUTURE DATES
+           ================================================= */
+
+        function generateDateOptions() {
+
+            const dateOptions =
+                document.getElementById(
+                    "dateOptions"
+                );
+
+            if (!dateOptions) {
+                return;
+            }
+
+            dateOptions.innerHTML = "";
+
+            const today = new Date();
+
+            today.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+            /*
+               Show today and the next 13 days.
+               The list therefore always contains
+               14 valid dates and automatically moves
+               forward as each new day begins.
+            */
+            for (let i = 0; i < 14; i++) {
+
+                const date = new Date(today);
+
+                date.setDate(
+                    today.getDate() + i
+                );
+
+                const year =
+                    date.getFullYear();
+
+                const monthNumber =
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(2, "0");
+
+                const dayNumber =
+                    String(
+                        date.getDate()
+                    ).padStart(2, "0");
+
+                const formattedDate =
+                    `${year}-${monthNumber}-${dayNumber}`;
+
+                const dayName =
+                    date.toLocaleDateString(
+                        "en-US",
+                        { weekday: "short" }
+                    ).toUpperCase();
+
+                const monthName =
+                    date.toLocaleDateString(
+                        "en-US",
+                        { month: "short" }
+                    ).toUpperCase();
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+                button.type = "button";
+                button.className =
+                    "date-option";
+                button.dataset.date =
+                    formattedDate;
+
+                const day =
+                    document.createElement(
+                        "span"
+                    );
+                day.className = "day";
+                day.textContent = dayName;
+
+                const dateNumber =
+                    document.createElement(
+                        "span"
+                    );
+                dateNumber.className =
+                    "date-number";
+                dateNumber.textContent =
+                    date.getDate();
+
+                const month =
+                    document.createElement(
+                        "span"
+                    );
+                month.className = "month";
+                month.textContent = monthName;
+
+                button.appendChild(day);
+                button.appendChild(dateNumber);
+                button.appendChild(month);
+
+                dateOptions.appendChild(button);
+            }
+        }
+
+
+        generateDateOptions();
 
 
         /* =================================================
