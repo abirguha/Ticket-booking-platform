@@ -360,7 +360,7 @@ async function Login() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:5000/login",
+                "https://ticket-booking-platform-j8bm.onrender.com/login",
                 {
                     method: "POST",
 
@@ -505,7 +505,7 @@ async function signup() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:5000/signup",
+                "https://ticket-booking-platform-j8bm.onrender.com/signup",
                 {
                     method: "POST",
 
@@ -1092,7 +1092,7 @@ if (bookingPage) {
         try {
 
             const url =
-                "http://127.0.0.1:5000/venue-availability" +
+                "https://ticket-booking-platform-j8bm.onrender.com/venue-availability" +
                 "?movie_name=" +
                 encodeURIComponent(
                     movieName
@@ -1590,7 +1590,7 @@ if (bookingPage) {
 
             const response =
                 await fetch(
-                    "http://127.0.0.1:5000/venues"
+                    "https://ticket-booking-platform-j8bm.onrender.com/venues"
                 );
 
 
@@ -2693,7 +2693,7 @@ if (bookingPage) {
         try {
 
             const url =
-                "http://127.0.0.1:5000/booked-seats" +
+                "https://ticket-booking-platform-j8bm.onrender.com/booked-seats" +
                 "?movie_name=" +
                 encodeURIComponent(
                     movieName
