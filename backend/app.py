@@ -1,8 +1,12 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
+
+
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -16,7 +20,7 @@ def get_db_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME", "ticket_booking"),
-        ssl_ca=os.path.join(os.path.dirname(__file__), "ca.pem")
+        ssl_ca="/etc/secrets/ca.pem"
     )
 
 
