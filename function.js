@@ -1,4 +1,16 @@
 // ============================================================
+// API BASE URL
+// ============================================================
+// Local development uses the local Flask server.
+// The deployed website uses the Render backend.
+const API_BASE_URL =
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost"
+        ? "http://127.0.0.1:5000"
+        : "https://ticket-booking-platform-j8bm.onrender.com";
+
+
+// ============================================================
 // CUSTOM ALERT POPUP
 // ============================================================
 
@@ -366,7 +378,7 @@ async function Login() {
 
         const adminResponse =
             await fetch(
-                "http://127.0.0.1:5000/admin-login",
+                API_BASE_URL + "/admin-login",
                 {
                     method: "POST",
 
@@ -421,7 +433,7 @@ async function Login() {
 
         const response =
             await fetch(
-                "https://ticket-booking-platform-j8bm.onrender.com/login",
+                API_BASE_URL + "/login",
                 {
                     method: "POST",
 
@@ -493,9 +505,9 @@ async function Login() {
         );
 
 
-        showAppAlert(
-            "Unable to connect to the server.\nPlease make sure Flask is running.",
-            "error"
+        console.error(
+            "Unable to connect to the server.",
+            error
         );
     }
 }
@@ -576,7 +588,7 @@ async function signup() {
 
         const response =
             await fetch(
-                "https://ticket-booking-platform-j8bm.onrender.com/signup",
+                API_BASE_URL + "/signup",
                 {
                     method: "POST",
 
@@ -1162,7 +1174,7 @@ if (bookingPage) {
         try {
 
             const url =
-                "https://ticket-booking-platform-j8bm.onrender.com/venue-availability" +
+                API_BASE_URL + "/venue-availability" +
                 "?movie_name=" +
                 encodeURIComponent(
                     movieName
@@ -1661,7 +1673,7 @@ if (bookingPage) {
 
             const response =
                 await fetch(
-                    "https://ticket-booking-platform-j8bm.onrender.com/venues"
+                    API_BASE_URL + "/venues"
                 );
 
 
@@ -2513,7 +2525,7 @@ if (bookingPage) {
         try {
 
             const url =
-                "https://ticket-booking-platform-j8bm.onrender.com/booked-seats" +
+                API_BASE_URL + "/booked-seats" +
                 "?movie_name=" +
                 encodeURIComponent(
                     movieName
