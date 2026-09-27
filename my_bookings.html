@@ -440,9 +440,15 @@
 
         try {
 
+            const API_BASE_URL =
+                window.location.hostname === "127.0.0.1" ||
+                window.location.hostname === "localhost"
+                    ? "http://127.0.0.1:5000"
+                    : "https://ticket-booking-platform-j8bm.onrender.com";
+
             const response = await fetch(
 
-                `http://127.0.0.1:5000/my-bookings?user_id=${userId}`
+                `${API_BASE_URL}/my-bookings?user_id=${userId}`
 
             );
 
