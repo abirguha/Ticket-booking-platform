@@ -282,13 +282,23 @@ function login() {
     }
 
     if (a) {
-        a.className = "white-btn";
-        a.style.background = "#ff5c5c";
-        a.style.color = "#fff";
+        a.className = "btn white-btn";
+        a.style.background = "";
+        a.style.color = "";
     }
 
     if (b) {
         b.className = "btn";
+        b.style.background = "";
+        b.style.color = "";
+    }
+
+    if (x) {
+        x.style.opacity = 1;
+    }
+
+    if (y) {
+        y.style.opacity = 0;
     }
 }
 
@@ -305,14 +315,25 @@ function register() {
 
     if (a) {
         a.className = "btn";
+        a.style.background = "";
+        a.style.color = "";
     }
 
     if (b) {
-        b.className = "white-btn";
-        b.style.background = "#ff5c5c";
-        b.style.color = "#fff";
+        b.className = "btn white-btn";
+        b.style.background = "";
+        b.style.color = "";
+    }
+
+    if (x) {
+        x.style.opacity = 0;
+    }
+
+    if (y) {
+        y.style.opacity = 1;
     }
 }
+
 
 
 function myMenuFunction() {
