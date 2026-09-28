@@ -174,10 +174,14 @@
                         class="input-field"
                         placeholder="Password"
                         name="Pass"
+                        id="loginPassword"
                         onkeydown="if(event.key === 'Enter'){event.preventDefault(); Login();}"
                     >
 
-                    <i class="bx bx-lock-alt"></i>
+                    <i
+                        class="bx bx-show password-toggle"
+                        onclick="togglePassword('loginPassword', this)"
+                    ></i>
 
                 </div>
 
@@ -319,20 +323,19 @@
                 <!-- SIGNUP PASSWORD -->
 
                 <div class="input-box">
-
                     <input
                         type="password"
                         class="input-field"
                         placeholder="Password"
                         id="signupPassword"
-                        name="signupPass"
+                        name="signupPassword"
                         onkeydown="if(event.key === 'Enter'){event.preventDefault(); signup();}"
                     >
-
-                    <i class="bx bx-lock-alt"></i>
-
+                    <i
+                        class="bx bx-show password-toggle"
+                        onclick="togglePassword('signupPassword', this)"
+                    ></i>
                 </div>
-
 
 
                 <!-- REGISTER BUTTON -->

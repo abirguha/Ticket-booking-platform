@@ -143,6 +143,10 @@ header{
 .input-field:hover, .input-field:focus{
     background: rgba(255, 255, 255, 0.25);
 }
+#signupPassword:hover,
+#signupPassword:focus {
+    background: rgba(255, 255, 255, 0.25);
+}
 ::-webkit-input-placeholder{
     color: #fff;
 }
@@ -246,4 +250,16 @@ header{
 /* LOGIN FIELD SPACING */
 .login-container .input-box:nth-child(2) {
     margin-bottom: 20px !important;
+}
+.input-box .password-toggle {
+    cursor: pointer;
+    z-index: 10;
+    font-size: 20px;
+    color: #555555 !important;
+    opacity: 1 !important;
+}
+
+.input-box .password-toggle:hover {
+    color: #555555 !important;
+    opacity: 1 !important;
 }
